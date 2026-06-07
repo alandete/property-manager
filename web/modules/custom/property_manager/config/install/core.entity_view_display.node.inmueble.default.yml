@@ -1,0 +1,212 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.inmueble.field_agente
+    - field.field.node.inmueble.field_area
+    - field.field.node.inmueble.field_banos
+    - field.field.node.inmueble.field_barrio
+    - field.field.node.inmueble.field_caract_ext
+    - field.field.node.inmueble.field_caract_int
+    - field.field.node.inmueble.field_ciudad
+    - field.field.node.inmueble.field_codigo
+    - field.field.node.inmueble.field_departamento
+    - field.field.node.inmueble.field_direccion
+    - field.field.node.inmueble.field_estado_inmueble
+    - field.field.node.inmueble.field_estrato
+    - field.field.node.inmueble.field_fotos
+    - field.field.node.inmueble.field_habitaciones
+    - field.field.node.inmueble.field_pais
+    - field.field.node.inmueble.field_parqueadero
+    - field.field.node.inmueble.field_precio
+    - field.field.node.inmueble.field_tipo_inmueble
+    - field.field.node.inmueble.field_tipo_oferta
+    - field.field.node.inmueble.field_video
+    - field.field.node.inmueble.field_zona
+    - node.type.inmueble
+id: node.inmueble.default
+targetEntityType: node
+bundle: inmueble
+mode: default
+content:
+  field_codigo:
+    label: above
+    type: string
+    weight: -10
+    region: content
+    settings: {}
+    third_party_settings: {}
+  field_tipo_oferta:
+    label: above
+    type: entity_reference_label
+    weight: -9
+    region: content
+    settings:
+      link: true
+    third_party_settings: {}
+  field_tipo_inmueble:
+    label: above
+    type: entity_reference_label
+    weight: -8
+    region: content
+    settings:
+      link: true
+    third_party_settings: {}
+  field_estado_inmueble:
+    label: above
+    type: entity_reference_label
+    weight: -7
+    region: content
+    settings:
+      link: true
+    third_party_settings: {}
+  field_precio:
+    label: above
+    type: number_decimal
+    weight: -6
+    region: content
+    settings:
+      thousand_separator: '.'
+      decimal_separator: ','
+      scale: 0
+      prefix_suffix: false
+    third_party_settings: {}
+  field_fotos:
+    label: hidden
+    type: entity_reference_entity_view
+    weight: -5
+    region: content
+    settings:
+      view_mode: default
+      link: false
+    third_party_settings: {}
+  body:
+    label: hidden
+    type: text_default
+    weight: -4
+    region: content
+    settings: {}
+    third_party_settings: {}
+  field_habitaciones:
+    label: above
+    type: number_integer
+    weight: -3
+    region: content
+    settings:
+      thousand_separator: ''
+      prefix_suffix: false
+    third_party_settings: {}
+  field_banos:
+    label: above
+    type: number_integer
+    weight: -2
+    region: content
+    settings:
+      thousand_separator: ''
+      prefix_suffix: false
+    third_party_settings: {}
+  field_parqueadero:
+    label: above
+    type: number_integer
+    weight: -1
+    region: content
+    settings:
+      thousand_separator: ''
+      prefix_suffix: false
+    third_party_settings: {}
+  field_area:
+    label: above
+    type: number_decimal
+    weight: 0
+    region: content
+    settings:
+      thousand_separator: ''
+      decimal_separator: ','
+      scale: 0
+      prefix_suffix: true
+    third_party_settings: {}
+  field_estrato:
+    label: above
+    type: list_default
+    weight: 1
+    region: content
+    settings: {}
+    third_party_settings: {}
+  field_direccion:
+    label: above
+    type: string
+    weight: 2
+    region: content
+    settings: {}
+    third_party_settings: {}
+  field_barrio:
+    label: above
+    type: string
+    weight: 3
+    region: content
+    settings: {}
+    third_party_settings: {}
+  field_zona:
+    label: above
+    type: entity_reference_label
+    weight: 4
+    region: content
+    settings:
+      link: false
+    third_party_settings: {}
+  field_pais:
+    label: above
+    type: entity_reference_label
+    weight: 5
+    region: content
+    settings:
+      link: false
+    third_party_settings: {}
+  field_departamento:
+    label: above
+    type: entity_reference_label
+    weight: 6
+    region: content
+    settings:
+      link: false
+    third_party_settings: {}
+  field_ciudad:
+    label: above
+    type: entity_reference_label
+    weight: 7
+    region: content
+    settings:
+      link: false
+    third_party_settings: {}
+  field_caract_int:
+    label: above
+    type: list_default
+    weight: 8
+    region: content
+    settings: {}
+    third_party_settings: {}
+  field_caract_ext:
+    label: above
+    type: list_default
+    weight: 9
+    region: content
+    settings: {}
+    third_party_settings: {}
+  field_video:
+    label: above
+    type: string
+    weight: 10
+    region: content
+    settings: {}
+    third_party_settings: {}
+  field_agente:
+    label: above
+    type: entity_reference_entity_view
+    weight: 11
+    region: content
+    settings:
+      view_mode: default
+      link: true
+    third_party_settings: {}
+hidden:
+  links: true

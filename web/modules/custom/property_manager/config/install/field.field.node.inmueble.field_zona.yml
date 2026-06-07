@@ -1,0 +1,30 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_zona
+    - node.type.inmueble
+    - taxonomy.vocabulary.zona
+  module:
+    - taxonomy
+id: node.inmueble.field_zona
+field_name: field_zona
+entity_type: node
+bundle: inmueble
+label: 'Zona'
+description: ''
+required: false
+translatable: false
+default_value: []
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      zona: zona
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

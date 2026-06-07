@@ -1,0 +1,13 @@
+property_manager.settings:
+  type: config_object
+  label: 'Property Manager settings'
+  mapping:
+    codigo_prefijo:
+      type: string
+      label: 'Prefijo del código'
+    codigo_separador:
+      type: string
+      label: 'Separador entre prefijo y número'
+    codigo_digitos:
+      type: integer
+      label: 'Número de dígitos del contador'

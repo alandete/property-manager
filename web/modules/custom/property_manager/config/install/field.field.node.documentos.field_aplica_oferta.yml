@@ -1,0 +1,20 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_aplica_oferta
+    - node.type.documentos
+  module:
+    - options
+id: node.documentos.field_aplica_oferta
+field_name: field_aplica_oferta
+entity_type: node
+bundle: documentos
+label: 'Aplica a'
+description: 'Tipo de oferta al que aplica este documento.'
+required: false
+translatable: false
+default_value: []
+default_value_callback: ''
+settings: {}
+field_type: list_string

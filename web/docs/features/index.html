@@ -1,0 +1,283 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Investigación de features — Drupal Property Manager</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <style>
+    .priority-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-bottom: 24px; }
+    .priority-card { background: #fff; border: 1px solid var(--color-border); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); }
+    .priority-card .label { font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px; }
+    .p1 .label { color: #155724; }
+    .p2 .label { color: #004085; }
+    .p3 .label { color: #856404; }
+    .p1 { border-top: 3px solid #28a745; }
+    .p2 { border-top: 3px solid #3a6ea5; }
+    .p3 { border-top: 3px solid #ffc107; }
+    .priority-card h4 { font-size: 14px; font-weight: 600; margin-bottom: 6px; }
+    .priority-card p { font-size: 12.5px; color: var(--color-muted); line-height: 1.6; }
+    .effort { display: inline-block; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 10px; margin-top: 8px; }
+    .effort-low  { background: #d4edda; color: #155724; }
+    .effort-med  { background: #cce5ff; color: #004085; }
+    .effort-high { background: #f8d7da; color: #721c24; }
+    .already { background: #e9f7ef; border-top-color: #28a745; }
+    .already .label { color: #155724; }
+  </style>
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <h1>Drupal Property Manager</h1>
+    <p>Documentación técnica</p>
+  </div>
+  <nav>
+    <div class="nav-section">General</div>
+    <a href="../index.html"><span class="icon">🏠</span> Inicio</a>
+
+    <div class="nav-section">Tipos de contenido</div>
+    <a href="../analisis/tipo-contenido.html"><span class="icon">📋</span> Inmueble</a>
+    <a href="../analisis/agente.html" class="sub">Agente</a>
+    <a href="../analisis/documento.html" class="sub">Documentos</a>
+
+    <div class="nav-section">Análisis técnico</div>
+    <a href="../analisis/taxonomias.html"><span class="icon">🏷️</span> Taxonomías</a>
+    <a href="../analisis/ubicacion.html" class="sub">Ubicación jerárquica</a>
+    <a href="../analisis/codigo-auto.html" class="sub">Campo Código</a>
+
+    <div class="nav-section">Features</div>
+    <a href="index.html" class="active"><span class="icon">🔍</span> Investigación</a>
+    <a href="mapas.html" class="sub">Mapas y geolocalización</a>
+    <a href="busqueda.html" class="sub">Búsqueda y filtros</a>
+    <a href="seo.html" class="sub">SEO avanzado</a>
+
+    <div class="nav-section">Fases</div>
+    <a href="../fases/roadmap.html"><span class="icon">🗺️</span> Roadmap general</a>
+    <a href="../fases/fase-1.html" class="sub">Fase 1 — MVP funcional</a>
+    <a href="../fases/fase-2.html" class="sub">Fase 2 — Visual y UX</a>
+    <a href="../fases/fase-3.html" class="sub">Fase 3 — Mapa</a>
+    <a href="../fases/fase-4.html" class="sub">Fase 4 — Búsqueda</a>
+    <a href="../fases/fase-5.html" class="sub">Fase 5 — Features extra</a>
+
+    <div class="nav-section">Módulos</div>
+    <a href="../modulos/property_manager.html"><span class="icon">🧩</span> property_manager</a>
+    <a href="../modulos/arquitectura.html" class="sub">Arquitectura y dependencias</a>
+  </nav>
+</aside>
+
+<div class="main">
+  <div class="topbar">
+    <div>
+      <div class="breadcrumb"><a href="../index.html">Inicio</a> <span>›</span> Features</div>
+      <h2>Investigación de features y módulos</h2>
+    </div>
+  </div>
+  <div class="content">
+
+    <h2 class="section-title">Features adicionales</h2>
+    <p class="section-desc">Investigación realizada el 07/06/2026 sobre qué utilizan otros proyectos inmobiliarios en Drupal 11 y qué se puede incorporar para agregar valor. Organizado por prioridad para su revisión.</p>
+
+    <div class="alert alert-info">
+      📌 Los módulos <strong>Metatag</strong> y <strong>Pathauto</strong> ya están instalados en este proyecto. El resto están disponibles en Drupal.org con compatibilidad D11 confirmada.
+    </div>
+
+    <h3 style="font-size:15px;font-weight:700;margin:24px 0 12px;">P1 — Diferenciadores inmediatos</h3>
+    <p class="section-desc" style="margin-top:-8px;">Lo que ya espera el usuario al visitar una plataforma inmobiliaria moderna.</p>
+
+    <div class="priority-grid">
+      <div class="priority-card p1">
+        <div class="label">P1 · Geolocalización</div>
+        <h4>🗺️ Mapa de propiedades</h4>
+        <p>Cada inmueble se ubica en un mapa interactivo. El agente ingresa la dirección y el sistema la geocodifica automáticamente sin intervención adicional.</p>
+        <p style="margin-top:8px;"><strong>Módulos:</strong> <code>geofield</code> + <code>leaflet</code> + <code>geocoder</code></p>
+        <p><strong>Mapa:</strong> OpenStreetMap — gratis, sin API key.</p>
+        <span class="effort effort-med">Esfuerzo medio</span>
+        <p style="margin-top:8px;font-size:11.5px;color:#3a6ea5;"><a href="mapas.html">Ver análisis detallado →</a></p>
+      </div>
+
+      <div class="priority-card p1">
+        <div class="label">P1 · Búsqueda</div>
+        <h4>🔎 Búsqueda con filtros facetados</h4>
+        <p>El usuario filtra por tipo, precio, habitaciones, ciudad, etc. Los filtros muestran el conteo de resultados ("23 casas en Neiva"). Esencial para la UX de un portal inmobiliario.</p>
+        <p style="margin-top:8px;"><strong>Módulos:</strong> <code>search_api</code> + <code>facets</code> + backend de base de datos</p>
+        <span class="effort effort-med">Esfuerzo medio</span>
+        <p style="margin-top:8px;font-size:11.5px;color:#3a6ea5;"><a href="busqueda.html">Ver análisis detallado →</a></p>
+      </div>
+
+      <div class="priority-card p1">
+        <div class="label">P1 · Galería</div>
+        <h4>🖼️ Galería con lightbox</h4>
+        <p>Las fotos del inmueble se muestran en una galería que se abre en modo lightbox al hacer clic. Expectativa estándar del usuario.</p>
+        <p style="margin-top:8px;"><strong>Módulos:</strong> Media (core D11) + <code>photoswipe</code></p>
+        <span class="effort effort-low">Esfuerzo bajo</span>
+      </div>
+
+      <div class="priority-card p1">
+        <div class="label">P1 · SEO</div>
+        <h4>📊 Schema.org para inmuebles</h4>
+        <p>Genera datos estructurados en JSON-LD con el tipo <code>RealEstateListing</code>. Google los usa para enriquecer resultados de búsqueda. Mapea directamente los campos que ya tenemos: precio, dirección, habitaciones, área, imágenes.</p>
+        <p style="margin-top:8px;"><strong>Módulo:</strong> <code>schemadotorg</code> (Schema.org Blueprints)</p>
+        <span class="effort effort-med">Esfuerzo medio</span>
+        <p style="margin-top:8px;font-size:11.5px;color:#3a6ea5;"><a href="seo.html">Ver análisis detallado →</a></p>
+      </div>
+
+      <div class="priority-card already">
+        <div class="label">Ya instalado ✓</div>
+        <h4>🔗 URLs amigables</h4>
+        <p>Genera URLs tipo <code>/inmuebles/bogota/apartamento-85m2-chapinero</code> automáticamente.</p>
+        <p style="margin-top:8px;"><strong>Módulo:</strong> <code>pathauto</code> ✓ instalado</p>
+        <span class="effort effort-low">Esfuerzo bajo</span>
+      </div>
+
+      <div class="priority-card already">
+        <div class="label">Ya instalado ✓</div>
+        <h4>🏷️ Meta etiquetas SEO</h4>
+        <p>Open Graph, Twitter Card, canonical, description. El resumen del body se usa como meta description.</p>
+        <p style="margin-top:8px;"><strong>Módulo:</strong> <code>metatag</code> ✓ instalado</p>
+        <span class="effort effort-low">Esfuerzo bajo</span>
+      </div>
+    </div>
+
+    <h3 style="font-size:15px;font-weight:700;margin:24px 0 12px;">P2 — Alto valor, siguiente capa</h3>
+    <p class="section-desc" style="margin-top:-8px;">Agregan diferenciación y mejoran la retención y conversión de usuarios.</p>
+
+    <div class="priority-grid">
+      <div class="priority-card p2">
+        <div class="label">P2 · Engagement</div>
+        <h4>❤️ Favoritos</h4>
+        <p>El usuario guarda los inmuebles que le interesan. Página "Mis favoritos" con la lista guardada. Mejora la retención y la intención de compra.</p>
+        <p style="margin-top:8px;"><strong>Módulo:</strong> <code>flag</code></p>
+        <span class="effort effort-low">Esfuerzo bajo</span>
+      </div>
+
+      <div class="priority-card p2">
+        <div class="label">P2 · Distribución</div>
+        <h4>📢 Compartir en redes sociales</h4>
+        <p>Botones para compartir el inmueble en WhatsApp, Facebook, X, Email, etc. Más de 100 redes disponibles.</p>
+        <p style="margin-top:8px;"><strong>Módulo:</strong> <code>addtoany</code></p>
+        <span class="effort effort-low">Esfuerzo bajo</span>
+      </div>
+
+      <div class="priority-card p2">
+        <div class="label">P2 · Documentos</div>
+        <h4>📄 Ficha PDF del inmueble</h4>
+        <p>El agente o el visitante descarga una ficha PDF con los datos del inmueble. Genera el PDF desde una vista "impresión" del nodo.</p>
+        <p style="margin-top:8px;"><strong>Módulos:</strong> <code>entity_print</code> + Dompdf (librería PHP, sin dependencias externas)</p>
+        <span class="effort effort-med">Esfuerzo medio</span>
+      </div>
+
+      <div class="priority-card p2">
+        <div class="label">P2 · Presentación</div>
+        <h4>💰 Formato de precio</h4>
+        <p>El precio se muestra con separadores de miles y símbolo de moneda según el locale del sitio. Ej: <code>$ 450.000.000</code> o <code>€ 250.000</code>.</p>
+        <p style="margin-top:8px;"><strong>Implementación:</strong> Formatter personalizado (PHP <code>NumberFormatter</code> con intl)</p>
+        <span class="effort effort-low">Esfuerzo bajo</span>
+      </div>
+
+      <div class="priority-card p2">
+        <div class="label">P2 · Leads</div>
+        <h4>📬 Formulario de consulta</h4>
+        <p>Formulario "Me interesa este inmueble" en cada ficha. Envía email al agente con los datos del interesado y el inmueble. Ya planeado para el tipo de contenido Agente.</p>
+        <p style="margin-top:8px;"><strong>Módulo:</strong> <code>webform</code> (planeado)</p>
+        <span class="effort effort-low">Esfuerzo bajo</span>
+      </div>
+
+      <div class="priority-card p2">
+        <div class="label">P2 · SEO</div>
+        <h4>🗺️ Sitemap XML + imágenes</h4>
+        <p>Genera el sitemap XML incluyendo imágenes de los inmuebles. Esencial para indexación en Google.</p>
+        <p style="margin-top:8px;"><strong>Módulo:</strong> <code>simple_sitemap</code></p>
+        <span class="effort effort-low">Esfuerzo bajo</span>
+      </div>
+    </div>
+
+    <h3 style="font-size:15px;font-weight:700;margin:24px 0 12px;">P3 — Para fases posteriores</h3>
+    <p class="section-desc" style="margin-top:-8px;">Funcionalidades avanzadas que agregan valor pero requieren más planificación o tienen mayor complejidad.</p>
+
+    <div class="priority-grid">
+      <div class="priority-card p3">
+        <div class="label">P3 · Engagement</div>
+        <h4>🔔 Alertas de nuevos inmuebles</h4>
+        <p>El usuario guarda su búsqueda y recibe un email cuando se publica un nuevo inmueble que coincide. Componente más complejo: requiere almacenar criterios por usuario y un cron que compare.</p>
+        <p style="margin-top:8px;"><strong>Módulos:</strong> <code>eca</code> + desarrollo personalizado</p>
+        <span class="effort effort-high">Esfuerzo alto</span>
+      </div>
+
+      <div class="priority-card p3">
+        <div class="label">P3 · Herramienta</div>
+        <h4>🏦 Calculadora de hipoteca / arriendo</h4>
+        <p>Widget interactivo en la ficha del inmueble. El usuario ingresa cuota inicial y plazo y ve la cuota mensual estimada.</p>
+        <p style="margin-top:8px;"><strong>Implementación:</strong> Bloque JS embebido. Sin módulo adicional.</p>
+        <span class="effort effort-low">Esfuerzo bajo</span>
+      </div>
+
+      <div class="priority-card p3">
+        <div class="label">P3 · Comparación</div>
+        <h4>⚖️ Comparar propiedades</h4>
+        <p>El usuario selecciona 2–3 inmuebles y los ve comparados lado a lado en una tabla. La selección se gestiona con Flag, la vista comparativa requiere desarrollo.</p>
+        <p style="margin-top:8px;"><strong>Módulos:</strong> <code>flag</code> + página personalizada</p>
+        <span class="effort effort-med">Esfuerzo medio-alto</span>
+      </div>
+
+      <div class="priority-card p3">
+        <div class="label">P3 · Multimedia</div>
+        <h4>🎥 Tour virtual / 360°</h4>
+        <p>Embed de Matterport, Kuula u otro servicio de tours 360°. Se almacena la URL como campo de texto y se renderiza en un iframe.</p>
+        <p style="margin-top:8px;"><strong>Implementación:</strong> Campo URL + Twig. Sin módulo extra.</p>
+        <span class="effort effort-low">Esfuerzo bajo</span>
+      </div>
+
+      <div class="priority-card p3">
+        <div class="label">P3 · Operación</div>
+        <h4>🔄 Estado / Workflow del inmueble</h4>
+        <p>Transiciones de estado: Disponible → En negociación → Arrendado / Vendido → Archivado. Evita mostrar inmuebles ya cerrados.</p>
+        <p style="margin-top:8px;"><strong>Módulo:</strong> Content Moderation (core D11)</p>
+        <span class="effort effort-low">Esfuerzo bajo</span>
+      </div>
+
+      <div class="priority-card p3">
+        <div class="label">P3 · Ventas</div>
+        <h4>🔗 Integración CRM</h4>
+        <p>Los leads del formulario de contacto se envían al CRM del cliente (HubSpot, Salesforce, Zoho). La opción más flexible es Webform + webhook a Zapier/Make.</p>
+        <p style="margin-top:8px;"><strong>Módulos:</strong> <code>webform</code> + webhook / <code>hubspot</code> / <code>salesforce</code></p>
+        <span class="effort effort-high">Esfuerzo variable</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>📋 Tabla resumen — todos los módulos</h3>
+      <table>
+        <tr><th>Módulo</th><th>Función</th><th>D11</th><th>Costo</th><th>Prioridad</th></tr>
+        <tr><td><code>geofield</code> + <code>leaflet</code></td><td>Mapa interactivo (OpenStreetMap)</td><td>✓</td><td>Gratis</td><td><span class="badge badge-done">P1</span></td></tr>
+        <tr><td><code>geocoder</code></td><td>Dirección → coordenadas automático</td><td>✓</td><td>Gratis</td><td><span class="badge badge-done">P1</span></td></tr>
+        <tr><td><code>search_api</code> + <code>facets</code></td><td>Búsqueda facetada</td><td>✓</td><td>Gratis</td><td><span class="badge badge-done">P1</span></td></tr>
+        <tr><td><code>photoswipe</code></td><td>Galería lightbox</td><td>✓</td><td>Gratis</td><td><span class="badge badge-done">P1</span></td></tr>
+        <tr><td><code>schemadotorg</code></td><td>Schema.org / JSON-LD SEO</td><td>✓</td><td>Gratis</td><td><span class="badge badge-done">P1</span></td></tr>
+        <tr><td><code>simple_sitemap</code></td><td>Sitemap XML con imágenes</td><td>✓</td><td>Gratis</td><td><span class="badge badge-wip">P2</span></td></tr>
+        <tr><td><code>flag</code></td><td>Favoritos</td><td>✓</td><td>Gratis</td><td><span class="badge badge-wip">P2</span></td></tr>
+        <tr><td><code>addtoany</code></td><td>Compartir redes sociales</td><td>✓</td><td>Gratis</td><td><span class="badge badge-wip">P2</span></td></tr>
+        <tr><td><code>entity_print</code> + Dompdf</td><td>Ficha PDF del inmueble</td><td>✓</td><td>Gratis</td><td><span class="badge badge-wip">P2</span></td></tr>
+        <tr><td><code>webform</code></td><td>Formularios de contacto / consulta</td><td>✓</td><td>Gratis</td><td><span class="badge badge-wip">P2</span></td></tr>
+        <tr><td><code>redirect</code></td><td>Redirecciones de URL</td><td>✓</td><td>Gratis</td><td><span class="badge badge-wip">P2</span></td></tr>
+        <tr><td><code>eca</code></td><td>Alertas / automatizaciones</td><td>✓</td><td>Gratis</td><td><span class="badge badge-pending">P3</span></td></tr>
+        <tr><td><code>content_moderation</code></td><td>Workflow de estado del inmueble</td><td>✓ core</td><td>Gratis</td><td><span class="badge badge-pending">P3</span></td></tr>
+      </table>
+    </div>
+
+    <div class="card">
+      <h3>🛠️ Desarrollo personalizado necesario (sin módulo contrib adecuado)</h3>
+      <ul style="font-size:13.5px;line-height:2.2;padding-left:20px;">
+        <li><strong>Formatter de precio</strong> — 1–2 horas. PHP <code>NumberFormatter</code> con intl extension.</li>
+        <li><strong>Widget AJAX País → Departamento → Ciudad</strong> — ya planificado en Fase 3.</li>
+        <li><strong>Página comparativa de inmuebles</strong> — Flag gestiona la selección; la vista comparativa es desarrollo custom.</li>
+        <li><strong>Motor de alertas de búsqueda</strong> — almacenamiento de criterios por usuario + cron + envío. 30–60 horas estimadas.</li>
+        <li><strong>Calculadora hipoteca/arriendo</strong> — bloque JS. 2–4 horas.</li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>

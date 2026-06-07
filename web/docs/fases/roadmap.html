@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Roadmap — Drupal Property Manager</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <style>
+    .phase-card {
+      background: #fff;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      margin-bottom: 16px;
+      box-shadow: var(--shadow);
+      border-left: 5px solid;
+    }
+    .phase-card.active  { border-left-color: #e67e22; }
+    .phase-card.next    { border-left-color: #3a6ea5; }
+    .phase-card.pending { border-left-color: #dee2e6; }
+    .phase-header { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+    .phase-num {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      font-size: 13px; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .active  .phase-num { background: #e67e22; color: #fff; }
+    .next    .phase-num { background: #3a6ea5; color: #fff; }
+    .pending .phase-num { background: #e9ecef; color: #6c757d; }
+    .phase-header h3 { font-size: 15px; font-weight: 700; margin: 0; }
+    .phase-card p { font-size: 13.5px; color: #495057; line-height: 1.7; margin-bottom: 10px; }
+    .deliverable-list { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+    .deliverable-list li {
+      background: #f1f3f5;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      color: #495057;
+    }
+    .active .deliverable-list li  { background: #fdebd0; color: #784212; }
+    .next   .deliverable-list li  { background: #cce5ff; color: #004085; }
+    .principle {
+      display: flex; gap: 14px; align-items: flex-start;
+      padding: 14px 0; border-bottom: 1px solid #f0f0f0;
+    }
+    .principle:last-child { border-bottom: none; }
+    .principle .icon { font-size: 22px; flex-shrink: 0; padding-top: 1px; }
+    .principle h4 { font-size: 13.5px; font-weight: 600; margin-bottom: 4px; color: #212529; }
+    .principle p  { font-size: 12.5px; color: #6c757d; margin: 0; line-height: 1.6; }
+  </style>
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <h1>Drupal Property Manager</h1>
+    <p>Documentación técnica</p>
+  </div>
+  <nav>
+    <div class="nav-section">General</div>
+    <a href="../index.html"><span class="icon">🏠</span> Inicio</a>
+
+    <div class="nav-section">Tipos de contenido</div>
+    <a href="../analisis/tipo-contenido.html"><span class="icon">📋</span> Inmueble</a>
+    <a href="../analisis/agente.html" class="sub">Agente</a>
+    <a href="../analisis/documento.html" class="sub">Documentos</a>
+
+    <div class="nav-section">Análisis técnico</div>
+    <a href="../analisis/taxonomias.html"><span class="icon">🏷️</span> Taxonomías</a>
+    <a href="../analisis/ubicacion.html" class="sub">Ubicación jerárquica</a>
+    <a href="../analisis/codigo-auto.html" class="sub">Campo Código</a>
+
+    <div class="nav-section">Features</div>
+    <a href="../features/index.html"><span class="icon">🔍</span> Investigación</a>
+    <a href="../features/mapas.html" class="sub">Mapas y geolocalización</a>
+    <a href="../features/busqueda.html" class="sub">Búsqueda y filtros</a>
+    <a href="../features/seo.html" class="sub">SEO avanzado</a>
+
+    <div class="nav-section">Fases</div>
+    <a href="roadmap.html" class="active"><span class="icon">🗺️</span> Roadmap general</a>
+    <a href="fase-1.html" class="sub">Fase 1 — MVP funcional</a>
+    <a href="fase-2.html" class="sub">Fase 2 — Visual y UX</a>
+    <a href="fase-3.html" class="sub">Fase 3 — Mapa</a>
+    <a href="fase-4.html" class="sub">Fase 4 — Búsqueda</a>
+    <a href="fase-5.html" class="sub">Fase 5 — Features extra</a>
+
+    <div class="nav-section">Módulos</div>
+    <a href="../modulos/property_manager.html"><span class="icon">🧩</span> property_manager</a>
+    <a href="../modulos/arquitectura.html" class="sub">Arquitectura y dependencias</a>
+  </nav>
+</aside>
+
+<div class="main">
+  <div class="topbar">
+    <div>
+      <div class="breadcrumb"><a href="../index.html">Inicio</a> <span>›</span> Fases</div>
+      <h2>Roadmap general</h2>
+    </div>
+  </div>
+  <div class="content">
+
+    <h2 class="section-title">Roadmap de implementación</h2>
+    <p class="section-desc">Construcción por fases sólidas. Cada fase entrega algo funcional y probado antes de pasar a la siguiente. El UX es el punto de partida en cada decisión.</p>
+
+    <div class="card">
+      <h3>🧭 Principios que guían el desarrollo</h3>
+      <div class="principle">
+        <div class="icon">🎯</div>
+        <div>
+          <h4>UX primero</h4>
+          <p>Antes de escribir código se define cómo va a interactuar el usuario con esa parte. El formulario, la vista, el flujo — todo se piensa desde el usuario antes de la implementación técnica.</p>
+        </div>
+      </div>
+      <div class="principle">
+        <div class="icon">📦</div>
+        <div>
+          <h4>Fase terminada = funcional y probada</h4>
+          <p>No se avanza a la siguiente fase hasta que la actual esté completa, probada en una instalación limpia y documentada. Pretender que todo va a quedar de golpe no es óptimo.</p>
+        </div>
+      </div>
+      <div class="principle">
+        <div class="icon">🔍</div>
+        <div>
+          <h4>Posicionamiento desde el día uno</h4>
+          <p>Pathauto, Metatag y Simple Sitemap van en la Fase 1. El SEO no es una feature opcional que se agrega después — es parte de la base mínima.</p>
+        </div>
+      </div>
+      <div class="principle">
+        <div class="icon">🧩</div>
+        <div>
+          <h4>Arquitectura de suite</h4>
+          <p>El módulo base <code>property_manager</code> instala lo mínimo funcional. Las features adicionales son sub-módulos opcionales (<code>property_manager_geo</code>, <code>property_manager_search</code>, etc.) que se activan cuando se necesitan, sin romper lo que ya funciona.</p>
+        </div>
+      </div>
+    </div>
+
+    <h3 style="font-size:15px;font-weight:700;margin:8px 0 14px;">Fases</h3>
+
+    <div class="phase-card active">
+      <div class="phase-header">
+        <div class="phase-num">1</div>
+        <h3>MVP funcional <span class="badge badge-pending">En construcción</span></h3>
+      </div>
+      <p>El sitio funciona de punta a punta con lo mínimo necesario. Un admin instala el módulo y puede publicar inmuebles de inmediato. Incluye vistas de listado y detalle, código automático, instalación guiada y SEO básico desde el primer día.</p>
+      <ul class="deliverable-list">
+        <li>3 tipos de contenido + todos los campos</li>
+        <li>Taxonomías con términos precargados</li>
+        <li>Código automático (presave)</li>
+        <li>Instalación guiada (hook_install_tasks)</li>
+        <li>Vista: listado de inmuebles</li>
+        <li>Vista: detalle del inmueble</li>
+        <li>Vistas de administración</li>
+        <li>Pathauto configurado</li>
+        <li>Metatag configurado</li>
+        <li>Simple Sitemap</li>
+        <li>Página de estado del módulo</li>
+        <li>UX: formulario de creación limpio</li>
+      </ul>
+      <p style="margin-top:14px;margin-bottom:0;"><a href="fase-1.html">Ver detalle de la Fase 1 →</a></p>
+    </div>
+
+    <div class="phase-card next">
+      <div class="phase-header">
+        <div class="phase-num">2</div>
+        <h3>Visual y UX enriquecido <span class="badge badge-pending">Pendiente</span></h3>
+      </div>
+      <p>El sitio se ve como un portal inmobiliario real. Íconos en las características numéricas, galería de fotos con lightbox, checklist de características, formato de precio. El listado pasa de tabla a tarjetas visuales.</p>
+      <ul class="deliverable-list">
+        <li>Íconos: habitaciones, baños, parqueadero, área</li>
+        <li>Checklist ✓/✗ características int/ext</li>
+        <li>Galería con lightbox (PhotoSwipe o Splide)</li>
+        <li>Formatter de precio</li>
+        <li>Listado en tarjetas (grid de cards)</li>
+      </ul>
+      <p style="margin-top:14px;margin-bottom:0;"><a href="fase-2.html">Ver detalle de la Fase 2 →</a></p>
+    </div>
+
+    <div class="phase-card pending">
+      <div class="phase-header">
+        <div class="phase-num">3</div>
+        <h3>Mapa de propiedades <span class="badge badge-pending">Pendiente</span></h3>
+      </div>
+      <p>Sub-módulo <code>property_manager_geo</code>. Mapa interactivo con OpenStreetMap. El agente ingresa la dirección y el sistema la geocodifica automáticamente. Mapa en la ficha y en la página de listado. Incluye la jerarquía AJAX País → Departamento → Ciudad.</p>
+      <ul class="deliverable-list">
+        <li>property_manager_geo</li>
+        <li>Geofield + Leaflet + Geocoder</li>
+        <li>Geocodificación desde dirección</li>
+        <li>Mapa en detalle y en listado</li>
+        <li>Ubicación AJAX jerárquica</li>
+      </ul>
+      <p style="margin-top:14px;margin-bottom:0;"><a href="fase-3.html">Ver detalle de la Fase 3 →</a></p>
+    </div>
+
+    <div class="phase-card pending">
+      <div class="phase-header">
+        <div class="phase-num">4</div>
+        <h3>Búsqueda con filtros facetados <span class="badge badge-pending">Pendiente</span></h3>
+      </div>
+      <p>Sub-módulo <code>property_manager_search</code>. El usuario filtra por tipo de oferta, precio, ciudad, habitaciones, etc. Los filtros muestran cuántos resultados hay en cada opción.</p>
+      <ul class="deliverable-list">
+        <li>property_manager_search</li>
+        <li>Search API + Facets</li>
+        <li>Filtros por tipo, precio, ubicación</li>
+        <li>Ordenamiento (precio, más reciente)</li>
+        <li>Conteo por filtro</li>
+      </ul>
+      <p style="margin-top:14px;margin-bottom:0;"><a href="fase-4.html">Ver detalle de la Fase 4 →</a></p>
+    </div>
+
+    <div class="phase-card pending">
+      <div class="phase-header">
+        <div class="phase-num">5</div>
+        <h3>Features adicionales <span class="badge badge-pending">Pendiente</span></h3>
+      </div>
+      <p>Sub-módulos independientes que se activan según las necesidades de cada instalación. Ninguno es obligatorio para que el sitio funcione. Se priorizan según la demanda real del proyecto.</p>
+      <ul class="deliverable-list">
+        <li>Schema.org / JSON-LD (property_manager_seo)</li>
+        <li>Ficha PDF (property_manager_pdf)</li>
+        <li>Formulario de consulta (property_manager_contact)</li>
+        <li>Workflow de estado (property_manager_workflow)</li>
+        <li>Favoritos (Flag)</li>
+        <li>Compartir en redes</li>
+      </ul>
+      <p style="margin-top:14px;margin-bottom:0;"><a href="fase-5.html">Ver detalle de la Fase 5 →</a></p>
+    </div>
+
+    <div class="card">
+      <h3>✅ Criterio de cierre de cada fase</h3>
+      <ul style="font-size:13.5px;line-height:2.2;padding-left:20px;">
+        <li>Instalación desde cero en un Drupal 11 limpio, sin errores ni pasos manuales adicionales.</li>
+        <li>Todos los flujos del usuario (crear, editar, ver, buscar) funcionan correctamente.</li>
+        <li>Las fases anteriores siguen funcionando — nada roto.</li>
+        <li>Documentación de esa fase actualizada antes de continuar.</li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>

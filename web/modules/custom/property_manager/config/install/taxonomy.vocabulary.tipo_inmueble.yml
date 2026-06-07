@@ -1,0 +1,8 @@
+langcode: en
+status: true
+dependencies: {}
+name: 'Tipo de inmueble'
+vid: tipo_inmueble
+description: 'Categoría del inmueble: Apartamento, Casa, Lote, Oficina, etc.'
+hierarchy: 0
+weight: 0

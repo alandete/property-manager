@@ -1,0 +1,17 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.inmueble
+  module:
+    - metatag
+    - token
+id: node__inmueble
+label: 'Inmueble'
+tags:
+  title: '[node:title] | [site:name]'
+  description: '[node:summary]'
+  og_title: '[node:title]'
+  og_description: '[node:summary]'
+  og_type: 'article'
+  robots: 'index, follow'

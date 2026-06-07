@@ -1,0 +1,20 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_estrato
+    - node.type.inmueble
+  module:
+    - options
+id: node.inmueble.field_estrato
+field_name: field_estrato
+entity_type: node
+bundle: inmueble
+label: 'Estrato'
+description: ''
+required: false
+translatable: false
+default_value: []
+default_value_callback: ''
+settings: {}
+field_type: list_integer

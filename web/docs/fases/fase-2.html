@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fase 2 — Visual y UX — Drupal Property Manager</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <h1>Drupal Property Manager</h1>
+    <p>Documentación técnica</p>
+  </div>
+  <nav>
+    <div class="nav-section">General</div>
+    <a href="../index.html"><span class="icon">🏠</span> Inicio</a>
+
+    <div class="nav-section">Tipos de contenido</div>
+    <a href="../analisis/tipo-contenido.html"><span class="icon">📋</span> Inmueble</a>
+    <a href="../analisis/agente.html" class="sub">Agente</a>
+    <a href="../analisis/documento.html" class="sub">Documentos</a>
+
+    <div class="nav-section">Análisis técnico</div>
+    <a href="../analisis/taxonomias.html"><span class="icon">🏷️</span> Taxonomías</a>
+    <a href="../analisis/ubicacion.html" class="sub">Ubicación jerárquica</a>
+    <a href="../analisis/codigo-auto.html" class="sub">Campo Código</a>
+
+    <div class="nav-section">Features</div>
+    <a href="../features/index.html"><span class="icon">🔍</span> Investigación</a>
+    <a href="../features/mapas.html" class="sub">Mapas y geolocalización</a>
+    <a href="../features/busqueda.html" class="sub">Búsqueda y filtros</a>
+    <a href="../features/seo.html" class="sub">SEO avanzado</a>
+
+    <div class="nav-section">Fases</div>
+    <a href="roadmap.html"><span class="icon">🗺️</span> Roadmap general</a>
+    <a href="fase-1.html" class="sub">Fase 1 — MVP funcional</a>
+    <a href="fase-2.html" class="active sub">Fase 2 — Visual y UX</a>
+    <a href="fase-3.html" class="sub">Fase 3 — Mapa</a>
+    <a href="fase-4.html" class="sub">Fase 4 — Búsqueda</a>
+    <a href="fase-5.html" class="sub">Fase 5 — Features extra</a>
+
+    <div class="nav-section">Módulos</div>
+    <a href="../modulos/property_manager.html"><span class="icon">🧩</span> property_manager</a>
+    <a href="../modulos/arquitectura.html" class="sub">Arquitectura y dependencias</a>
+  </nav>
+</aside>
+
+<div class="main">
+  <div class="topbar">
+    <div>
+      <div class="breadcrumb"><a href="../index.html">Inicio</a> <span>›</span> <a href="roadmap.html">Fases</a> <span>›</span> Fase 2</div>
+      <h2>Fase 2 — Visual y UX enriquecido</h2>
+    </div>
+  </div>
+  <div class="content">
+
+    <h2 class="section-title">Fase 2: Visual y UX enriquecido</h2>
+    <p class="section-desc">El sitio pasa de funcional a visualmente competitivo. El listado se convierte en tarjetas, los campos numéricos ganan íconos, las características se muestran como checklist y las fotos tienen galería con lightbox.</p>
+
+    <div class="alert alert-warn">
+      ⏳ <strong>Estado:</strong> Pendiente. Requiere completar la Fase 1 primero.
+    </div>
+
+    <div class="card">
+      <h3>🎨 Objetivo de UX de esta fase</h3>
+      <p style="font-size:13.5px;line-height:1.8;">
+        Cuando un visitante llega al listado de inmuebles, debe ver tarjetas visuales que comunican de un vistazo: foto, precio, tipo, ubicación y características clave. Cuando entra a un inmueble, debe ver una galería de fotos atractiva, los datos principales con íconos, y las características interiores y exteriores como un checklist limpio.
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>📋 Tareas de la Fase 2</h3>
+
+      <table>
+        <tr><th>Feature</th><th>Implementación</th><th>Descripción</th></tr>
+        <tr>
+          <td><strong>Grid de tarjetas</strong></td>
+          <td>View mode + CSS template</td>
+          <td>La vista de listado cambia de tabla a cards con foto, título, precio, tipo, ciudad. CSS en el tema o en un archivo de librería del módulo.</td>
+        </tr>
+        <tr>
+          <td><strong>Íconos en características</strong></td>
+          <td>Field formatter personalizado</td>
+          <td>Los campos <code>field_habitaciones</code>, <code>field_banos</code>, <code>field_parqueadero</code> y <code>field_area</code> se muestran con ícono SVG + valor. Formatter en <code>src/Plugin/Field/FieldFormatter/</code>.</td>
+        </tr>
+        <tr>
+          <td><strong>Checklist ✓/✗</strong></td>
+          <td>Field formatter personalizado</td>
+          <td>Los campos <code>field_caract_int</code> y <code>field_caract_ext</code> se muestran como lista de todos los valores posibles con ✓ si el inmueble los tiene o ✗ si no. Sin íconos individuales — solo la marca genérica.</td>
+        </tr>
+        <tr>
+          <td><strong>Formatter de precio</strong></td>
+          <td>Field formatter personalizado</td>
+          <td><code>field_precio</code> formateado con separador de miles, símbolo de moneda configurable ($ o COP), sin decimales si son cero.</td>
+        </tr>
+        <tr>
+          <td><strong>Galería de fotos</strong></td>
+          <td>Librería JS + Media</td>
+          <td>Las fotos del inmueble se muestran en un carrusel o grid con lightbox al hacer clic. Opciones: PhotoSwipe (ligero) o Splide (carrusel + lightbox). Sin dependencias externas de servidor.</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="card">
+      <h3>✅ Criterio de finalización</h3>
+      <ul style="font-size:13.5px;line-height:2.2;padding-left:20px;">
+        <li>El listado de inmuebles muestra tarjetas, no filas de tabla.</li>
+        <li>Las características numéricas (habitaciones, baños, parqueadero, área) se muestran con ícono en la ficha y en la tarjeta del listado.</li>
+        <li>Las características interiores y exteriores se muestran como checklist ✓/✗.</li>
+        <li>El precio se formatea correctamente (ej: $250.000.000).</li>
+        <li>Las fotos del inmueble se muestran en galería con lightbox funcional.</li>
+        <li>Nada de la Fase 1 está roto.</li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>

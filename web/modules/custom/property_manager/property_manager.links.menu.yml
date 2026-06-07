@@ -1,0 +1,20 @@
+property_manager.admin:
+  title: 'Property Manager'
+  description: 'Configuración y estado del módulo de propiedades inmobiliarias.'
+  route_name: property_manager.admin
+  parent: system.admin_config
+  weight: 50
+
+property_manager.settings:
+  title: 'Ajustes de código'
+  description: 'Configura el prefijo, separador y dígitos del código automático de inmuebles.'
+  route_name: property_manager.settings
+  parent: property_manager.admin
+  weight: 10
+
+property_manager.status:
+  title: 'Estado del módulo'
+  description: 'Muestra el estado de cada feature: activa, parcial o no instalada.'
+  route_name: property_manager.status
+  parent: property_manager.admin
+  weight: 20

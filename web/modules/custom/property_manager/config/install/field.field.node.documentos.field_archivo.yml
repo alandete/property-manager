@@ -1,0 +1,24 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_archivo
+    - node.type.documentos
+  module:
+    - file
+id: node.documentos.field_archivo
+field_name: field_archivo
+entity_type: node
+bundle: documentos
+label: 'Archivo'
+description: 'Adjunta uno o más archivos (PDF, DOC, XLS, etc.).'
+required: true
+translatable: false
+default_value: []
+default_value_callback: ''
+settings:
+  file_extensions: 'pdf doc docx xls xlsx'
+  file_directory: 'documentos'
+  max_filesize: '20 MB'
+  description_field: false
+field_type: file

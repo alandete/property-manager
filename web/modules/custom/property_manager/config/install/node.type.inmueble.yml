@@ -1,0 +1,10 @@
+langcode: en
+status: true
+dependencies: {}
+name: Inmueble
+type: inmueble
+description: 'Propiedad inmobiliaria gestionada con Drupal Property Manager.'
+help: ''
+new_revision: false
+preview_mode: 1
+display_submitted: false

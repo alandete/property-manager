@@ -1,0 +1,29 @@
+# === Drupal ===
+/web/sites/default/files/
+/web/sites/default/private/
+/web/sites/default/settings.local.php
+
+# === Composer ===
+/vendor/
+/web/core/
+/web/modules/contrib/
+/web/themes/contrib/
+/web/profiles/contrib/
+/web/libraries/
+
+# === Scripts locales (credenciales) ===
+/scripts/env.ps1
+
+# === Archivos SQL de referencia (no son checkpoints del proyecto) ===
+/inmobil5_inespana.sql
+
+# === OS ===
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# === IDEs ===
+.idea/
+.vscode/
+*.swp
+*.swo

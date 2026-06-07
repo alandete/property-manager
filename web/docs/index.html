@@ -1,0 +1,130 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Drupal Property Manager — Documentación</title>
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <h1>Drupal Property Manager</h1>
+    <p>Documentación técnica</p>
+  </div>
+  <nav>
+    <div class="nav-section">General</div>
+    <a href="index.html" class="active"><span class="icon">🏠</span> Inicio</a>
+
+    <div class="nav-section">Tipos de contenido</div>
+    <a href="analisis/tipo-contenido.html"><span class="icon">📋</span> Inmueble</a>
+    <a href="analisis/agente.html" class="sub">Agente</a>
+    <a href="analisis/documento.html" class="sub">Documentos</a>
+
+    <div class="nav-section">Análisis técnico</div>
+    <a href="analisis/taxonomias.html"><span class="icon">🏷️</span> Taxonomías</a>
+    <a href="analisis/ubicacion.html" class="sub">Ubicación jerárquica</a>
+    <a href="analisis/codigo-auto.html" class="sub">Campo Código</a>
+
+    <div class="nav-section">Features</div>
+    <a href="features/index.html"><span class="icon">🔍</span> Investigación</a>
+    <a href="features/mapas.html" class="sub">Mapas y geolocalización</a>
+    <a href="features/busqueda.html" class="sub">Búsqueda y filtros</a>
+    <a href="features/seo.html" class="sub">SEO avanzado</a>
+
+    <div class="nav-section">Fases</div>
+    <a href="fases/roadmap.html"><span class="icon">🗺️</span> Roadmap general</a>
+    <a href="fases/fase-1.html" class="sub">Fase 1 — MVP funcional</a>
+    <a href="fases/fase-2.html" class="sub">Fase 2 — Visual y UX</a>
+    <a href="fases/fase-3.html" class="sub">Fase 3 — Mapa</a>
+    <a href="fases/fase-4.html" class="sub">Fase 4 — Búsqueda</a>
+    <a href="fases/fase-5.html" class="sub">Fase 5 — Features extra</a>
+
+    <div class="nav-section">Módulos</div>
+    <a href="modulos/property_manager.html"><span class="icon">🧩</span> property_manager</a>
+    <a href="modulos/arquitectura.html" class="sub">Arquitectura y dependencias</a>
+  </nav>
+</aside>
+
+<div class="main">
+  <div class="topbar">
+    <h2>Inicio — Visión general del proyecto</h2>
+  </div>
+  <div class="content">
+
+    <h2 class="section-title">Drupal Property Manager</h2>
+    <p class="section-desc">Plataforma inmobiliaria construida sobre Drupal 11. Este sitio documenta la implementación técnica, las decisiones de diseño y el avance por fases.</p>
+
+    <div class="alert alert-info">
+      📌 Esta documentación se actualiza en paralelo con el desarrollo. Cada sección refleja el estado real de implementación en cada momento.
+    </div>
+
+    <div class="overview-grid">
+      <div class="stat-card">
+        <div class="num">3</div>
+        <div class="label">Tipos de contenido</div>
+      </div>
+      <div class="stat-card">
+        <div class="num">23</div>
+        <div class="label">Campos en Inmueble</div>
+      </div>
+      <div class="stat-card">
+        <div class="num">6</div>
+        <div class="label">Vocabularios</div>
+      </div>
+      <div class="stat-card">
+        <div class="num">2</div>
+        <div class="label">Fases planificadas</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>🛠️ Stack tecnológico</h3>
+      <table>
+        <tr><th>Componente</th><th>Detalle</th></tr>
+        <tr><td>CMS</td><td>Drupal 11.x</td></tr>
+        <tr><td>Servidor local</td><td>Laragon (Windows)</td></tr>
+        <tr><td>Base de datos</td><td>MySQL / MariaDB</td></tr>
+        <tr><td>Gestión de paquetes</td><td>Composer</td></tr>
+        <tr><td>Idioma</td><td>Español (Colombia)</td></tr>
+      </table>
+    </div>
+
+    <div class="card">
+      <h3>📦 Módulos instalados (contrib)</h3>
+      <table>
+        <tr><th>Módulo</th><th>Propósito</th></tr>
+        <tr><td><code>admin_toolbar</code></td><td>Barra de administración mejorada</td></tr>
+        <tr><td><code>metatag</code></td><td>Gestión de meta etiquetas SEO</td></tr>
+        <tr><td><code>pathauto</code></td><td>Generación automática de URLs amigables</td></tr>
+        <tr><td><code>token</code></td><td>Sistema de tokens para pathauto y otros</td></tr>
+        <tr><td><code>module_filter</code></td><td>Filtrado en página de módulos</td></tr>
+      </table>
+    </div>
+
+    <div class="card">
+      <h3>🗺️ Fases de trabajo</h3>
+      <ul class="phase-list">
+        <li class="phase-item">
+          <div class="phase-num">1</div>
+          <div class="phase-body">
+            <h4>Módulo base — Tipo de contenido Inmuebles <span class="badge badge-pending">Pendiente</span></h4>
+            <p>Crear el módulo personalizado <code>property_manager</code> con el tipo de contenido, todos sus campos y los vocabularios de taxonomía instalados vía configuración.</p>
+          </div>
+        </li>
+        <li class="phase-item">
+          <div class="phase-num pending">2</div>
+          <div class="phase-body">
+            <h4>Campo Código — Generación automática <span class="badge badge-pending">Pendiente</span></h4>
+            <p>Lógica de auto-generación del código con prefijo y número de dígitos configurables por el administrador. Mínima intervención del usuario al crear un inmueble.</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>

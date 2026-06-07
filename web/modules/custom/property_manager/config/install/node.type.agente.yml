@@ -1,0 +1,10 @@
+langcode: en
+status: true
+dependencies: {}
+name: Agente
+type: agente
+description: 'Agente inmobiliario responsable de uno o más inmuebles.'
+help: ''
+new_revision: false
+preview_mode: 1
+display_submitted: false

@@ -1,0 +1,8 @@
+langcode: en
+status: true
+dependencies: {}
+name: Ubicación
+vid: ubicacion
+description: 'Jerarquía geográfica: País → Departamento → Ciudad/Municipio.'
+hierarchy: 1
+weight: 0

@@ -1,0 +1,23 @@
+property_manager.admin:
+  path: '/admin/config/property-manager'
+  defaults:
+    _controller: '\Drupal\system\Controller\SystemController::systemAdminMenuBlockPage'
+    _title: 'Property Manager'
+  requirements:
+    _permission: 'administer site configuration'
+
+property_manager.settings:
+  path: '/admin/config/property-manager/settings'
+  defaults:
+    _form: '\Drupal\property_manager\Form\PropertyManagerSettingsForm'
+    _title: 'Ajustes de Property Manager'
+  requirements:
+    _permission: 'administer site configuration'
+
+property_manager.status:
+  path: '/admin/config/property-manager/status'
+  defaults:
+    _controller: '\Drupal\property_manager\Controller\PropertyManagerStatusController::status'
+    _title: 'Estado de Property Manager'
+  requirements:
+    _permission: 'administer site configuration'

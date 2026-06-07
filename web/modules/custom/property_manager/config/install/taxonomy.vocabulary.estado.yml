@@ -1,0 +1,8 @@
+langcode: en
+status: true
+dependencies: {}
+name: Estado
+vid: estado
+description: 'Estado del inmueble: Disponible, Arrendado, Vendido, En negociación, Archivado.'
+hierarchy: 0
+weight: 0

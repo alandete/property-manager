@@ -1,0 +1,80 @@
+<?php
+
+/**
+ * @file
+ * Property Manager — plataforma de gestión de propiedades inmobiliarias.
+ */
+
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\node\NodeInterface;
+
+/**
+ * Implements hook_node_presave().
+ *
+ * Auto-generates field_codigo on Inmueble nodes when the field is empty.
+ * The counter lives in State API (not Config) so it never resets on config
+ * import/export between environments.
+ */
+function property_manager_node_presave(NodeInterface $node) {
+  if ($node->bundle() !== 'inmueble' || !$node->get('field_codigo')->isEmpty()) {
+    return;
+  }
+
+  $config = \Drupal::config('property_manager.settings');
+  $prefix = $config->get('codigo_prefijo') ?? 'PROP';
+  $separator = $config->get('codigo_separador') ?? '-';
+  $digits = (int) ($config->get('codigo_digitos') ?? 5);
+
+  $state = \Drupal::state();
+  $counter = $state->get('property_manager.ultimo_codigo', 0) + 1;
+  $state->set('property_manager.ultimo_codigo', $counter);
+
+  $node->set('field_codigo', $prefix . $separator . str_pad($counter, $digits, '0', STR_PAD_LEFT));
+}
+
+/**
+ * Implements hook_form_alter().
+ *
+ * On create: hides field_codigo — it's auto-generated on save.
+ * On edit: shows it read-only so the editor can see the assigned code.
+ */
+function property_manager_form_alter(array &$form, FormStateInterface $form_state, string $form_id) {
+  if ($form_id === 'node_inmueble_form' && isset($form['field_codigo'])) {
+    $form['field_codigo']['#access'] = FALSE;
+  }
+  elseif ($form_id === 'node_inmueble_edit_form' && isset($form['field_codigo'])) {
+    $form['field_codigo']['#disabled'] = TRUE;
+    $form['field_codigo']['widget'][0]['value']['#description'] = t('El código es asignado automáticamente y no puede modificarse.');
+  }
+}
+
+/**
+ * Implements hook_requirements().
+ */
+function property_manager_requirements(string $phase): array {
+  $requirements = [];
+
+  if ($phase === 'runtime') {
+    $needs_setup = \Drupal::state()->get('property_manager.needs_setup', FALSE);
+
+    if ($needs_setup) {
+      $requirements['property_manager_setup'] = [
+        'title' => t('Property Manager'),
+        'description' => t('El módulo se instaló con los valores por defecto. <a href=":url">Revisa y ajusta la configuración inicial</a>.', [
+          ':url' => \Drupal\Core\Url::fromRoute('property_manager.settings')->toString(),
+        ]),
+        'severity' => REQUIREMENT_INFO,
+        'value' => t('Configuración inicial pendiente'),
+      ];
+    }
+    else {
+      $requirements['property_manager_setup'] = [
+        'title' => t('Property Manager'),
+        'value' => t('Configurado'),
+        'severity' => REQUIREMENT_OK,
+      ];
+    }
+  }
+
+  return $requirements;
+}

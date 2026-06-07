@@ -1,0 +1,58 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - options
+id: node.field_caract_int
+field_name: field_caract_int
+entity_type: node
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: cocina_integral
+      label: 'Cocina integral'
+    -
+      value: bano_auxiliar
+      label: 'Baño auxiliar'
+    -
+      value: closets
+      label: 'Closets'
+    -
+      value: calentador_agua
+      label: 'Calentador de agua'
+    -
+      value: chimenea
+      label: 'Chimenea'
+    -
+      value: alarma
+      label: 'Alarma'
+    -
+      value: aire_acondicionado
+      label: 'Aire acondicionado'
+    -
+      value: calefaccion
+      label: 'Calefacción'
+    -
+      value: ascensor
+      label: 'Ascensor'
+    -
+      value: cuarto_servicio
+      label: 'Cuarto de servicio'
+    -
+      value: deposito
+      label: 'Depósito'
+    -
+      value: pisos_madera
+      label: 'Pisos en madera'
+    -
+      value: pisos_marmol
+      label: 'Pisos en mármol'
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: -1
+translatable: true
+indexes: {}
+persist_with_no_fields: false
+custom_storage: false

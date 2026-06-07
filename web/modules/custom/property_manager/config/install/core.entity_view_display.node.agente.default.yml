@@ -1,0 +1,49 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.agente.field_foto_agente
+    - field.field.node.agente.field_movil
+    - field.field.node.agente.field_telefono
+    - node.type.agente
+  module:
+    - image
+id: node.agente.default
+targetEntityType: node
+bundle: agente
+mode: default
+content:
+  field_foto_agente:
+    label: hidden
+    type: image
+    weight: -10
+    region: content
+    settings:
+      image_style: thumbnail
+      image_link: ''
+      image_loading:
+        attribute: lazy
+    third_party_settings: {}
+  body:
+    label: hidden
+    type: text_default
+    weight: -9
+    region: content
+    settings: {}
+    third_party_settings: {}
+  field_telefono:
+    label: above
+    type: string
+    weight: -8
+    region: content
+    settings: {}
+    third_party_settings: {}
+  field_movil:
+    label: above
+    type: string
+    weight: -7
+    region: content
+    settings: {}
+    third_party_settings: {}
+hidden:
+  links: true

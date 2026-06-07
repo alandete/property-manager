@@ -1,0 +1,31 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - options
+id: node.field_aplica_oferta
+field_name: field_aplica_oferta
+entity_type: node
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: arriendo
+      label: 'Arriendo'
+    -
+      value: venta
+      label: 'Venta'
+    -
+      value: alquiler_dias
+      label: 'Alquiler por días'
+    -
+      value: todos
+      label: 'Todos'
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: -1
+translatable: true
+indexes: {}
+persist_with_no_fields: false
+custom_storage: false

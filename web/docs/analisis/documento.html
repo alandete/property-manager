@@ -1,0 +1,181 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Documentos — Drupal Property Manager</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <h1>Drupal Property Manager</h1>
+    <p>Documentación técnica</p>
+  </div>
+  <nav>
+    <div class="nav-section">General</div>
+    <a href="../index.html"><span class="icon">🏠</span> Inicio</a>
+
+    <div class="nav-section">Tipos de contenido</div>
+    <a href="tipo-contenido.html"><span class="icon">📋</span> Inmueble</a>
+    <a href="agente.html" class="sub">Agente</a>
+    <a href="documento.html" class="active sub">Documentos</a>
+
+    <div class="nav-section">Análisis técnico</div>
+    <a href="taxonomias.html"><span class="icon">🏷️</span> Taxonomías</a>
+    <a href="ubicacion.html" class="sub">Ubicación jerárquica</a>
+    <a href="codigo-auto.html" class="sub">Campo Código</a>
+
+    <div class="nav-section">Features</div>
+    <a href="../features/index.html"><span class="icon">🔍</span> Investigación</a>
+    <a href="../features/mapas.html" class="sub">Mapas y geolocalización</a>
+    <a href="../features/busqueda.html" class="sub">Búsqueda y filtros</a>
+    <a href="../features/seo.html" class="sub">SEO avanzado</a>
+
+    <div class="nav-section">Fases</div>
+    <a href="../fases/roadmap.html"><span class="icon">🗺️</span> Roadmap general</a>
+    <a href="../fases/fase-1.html" class="sub">Fase 1 — MVP funcional</a>
+    <a href="../fases/fase-2.html" class="sub">Fase 2 — Visual y UX</a>
+    <a href="../fases/fase-3.html" class="sub">Fase 3 — Mapa</a>
+    <a href="../fases/fase-4.html" class="sub">Fase 4 — Búsqueda</a>
+    <a href="../fases/fase-5.html" class="sub">Fase 5 — Features extra</a>
+
+    <div class="nav-section">Módulos</div>
+    <a href="../modulos/property_manager.html"><span class="icon">🧩</span> property_manager</a>
+    <a href="../modulos/arquitectura.html" class="sub">Arquitectura y dependencias</a>
+  </nav>
+</aside>
+
+<div class="main">
+  <div class="topbar">
+    <div>
+      <div class="breadcrumb"><a href="../index.html">Inicio</a> <span>›</span> Tipos de contenido</div>
+      <h2>Tipo de contenido: Documentos</h2>
+    </div>
+  </div>
+  <div class="content">
+
+    <h2 class="section-title">Documentos</h2>
+    <p class="section-desc">Archivos asociados a los inmuebles: formularios de aplicación, contratos, planos, certificados, etc. El diseño es deliberadamente flexible para no limitar futuros casos de uso.</p>
+
+    <div class="card">
+      <h3>📌 Caso de uso principal (operativo actual)</h3>
+      <p style="font-size:13.5px;line-height:1.8;">
+        En la operación actual, los documentos son <strong>formularios que el interesado debe diligenciar para aplicar al arriendo de un inmueble</strong>: formulario de solicitud, codeudores, autorización de datos, etc. El documento se adjunta al inmueble en arriendo y el visitante puede descargarlo, llenarlo y enviarlo.
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>🔭 Casos de uso futuros posibles</h3>
+      <table>
+        <tr><th>Escenario</th><th>Descripción</th></tr>
+        <tr>
+          <td>Documentos de venta</td>
+          <td>Promesas de compraventa, escrituras, certificados de tradición.</td>
+        </tr>
+        <tr>
+          <td>Documentos técnicos</td>
+          <td>Planos arquitectónicos, licencias de construcción, reglamentos de propiedad horizontal.</td>
+        </tr>
+        <tr>
+          <td>Documentos generales</td>
+          <td>Sin inmueble específico: guías, tarifas, modelos de contrato reutilizables.</td>
+        </tr>
+        <tr>
+          <td>Documentos por tipo de oferta</td>
+          <td>Asociar automáticamente ciertos documentos a todos los inmuebles en arriendo o en venta.</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="card">
+      <h3>📝 Campos</h3>
+      <table>
+        <tr>
+          <th>Etiqueta</th>
+          <th>Machine name</th>
+          <th>Tipo</th>
+          <th>Notas</th>
+        </tr>
+        <tr>
+          <td><strong>Título</strong></td>
+          <td><code>title</code></td>
+          <td>Texto</td>
+          <td>Nativo Drupal. Nombre descriptivo del documento.</td>
+        </tr>
+        <tr>
+          <td><strong>Archivo</strong></td>
+          <td><code>field_archivo</code></td>
+          <td>Archivo</td>
+          <td>PDF, DOC, XLS. Múltiple (un documento puede tener varios archivos adjuntos).</td>
+        </tr>
+        <tr>
+          <td><strong>Tipo de documento</strong></td>
+          <td><code>field_tipo_documento</code></td>
+          <td>Lista (select)</td>
+          <td>Formulario de aplicación, Contrato, Plano, Certificado, Reglamento, Otro.</td>
+        </tr>
+        <tr>
+          <td><strong>Aplica a</strong></td>
+          <td><code>field_aplica_oferta</code></td>
+          <td>Lista (checkboxes)</td>
+          <td>Valores: Arriendo, Venta, Alquiler por días, Todos. Permite filtrar qué documentos son relevantes según el tipo de oferta del inmueble. <strong>Opcional.</strong></td>
+        </tr>
+        <tr>
+          <td><strong>Inmueble asociado</strong></td>
+          <td><code>field_inmueble_ref</code></td>
+          <td>Referencia a nodo</td>
+          <td>Tipo: Inmueble. <strong>Opcional.</strong> Si está vacío, el documento es general (no atado a un inmueble específico).</td>
+        </tr>
+        <tr>
+          <td><strong>Descripción</strong></td>
+          <td><code>body</code></td>
+          <td>Texto largo</td>
+          <td>Nativo Drupal. Instrucciones o notas sobre el documento. Opcional.</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="card">
+      <h3>⚙️ Decisiones de diseño</h3>
+      <table>
+        <tr><th>Decisión</th><th>Justificación</th></tr>
+        <tr>
+          <td>El campo <strong>Inmueble asociado</strong> es opcional</td>
+          <td>Permite documentos generales (modelos de contrato, guías) que no pertenecen a un inmueble concreto.</td>
+        </tr>
+        <tr>
+          <td>Campo <strong>Aplica a</strong> separado del inmueble</td>
+          <td>Un documento puede ser relevante para todos los arriendos sin estar ligado a uno específico, o puede combinarse: documento general de arriendo + inmueble específico.</td>
+        </tr>
+        <tr>
+          <td><strong>Múltiple</strong> en campo Archivo</td>
+          <td>Un formulario de aplicación puede tener versión en PDF editable + versión en Word. Se agrupan en un solo nodo.</td>
+        </tr>
+        <tr>
+          <td>Tipo de contenido independiente, no entidad adjunta</td>
+          <td>Facilita gestión centralizada, búsqueda, control de acceso por rol y reutilización en múltiples inmuebles sin duplicar archivos.</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="card">
+      <h3>🔗 Relaciones</h3>
+      <ul style="font-size:13.5px;line-height:2.2;padding-left:20px;">
+        <li>Un documento puede estar asociado a <strong>cero o un inmueble</strong> (campo opcional).</li>
+        <li>En la vista del Inmueble se listan los documentos asociados mediante una vista filtrada por <code>field_inmueble_ref</code>.</li>
+        <li>Los documentos generales de arriendo (sin inmueble específico) se pueden mostrar en la página de todos los inmuebles en arriendo.</li>
+        <li>Control de acceso pendiente de definir: ¿descarga pública o requiere autenticación?</li>
+      </ul>
+    </div>
+
+    <div class="alert alert-warn">
+      ⚙️ <strong>Pendiente de definir:</strong> ¿Los documentos son descargables públicamente o requieren que el usuario esté autenticado?
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>

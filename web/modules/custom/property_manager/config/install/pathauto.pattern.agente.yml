@@ -1,0 +1,21 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - pathauto
+    - token
+id: agente
+label: 'Agente'
+type: 'canonical_entities:node'
+pattern: 'agentes/[node:title]'
+selection_criteria:
+  -
+    id: entity_bundle:node
+    bundles:
+      agente: agente
+    negate: false
+    context_mapping:
+      entity: entity
+selection_logic: and
+weight: 0

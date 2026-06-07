@@ -1,0 +1,8 @@
+langcode: en
+status: true
+dependencies: {}
+name: Zona
+vid: zona
+description: 'Zona o sector geográfico general: Norte, Sur, Oriente, Occidente, Centro.'
+hierarchy: 0
+weight: 0

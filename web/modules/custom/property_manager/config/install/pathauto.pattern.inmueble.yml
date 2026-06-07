@@ -1,0 +1,27 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.inmueble.field_codigo
+    - field.field.node.inmueble.field_tipo_inmueble
+    - field.field.node.inmueble.field_tipo_oferta
+    - node.type.inmueble
+  module:
+    - node
+    - pathauto
+    - taxonomy
+    - token
+id: inmueble
+label: 'Inmueble'
+type: 'canonical_entities:node'
+pattern: 'inmuebles/[node:field_tipo_inmueble]-en-[node:field_tipo_oferta]-[node:title]-[node:field_codigo]'
+selection_criteria:
+  -
+    id: entity_bundle:node
+    bundles:
+      inmueble: inmueble
+    negate: false
+    context_mapping:
+      entity: entity
+selection_logic: and
+weight: 0

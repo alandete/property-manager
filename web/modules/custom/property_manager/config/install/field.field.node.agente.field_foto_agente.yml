@@ -1,0 +1,35 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_foto_agente
+    - node.type.agente
+  module:
+    - image
+id: node.agente.field_foto_agente
+field_name: field_foto_agente
+entity_type: node
+bundle: agente
+label: 'Foto del agente'
+description: ''
+required: false
+translatable: false
+default_value: []
+default_value_callback: ''
+settings:
+  file_extensions: 'png gif jpg jpeg webp'
+  file_directory: 'agentes'
+  max_filesize: ''
+  max_resolution: ''
+  min_resolution: ''
+  alt_field: true
+  alt_field_required: false
+  title_field: false
+  title_field_required: false
+  default_image:
+    uuid: null
+    alt: ''
+    title: ''
+    width: null
+    height: null
+field_type: image

@@ -1,0 +1,183 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Taxonomías — Drupal Property Manager</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <h1>Drupal Property Manager</h1>
+    <p>Documentación técnica</p>
+  </div>
+  <nav>
+    <div class="nav-section">General</div>
+    <a href="../index.html"><span class="icon">🏠</span> Inicio</a>
+
+    <div class="nav-section">Tipos de contenido</div>
+    <a href="../analisis/tipo-contenido.html"><span class="icon">📋</span> Inmueble</a>
+    <a href="../analisis/agente.html" class="sub">Agente</a>
+    <a href="../analisis/documento.html" class="sub">Documentos</a>
+
+    <div class="nav-section">Análisis técnico</div>
+    <a href="../analisis/taxonomias.html"><span class="icon">🏷️</span> Taxonomías</a>
+    <a href="../analisis/ubicacion.html" class="sub">Ubicación jerárquica</a>
+    <a href="../analisis/codigo-auto.html" class="sub">Campo Código</a>
+
+    <div class="nav-section">Features</div>
+    <a href="../features/index.html"><span class="icon">🔍</span> Investigación</a>
+    <a href="../features/mapas.html" class="sub">Mapas y geolocalización</a>
+    <a href="../features/busqueda.html" class="sub">Búsqueda y filtros</a>
+    <a href="../features/seo.html" class="sub">SEO avanzado</a>
+
+    <div class="nav-section">Fases</div>
+    <a href="../fases/roadmap.html"><span class="icon">🗺️</span> Roadmap general</a>
+    <a href="../fases/fase-1.html" class="sub">Fase 1 — MVP funcional</a>
+    <a href="../fases/fase-2.html" class="sub">Fase 2 — Visual y UX</a>
+    <a href="../fases/fase-3.html" class="sub">Fase 3 — Mapa</a>
+    <a href="../fases/fase-4.html" class="sub">Fase 4 — Búsqueda</a>
+    <a href="../fases/fase-5.html" class="sub">Fase 5 — Features extra</a>
+
+    <div class="nav-section">Módulos</div>
+    <a href="../modulos/property_manager.html"><span class="icon">🧩</span> property_manager</a>
+    <a href="../modulos/arquitectura.html" class="sub">Arquitectura y dependencias</a>
+  </nav>
+</aside>
+
+<div class="main">
+  <div class="topbar">
+    <div>
+      <div class="breadcrumb"><a href="../index.html">Inicio</a> <span>›</span> <a href="tipo-contenido.html">Análisis</a> <span>›</span> Taxonomías</div>
+      <h2>Vocabularios / Taxonomías</h2>
+    </div>
+  </div>
+  <div class="content">
+
+    <h2 class="section-title">Vocabularios de taxonomía</h2>
+    <p class="section-desc">Cinco vocabularios utilizados por el tipo de contenido Inmueble. Los términos se instalan automáticamente con el módulo.</p>
+
+    <div class="card">
+      <h3>🏷️ Tipo de oferta <code style="font-size:12px;margin-left:8px;">tipo_oferta</code></h3>
+      <p style="margin-bottom:12px;font-size:13px;color:#6c757d;">Clasifica si el inmueble está en venta, arriendo u otra modalidad.</p>
+      <span class="tag">Venta</span>
+      <span class="tag">Arriendo</span>
+      <span class="tag">Alquiler por días</span>
+      <span class="tag">Proyecto</span>
+    </div>
+
+    <div class="card">
+      <h3>🏠 Tipo de inmueble <code style="font-size:12px;margin-left:8px;">tipo_inmueble</code></h3>
+      <p style="margin-bottom:12px;font-size:13px;color:#6c757d;">Categoría del inmueble.</p>
+      <span class="tag">Casa</span>
+      <span class="tag">Apartamento</span>
+      <span class="tag">Apartaestudio</span>
+      <span class="tag">Finca</span>
+      <span class="tag">Lote</span>
+      <span class="tag">Local</span>
+      <span class="tag">Bodega</span>
+      <span class="tag">Consultorio</span>
+    </div>
+
+    <div class="card">
+      <h3>✅ Estado del inmueble <code style="font-size:12px;margin-left:8px;">estado</code></h3>
+      <p style="margin-bottom:12px;font-size:13px;color:#6c757d;">Estado de construcción o conservación.</p>
+      <span class="tag">Nuevo</span>
+      <span class="tag">Usado</span>
+      <span class="tag">Remodelado</span>
+      <span class="tag">En obra gris</span>
+      <span class="tag">En planos</span>
+    </div>
+
+    <div class="card">
+      <h3>🗺️ Zona <code style="font-size:12px;margin-left:8px;">zona</code></h3>
+      <p style="margin-bottom:12px;font-size:13px;color:#6c757d;">Clasificación de la zona donde se ubica el inmueble.</p>
+      <span class="tag">Residencial</span>
+      <span class="tag">Comercial</span>
+      <span class="tag">Industrial</span>
+      <span class="tag">Rural</span>
+      <span class="tag">Mixta</span>
+      <span class="tag">Zona franca</span>
+    </div>
+
+    <div class="card">
+      <h3>📍 Ciudad <code style="font-size:12px;margin-left:8px;">ciudad</code></h3>
+      <p style="margin-bottom:12px;font-size:13px;color:#6c757d;">~180 municipios colombianos de los departamentos de Huila, Tolima, Caldas, Quindío, Risaralda y Cundinamarca. Se instalan como términos de taxonomía desde el módulo.</p>
+      <div class="alert alert-info" style="margin-bottom:12px;">
+        Los términos de ciudad se cargan automáticamente al instalar el módulo <code>property_manager</code> desde un archivo de configuración.
+      </div>
+      <details>
+        <summary style="cursor:pointer;font-size:13px;color:#3a6ea5;margin-bottom:8px;">Ver lista completa de ciudades ▶</summary>
+        <div style="margin-top:10px;max-height:300px;overflow-y:auto;">
+          <span class="tag">Acevedo</span><span class="tag">Agrado</span><span class="tag">Agua de Dios</span><span class="tag">Aguadas</span>
+          <span class="tag">Aipe</span><span class="tag">Albán</span><span class="tag">Algeciras</span><span class="tag">Alpujarra</span>
+          <span class="tag">Altamira</span><span class="tag">Alvarado</span><span class="tag">Ambalema</span><span class="tag">Anapoima</span>
+          <span class="tag">Anolaima</span><span class="tag">Anserma</span><span class="tag">Anzoátegui</span><span class="tag">Apía</span>
+          <span class="tag">Apulo</span><span class="tag">Aranzazu</span><span class="tag">Arbeláez</span><span class="tag">Armenia</span>
+          <span class="tag">Armero Guayabal</span><span class="tag">Ataco</span><span class="tag">Balboa</span><span class="tag">Baraya</span>
+          <span class="tag">Belalcázar</span><span class="tag">Belén de Umbría</span><span class="tag">Beltrán</span><span class="tag">Bogotá D.C.</span>
+          <span class="tag">Bojacá</span><span class="tag">Buenavista</span><span class="tag">Cabrera</span><span class="tag">Cajamarca</span>
+          <span class="tag">Cajicá</span><span class="tag">Calarcá</span><span class="tag">Caldas</span><span class="tag">Campoalegre</span>
+          <span class="tag">Caparrapí</span><span class="tag">Cáqueza</span><span class="tag">Carmen de Apicalá</span><span class="tag">Carmen de Carupa</span>
+          <span class="tag">Casabianca</span><span class="tag">Chaparral</span><span class="tag">Chía</span><span class="tag">Chinchiná</span>
+          <span class="tag">Chipaque</span><span class="tag">Choachí</span><span class="tag">Chocontá</span><span class="tag">Circasia</span>
+          <span class="tag">Coello</span><span class="tag">Cogua</span><span class="tag">Colombia</span><span class="tag">Córdoba</span>
+          <span class="tag">Cota</span><span class="tag">Coyaima</span><span class="tag">Cucunubá</span><span class="tag">Cunday</span>
+          <span class="tag">Cundinamarca</span><span class="tag">Dolores</span><span class="tag">Dosquebradas</span><span class="tag">El Colegio</span>
+          <span class="tag">El Rosal</span><span class="tag">Elías</span><span class="tag">Espinal</span><span class="tag">Facatativá</span>
+          <span class="tag">Falan</span><span class="tag">Filadelfia</span><span class="tag">Filandia</span><span class="tag">Flandes</span>
+          <span class="tag">Fómeque</span><span class="tag">Fosca</span><span class="tag">Fresno</span><span class="tag">Funza</span>
+          <span class="tag">Fusagasugá</span><span class="tag">Gachalá</span><span class="tag">Gachancipá</span><span class="tag">Gachetá</span>
+          <span class="tag">Garzón</span><span class="tag">Génova</span><span class="tag">Gigante</span><span class="tag">Girardot</span>
+          <span class="tag">Granada</span><span class="tag">Guadalupe</span><span class="tag">Guaduas</span><span class="tag">Guamo</span>
+          <span class="tag">Guasca</span><span class="tag">Guataquí</span><span class="tag">Guatavita</span><span class="tag">Güítica</span>
+          <span class="tag">Guayabetal</span><span class="tag">Gutiérrez</span><span class="tag">Herveo</span><span class="tag">Hobo</span>
+          <span class="tag">Honda</span><span class="tag">Huila</span><span class="tag">Ibagué</span><span class="tag">Icononzo</span>
+          <span class="tag">Íquira</span><span class="tag">Isnos</span><span class="tag">Junín</span><span class="tag">La Argentina</span>
+          <span class="tag">La Calera</span><span class="tag">La Celia</span><span class="tag">La Dorada</span><span class="tag">La Merced</span>
+          <span class="tag">La Mesa</span><span class="tag">La Palma</span><span class="tag">La Peña</span><span class="tag">La Plata</span>
+          <span class="tag">La Tebaida</span><span class="tag">La Vega</span><span class="tag">La Virginia</span><span class="tag">Lenguazaque</span>
+          <span class="tag">Lérida</span><span class="tag">Líbano</span><span class="tag">Madrid</span><span class="tag">Manizales</span>
+          <span class="tag">Manzanares</span><span class="tag">Mariquita</span><span class="tag">Marmato</span><span class="tag">Marquetalia</span>
+          <span class="tag">Marsella</span><span class="tag">Marulanda</span><span class="tag">Medina</span><span class="tag">Melgar</span>
+          <span class="tag">Mistrató</span><span class="tag">Montenegro</span><span class="tag">Mosquera</span><span class="tag">Murillo</span>
+          <span class="tag">Nariño</span><span class="tag">Nátaga</span><span class="tag">Natagaima</span><span class="tag">Neira</span>
+          <span class="tag">Neiva</span><span class="tag">Nemocón</span><span class="tag">Nilo</span><span class="tag">Nimaima</span>
+          <span class="tag">Nocaima</span><span class="tag">Norcasia</span><span class="tag">Oporapa</span><span class="tag">Ortega</span>
+          <span class="tag">Pacho</span><span class="tag">Pácora</span><span class="tag">Paicol</span><span class="tag">Paime</span>
+          <span class="tag">Palermo</span><span class="tag">Palestina</span><span class="tag">Palocabildo</span><span class="tag">Pandi</span>
+          <span class="tag">Paratebueno</span><span class="tag">Pasca</span><span class="tag">Pensilvania</span><span class="tag">Pereira</span>
+          <span class="tag">Piedras</span><span class="tag">Pijao</span><span class="tag">Pital</span><span class="tag">Pitalito</span>
+          <span class="tag">Planadas</span><span class="tag">Prado</span><span class="tag">Pueblo Rico</span><span class="tag">Puerto Salgar</span>
+          <span class="tag">Pulí</span><span class="tag">Purificación</span><span class="tag">Quebradanegra</span><span class="tag">Quetame</span>
+          <span class="tag">Quimbaya</span><span class="tag">Quinchía</span><span class="tag">Quindío</span><span class="tag">Ricaurte</span>
+          <span class="tag">Rioblanco</span><span class="tag">Riosucio</span><span class="tag">Risaralda</span><span class="tag">Rivera</span>
+          <span class="tag">Roncesvalles</span><span class="tag">Rovira</span><span class="tag">Saladoblanco</span><span class="tag">Salamina</span>
+          <span class="tag">Saldaña</span><span class="tag">Salento</span><span class="tag">Samaná</span><span class="tag">San Agustín</span>
+          <span class="tag">San Antonio</span><span class="tag">San Antonio del Tequendama</span><span class="tag">San Bernardo</span>
+          <span class="tag">San Cayetano</span><span class="tag">San José</span><span class="tag">San Juan de Río Seco</span>
+          <span class="tag">San Luis</span><span class="tag">Santa Isabel</span><span class="tag">Santa María</span>
+          <span class="tag">Santa Rosa de Cabal</span><span class="tag">Santuario</span><span class="tag">Sasaima</span>
+          <span class="tag">Sesquilé</span><span class="tag">Sibaté</span><span class="tag">Silvania</span><span class="tag">Simijaca</span>
+          <span class="tag">Soacha</span><span class="tag">Sopó</span><span class="tag">Suárez</span><span class="tag">Suaza</span>
+          <span class="tag">Subachoque</span><span class="tag">Suesca</span><span class="tag">Supía</span><span class="tag">Tabio</span>
+          <span class="tag">Tarqui</span><span class="tag">Tausa</span><span class="tag">Tello</span><span class="tag">Tena</span>
+          <span class="tag">Tenjo</span><span class="tag">Teruel</span><span class="tag">Tesalia</span><span class="tag">Tibacuy</span>
+          <span class="tag">Timaná</span><span class="tag">Tocaima</span><span class="tag">Tocancipá</span><span class="tag">Tolima</span>
+          <span class="tag">Topaipí</span><span class="tag">Ubalá</span><span class="tag">Ubaque</span><span class="tag">Une</span>
+          <span class="tag">Útica</span><span class="tag">Valle de San Juan</span><span class="tag">Venadillo</span><span class="tag">Venecia</span>
+          <span class="tag">Vergara</span><span class="tag">Vianí</span><span class="tag">Victoria</span><span class="tag">Villahermosa</span>
+          <span class="tag">Villamaría</span><span class="tag">Villarrica</span><span class="tag">Villavieja</span><span class="tag">Villeta</span>
+          <span class="tag">Viotá</span><span class="tag">Viterbo</span><span class="tag">Yacopí</span><span class="tag">Yaguará</span>
+          <span class="tag">Zipacón</span><span class="tag">Zipaquirá</span>
+        </div>
+      </details>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>

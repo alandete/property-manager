@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fase 3 — Mapa — Drupal Property Manager</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <h1>Drupal Property Manager</h1>
+    <p>Documentación técnica</p>
+  </div>
+  <nav>
+    <div class="nav-section">General</div>
+    <a href="../index.html"><span class="icon">🏠</span> Inicio</a>
+
+    <div class="nav-section">Tipos de contenido</div>
+    <a href="../analisis/tipo-contenido.html"><span class="icon">📋</span> Inmueble</a>
+    <a href="../analisis/agente.html" class="sub">Agente</a>
+    <a href="../analisis/documento.html" class="sub">Documentos</a>
+
+    <div class="nav-section">Análisis técnico</div>
+    <a href="../analisis/taxonomias.html"><span class="icon">🏷️</span> Taxonomías</a>
+    <a href="../analisis/ubicacion.html" class="sub">Ubicación jerárquica</a>
+    <a href="../analisis/codigo-auto.html" class="sub">Campo Código</a>
+
+    <div class="nav-section">Features</div>
+    <a href="../features/index.html"><span class="icon">🔍</span> Investigación</a>
+    <a href="../features/mapas.html" class="sub">Mapas y geolocalización</a>
+    <a href="../features/busqueda.html" class="sub">Búsqueda y filtros</a>
+    <a href="../features/seo.html" class="sub">SEO avanzado</a>
+
+    <div class="nav-section">Fases</div>
+    <a href="roadmap.html"><span class="icon">🗺️</span> Roadmap general</a>
+    <a href="fase-1.html" class="sub">Fase 1 — MVP funcional</a>
+    <a href="fase-2.html" class="sub">Fase 2 — Visual y UX</a>
+    <a href="fase-3.html" class="active sub">Fase 3 — Mapa</a>
+    <a href="fase-4.html" class="sub">Fase 4 — Búsqueda</a>
+    <a href="fase-5.html" class="sub">Fase 5 — Features extra</a>
+
+    <div class="nav-section">Módulos</div>
+    <a href="../modulos/property_manager.html"><span class="icon">🧩</span> property_manager</a>
+    <a href="../modulos/arquitectura.html" class="sub">Arquitectura y dependencias</a>
+  </nav>
+</aside>
+
+<div class="main">
+  <div class="topbar">
+    <div>
+      <div class="breadcrumb"><a href="../index.html">Inicio</a> <span>›</span> <a href="roadmap.html">Fases</a> <span>›</span> Fase 3</div>
+      <h2>Fase 3 — Mapa de propiedades</h2>
+    </div>
+  </div>
+  <div class="content">
+
+    <h2 class="section-title">Fase 3: Mapa de propiedades</h2>
+    <p class="section-desc">Sub-módulo <code>property_manager_geo</code>. Mapa interactivo con OpenStreetMap. Geocodificación automática de la dirección. Mapa en la ficha de cada inmueble y mapa general con todos los inmuebles. Ubicación AJAX jerárquica.</p>
+
+    <div class="alert alert-warn">
+      ⏳ <strong>Estado:</strong> Pendiente. Requiere completar las Fases 1 y 2 primero.
+    </div>
+
+    <div class="card">
+      <h3>📦 Módulos contrib requeridos</h3>
+      <table>
+        <tr><th>Módulo</th><th>Propósito</th></tr>
+        <tr><td><code>geofield</code></td><td>Campo de coordenadas geográficas (lat/lng)</td></tr>
+        <tr><td><code>leaflet</code></td><td>Renderiza el mapa con OpenStreetMap</td></tr>
+        <tr><td><code>geocoder</code></td><td>Convierte una dirección de texto a coordenadas automáticamente</td></tr>
+      </table>
+      <pre style="background:#1e2a3a;color:#a8d8a8;padding:12px 16px;border-radius:6px;font-size:12px;margin-top:12px;">composer require drupal/geofield drupal/leaflet drupal/geocoder</pre>
+    </div>
+
+    <div class="card">
+      <h3>📋 Alcance de la fase</h3>
+      <ul style="font-size:13.5px;line-height:2.2;padding-left:20px;">
+        <li>Campo <code>field_geolocalizacion</code> agregado al tipo de contenido Inmueble.</li>
+        <li>Al guardar el inmueble, si el campo de coordenadas está vacío, el sistema geocodifica automáticamente la dirección (<code>hook_node_presave</code>).</li>
+        <li>Mapa individual en la ficha del inmueble centrado en sus coordenadas.</li>
+        <li>Mapa general en la página de listado con marcadores para todos los inmuebles publicados.</li>
+        <li>Widget AJAX para País → Departamento → Ciudad en el formulario de creación.</li>
+        <li>El módulo solo actúa si <code>geofield</code>, <code>leaflet</code> y <code>geocoder</code> están instalados — sin ellos el sitio funciona normalmente.</li>
+      </ul>
+    </div>
+
+    <div class="alert alert-info">
+      💡 Ver <a href="../features/mapas.html">investigación detallada sobre mapas →</a>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>

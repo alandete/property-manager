@@ -1,0 +1,21 @@
+name: 'Property Manager'
+type: module
+description: 'Plataforma de gestión de propiedades inmobiliarias. Instala tipos de contenido, campos, taxonomías, vistas y SEO básico listos para usar.'
+core_version_requirement: ^11
+package: 'Property Manager'
+dependencies:
+  - drupal:node
+  - drupal:taxonomy
+  - drupal:media
+  - drupal:media_library
+  - drupal:file
+  - drupal:image
+  - drupal:text
+  - drupal:options
+  - drupal:filter
+  - drupal:views
+  - drupal:path
+  - drupal:datetime
+  - pathauto:pathauto
+  - metatag:metatag
+  - token:token

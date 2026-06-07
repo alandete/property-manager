@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fase 1 — MVP funcional — Drupal Property Manager</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <style>
+    .section-block { margin-bottom: 10px; }
+    .section-block h4 { font-size: 13px; font-weight: 700; color: #3a6ea5; margin-bottom: 6px; text-transform: uppercase; letter-spacing: .5px; }
+    .task-item { display: flex; align-items: flex-start; gap: 10px; padding: 6px 0; border-bottom: 1px solid #f5f5f5; font-size: 13px; }
+    .task-item:last-child { border-bottom: none; }
+    .task-item .ti-num { width: 20px; height: 20px; background: #e9ecef; border-radius: 50%; font-size: 11px; font-weight: 700; color: #6c757d; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+    .task-item .ti-text strong { display: block; }
+    .task-item .ti-text span { color: #6c757d; font-size: 12px; }
+    .ux-box { background: #fef9f0; border: 1px solid #f0d090; border-radius: 6px; padding: 14px 18px; margin-bottom: 12px; }
+    .ux-box h4 { font-size: 13px; font-weight: 700; color: #7d5700; margin-bottom: 8px; }
+    .ux-box ul { margin: 0; padding-left: 18px; font-size: 13px; line-height: 2; color: #4a3500; }
+    .file-tree { background: #1e2a3a; color: #a8d8a8; padding: 16px 20px; border-radius: 6px; font-size: 12px; line-height: 1.9; overflow-x: auto; font-family: 'SF Mono', 'Fira Code', monospace; }
+  </style>
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <h1>Drupal Property Manager</h1>
+    <p>Documentación técnica</p>
+  </div>
+  <nav>
+    <div class="nav-section">General</div>
+    <a href="../index.html"><span class="icon">🏠</span> Inicio</a>
+
+    <div class="nav-section">Tipos de contenido</div>
+    <a href="../analisis/tipo-contenido.html"><span class="icon">📋</span> Inmueble</a>
+    <a href="../analisis/agente.html" class="sub">Agente</a>
+    <a href="../analisis/documento.html" class="sub">Documentos</a>
+
+    <div class="nav-section">Análisis técnico</div>
+    <a href="../analisis/taxonomias.html"><span class="icon">🏷️</span> Taxonomías</a>
+    <a href="../analisis/ubicacion.html" class="sub">Ubicación jerárquica</a>
+    <a href="../analisis/codigo-auto.html" class="sub">Campo Código</a>
+
+    <div class="nav-section">Features</div>
+    <a href="../features/index.html"><span class="icon">🔍</span> Investigación</a>
+    <a href="../features/mapas.html" class="sub">Mapas y geolocalización</a>
+    <a href="../features/busqueda.html" class="sub">Búsqueda y filtros</a>
+    <a href="../features/seo.html" class="sub">SEO avanzado</a>
+
+    <div class="nav-section">Fases</div>
+    <a href="roadmap.html"><span class="icon">🗺️</span> Roadmap general</a>
+    <a href="fase-1.html" class="active sub">Fase 1 — MVP funcional</a>
+    <a href="fase-2.html" class="sub">Fase 2 — Visual y UX</a>
+    <a href="fase-3.html" class="sub">Fase 3 — Mapa</a>
+    <a href="fase-4.html" class="sub">Fase 4 — Búsqueda</a>
+    <a href="fase-5.html" class="sub">Fase 5 — Features extra</a>
+
+    <div class="nav-section">Módulos</div>
+    <a href="../modulos/property_manager.html"><span class="icon">🧩</span> property_manager</a>
+    <a href="../modulos/arquitectura.html" class="sub">Arquitectura y dependencias</a>
+  </nav>
+</aside>
+
+<div class="main">
+  <div class="topbar">
+    <div>
+      <div class="breadcrumb"><a href="../index.html">Inicio</a> <span>›</span> <a href="roadmap.html">Fases</a> <span>›</span> Fase 1</div>
+      <h2>Fase 1 — MVP funcional</h2>
+    </div>
+  </div>
+  <div class="content">
+
+    <h2 class="section-title">Fase 1: MVP funcional</h2>
+    <p class="section-desc">El sitio funciona de punta a punta con lo mínimo necesario: un admin instala el módulo y puede publicar inmuebles de inmediato. Con posicionamiento básico desde el primer día.</p>
+
+    <div class="alert alert-warn">
+      ⏳ <strong>Estado:</strong> En construcción.
+    </div>
+
+    <div class="card">
+      <h3>🎯 ¿Qué significa "MVP" en este contexto?</h3>
+      <p style="font-size:13.5px;line-height:1.8;margin-bottom:8px;">
+        Un administrador instala el módulo con <code>drush en property_manager</code>, completa el formulario de instalación guiada (o lo omite usando los valores por defecto), y el sitio queda listo para:
+      </p>
+      <ul style="font-size:13.5px;line-height:2.2;padding-left:20px;margin-bottom:0;">
+        <li>Crear, editar y publicar inmuebles con todos sus campos.</li>
+        <li>Ver una página de listado de inmuebles accesible al público.</li>
+        <li>Ver la ficha completa de cada inmueble en su propia URL amigable.</li>
+        <li>Buscar inmuebles en Google (URLs limpias, metatags, sitemap XML).</li>
+        <li>Administrar inmuebles desde un panel con filtros básicos.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>🎨 Decisiones de UX (formulario de creación)</h3>
+
+      <div class="ux-box">
+        <h4>Principio: el formulario debe sentirse intuitivo, no como una pantalla de captura de datos</h4>
+        <ul>
+          <li>Los campos más importantes van primero: Tipo de oferta, Tipo de inmueble, Precio.</li>
+          <li>Los campos se agrupan visualmente por sección: Identificación → Ubicación → Características → Multimedia → Relaciones.</li>
+          <li>El campo Código <strong>no aparece en el formulario</strong> de creación ni edición — se genera automáticamente.</li>
+          <li>Los campos de ubicación jerárquica van juntos y en orden (País → Departamento → Ciudad).</li>
+          <li>Las características van como checkboxes agrupados: primero interiores, luego exteriores.</li>
+          <li>El campo de fotos (Media) va en una sección claramente separada con su título.</li>
+          <li>El campo de agente va al final, en "Relaciones".</li>
+        </ul>
+      </div>
+
+      <table>
+        <tr><th>Grupo en el formulario</th><th>Campos incluidos</th></tr>
+        <tr>
+          <td>Identificación</td>
+          <td>Título, Descripción (body), Tipo de oferta, Tipo de inmueble, Estado</td>
+        </tr>
+        <tr>
+          <td>Precio</td>
+          <td>Precio</td>
+        </tr>
+        <tr>
+          <td>Ubicación</td>
+          <td>Dirección, Barrio, Zona, País, Departamento, Ciudad</td>
+        </tr>
+        <tr>
+          <td>Características</td>
+          <td>Habitaciones, Baños, Parqueadero, Área (m²), Estrato</td>
+        </tr>
+        <tr>
+          <td>Checklist</td>
+          <td>Características interiores, Características exteriores</td>
+        </tr>
+        <tr>
+          <td>Multimedia</td>
+          <td>Fotos, Video (URL)</td>
+        </tr>
+        <tr>
+          <td>Relaciones</td>
+          <td>Agente</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="card">
+      <h3>📋 Tareas de la Fase 1</h3>
+
+      <div class="section-block">
+        <h4>1. Estructura del módulo</h4>
+        <div class="task-item">
+          <div class="ti-num">1</div>
+          <div class="ti-text"><strong>property_manager.info.yml</strong><span>Declaración del módulo, dependencias core: node, taxonomy, media, text, options, filter, views, path.</span></div>
+        </div>
+        <div class="task-item">
+          <div class="ti-num">2</div>
+          <div class="ti-text"><strong>property_manager.module</strong><span>Hooks principales: presave para el código, form_alter para ocultar el campo código.</span></div>
+        </div>
+        <div class="task-item">
+          <div class="ti-num">3</div>
+          <div class="ti-text"><strong>property_manager.install</strong><span>hook_install_tasks() para la instalación guiada. Carga de términos de taxonomía.</span></div>
+        </div>
+      </div>
+
+      <div class="section-block">
+        <h4>2. Tipos de contenido y campos (config/install YAML)</h4>
+        <div class="task-item">
+          <div class="ti-num">1</div>
+          <div class="ti-text"><strong>node.type.inmueble.yml</strong><span>Tipo de contenido principal con 23 campos.</span></div>
+        </div>
+        <div class="task-item">
+          <div class="ti-num">2</div>
+          <div class="ti-text"><strong>node.type.agente.yml</strong><span>Tipo de contenido Agente: foto, teléfono, móvil, body.</span></div>
+        </div>
+        <div class="task-item">
+          <div class="ti-num">3</div>
+          <div class="ti-text"><strong>node.type.documentos.yml</strong><span>Tipo de contenido Documentos: archivo, tipo, aplica_a, inmueble_ref, body.</span></div>
+        </div>
+        <div class="task-item">
+          <div class="ti-num">4</div>
+          <div class="ti-text"><strong>field.storage.*.yml + field.field.*.yml</strong><span>Un par de archivos por cada campo personalizado (aprox. 50 archivos YAML en total).</span></div>
+        </div>
+        <div class="task-item">
+          <div class="ti-num">5</div>
+          <div class="ti-text"><strong>core.entity_form_display.*.yml</strong><span>Orden y agrupación de campos en el formulario de creación (implementa las decisiones de UX).</span></div>
+        </div>
+        <div class="task-item">
+          <div class="ti-num">6</div>
+          <div class="ti-text"><strong>core.entity_view_display.*.yml</strong><span>Qué campos se muestran y en qué orden en la vista del nodo.</span></div>
+        </div>
+      </div>
+
+      <div class="section-block">
+        <h4>3. Taxonomías</h4>
+        <div class="task-item">
+          <div class="ti-num">1</div>
+          <div class="ti-text"><strong>taxonomy.vocabulary.*.yml</strong><span>5 vocabularios: tipo_oferta, tipo_inmueble, estado, zona, ubicacion.</span></div>
+        </div>
+        <div class="task-item">
+          <div class="ti-num">2</div>
+          <div class="ti-text"><strong>Carga de términos en hook_install()</strong><span>País, Departamentos y ~180 Municipios de Colombia precargados. También los términos de tipo_oferta, tipo_inmueble, estado y zona.</span></div>
+        </div>
+      </div>
+
+      <div class="section-block">
+        <h4>4. Código automático</h4>
+        <div class="task-item">
+          <div class="ti-num">1</div>
+          <div class="ti-text"><strong>src/Form/PropertyManagerSettingsForm.php</strong><span>Formulario: prefijo, separador, dígitos, vista previa en tiempo real.</span></div>
+        </div>
+        <div class="task-item">
+          <div class="ti-num">2</div>
+          <div class="ti-text"><strong>hook_node_presave()</strong><span>Genera el código si el campo está vacío. Lee config, lee/actualiza State API.</span></div>
+        </div>
+        <div class="task-item">
+          <div class="ti-num">3</div>
+          <div class="ti-text"><strong>hook_form_alter()</strong><span>Oculta field_codigo del formulario de creación y edición.</span></div>
+        </div>
+      </div>
+
+      <div class="section-block">
+        <h4>5. Instalación guiada</h4>
+        <div class="task-item">
+          <div class="ti-num">1</div>
+          <div class="ti-text"><strong>hook_install_tasks()</strong><span>Define la tarea de configuración inicial. Drupal la ejecuta al terminar la instalación del módulo.</span></div>
+        </div>
+        <div class="task-item">
+          <div class="ti-num">2</div>
+          <div class="ti-text"><strong>src/Form/PropertyManagerSetupForm.php</strong><span>Formulario de bienvenida: nombres de los tipos de contenido, prefijo del código, dígitos. Los valores por defecto permiten omitir el paso.</span></div>
+        </div>
+      </div>
+
+      <div class="section-block">
+        <h4>6. Vistas (Views)</h4>
+        <div class="task-item">
+          <div class="ti-num">1</div>
+          <div class="ti-text"><strong>Listado público de inmuebles</strong><span>Página en /inmuebles con título, foto, precio, tipo, ciudad. Paginación. Solo nodos publicados.</span></div>
+        </div>
+        <div class="task-item">
+          <div class="ti-num">2</div>
+          <div class="ti-text"><strong>Vistas de administración</strong><span>Tabla en /admin/inmuebles: código, título, tipo, estado, agente, fecha, acciones.</span></div>
+        </div>
+        <div class="task-item">
+          <div class="ti-num">3</div>
+          <div class="ti-text"><strong>Inmuebles del agente</strong><span>Lista embebida en la página del agente mostrando sus inmuebles.</span></div>
+        </div>
+        <div class="task-item">
+          <div class="ti-num">4</div>
+          <div class="ti-text"><strong>Documentos del inmueble</strong><span>Lista embebida en la ficha del inmueble mostrando documentos asociados.</span></div>
+        </div>
+      </div>
+
+      <div class="section-block">
+        <h4>7. SEO básico (posicionamiento desde el día uno)</h4>
+        <div class="task-item">
+          <div class="ti-num">1</div>
+          <div class="ti-text"><strong>Pathauto — patrones de URL</strong><span>Inmueble: <code>/inmuebles/[node:field_tipo_oferta]/[node:title]</code>. Agente: <code>/agentes/[node:title]</code>. Configurado vía config/install YAML.</span></div>
+        </div>
+        <div class="task-item">
+          <div class="ti-num">2</div>
+          <div class="ti-text"><strong>Metatag — defaults por tipo de contenido</strong><span>Título: <code>[node:title] | [site:name]</code>. Descripción: <code>[node:summary]</code>. OG tags para fotos. Configurado vía config/install YAML.</span></div>
+        </div>
+        <div class="task-item">
+          <div class="ti-num">3</div>
+          <div class="ti-text"><strong>Simple Sitemap</strong><span>Incluir el tipo de contenido Inmueble en el sitemap con prioridad alta. Excluir Agente y Documentos del sitemap público.</span></div>
+        </div>
+      </div>
+
+      <div class="section-block">
+        <h4>8. Página de estado del módulo</h4>
+        <div class="task-item">
+          <div class="ti-num">1</div>
+          <div class="ti-text"><strong>/admin/config/property-manager/status</strong><span>Muestra el estado de cada feature: Activo / Parcial / No instalado. Para las no instaladas, muestra el comando composer require exacto.</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>📁 Árbol de archivos de la Fase 1</h3>
+      <pre class="file-tree">web/modules/custom/property_manager/
+├── property_manager.info.yml
+├── property_manager.module
+├── property_manager.install
+├── property_manager.routing.yml
+├── property_manager.links.menu.yml
+├── config/
+│   ├── install/
+│   │   ├── node.type.inmueble.yml
+│   │   ├── node.type.agente.yml
+│   │   ├── node.type.documentos.yml
+│   │   ├── taxonomy.vocabulary.tipo_oferta.yml
+│   │   ├── taxonomy.vocabulary.tipo_inmueble.yml
+│   │   ├── taxonomy.vocabulary.estado.yml
+│   │   ├── taxonomy.vocabulary.zona.yml
+│   │   ├── taxonomy.vocabulary.ubicacion.yml
+│   │   ├── field.storage.node.field_codigo.yml
+│   │   ├── field.storage.node.field_tipo_oferta.yml
+│   │   ├── field.storage.node.field_tipo_inmueble.yml
+│   │   ├── field.storage.node.field_estado_inmueble.yml
+│   │   ├── field.storage.node.field_precio.yml
+│   │   ├── field.storage.node.field_direccion.yml
+│   │   ├── field.storage.node.field_barrio.yml
+│   │   ├── field.storage.node.field_zona.yml
+│   │   ├── field.storage.node.field_pais.yml
+│   │   ├── field.storage.node.field_departamento.yml
+│   │   ├── field.storage.node.field_ciudad.yml
+│   │   ├── field.storage.node.field_habitaciones.yml
+│   │   ├── field.storage.node.field_banos.yml
+│   │   ├── field.storage.node.field_parqueadero.yml
+│   │   ├── field.storage.node.field_area.yml
+│   │   ├── field.storage.node.field_estrato.yml
+│   │   ├── field.storage.node.field_caract_int.yml
+│   │   ├── field.storage.node.field_caract_ext.yml
+│   │   ├── field.storage.node.field_fotos.yml
+│   │   ├── field.storage.node.field_video.yml
+│   │   ├── field.storage.node.field_agente.yml
+│   │   ├── field.storage.node.field_archivo.yml
+│   │   ├── field.storage.node.field_tipo_documento.yml
+│   │   ├── field.storage.node.field_aplica_oferta.yml
+│   │   ├── field.storage.node.field_inmueble_ref.yml
+│   │   ├── field.storage.node.field_foto_agente.yml
+│   │   ├── field.storage.node.field_telefono.yml
+│   │   ├── field.storage.node.field_movil.yml
+│   │   ├── field.field.node.inmueble.*.yml           (23 instancias)
+│   │   ├── field.field.node.agente.*.yml              (4 instancias)
+│   │   ├── field.field.node.documentos.*.yml          (5 instancias)
+│   │   ├── core.entity_form_display.node.inmueble.default.yml
+│   │   ├── core.entity_form_display.node.agente.default.yml
+│   │   ├── core.entity_form_display.node.documentos.default.yml
+│   │   ├── core.entity_view_display.node.inmueble.default.yml
+│   │   ├── core.entity_view_display.node.agente.default.yml
+│   │   ├── core.entity_view_display.node.documentos.default.yml
+│   │   ├── views.view.inmuebles_listado.yml
+│   │   ├── views.view.inmuebles_admin.yml
+│   │   ├── views.view.inmuebles_agente.yml
+│   │   ├── views.view.documentos_inmueble.yml
+│   │   ├── pathauto.pattern.inmueble.yml
+│   │   ├── pathauto.pattern.agente.yml
+│   │   ├── metatag.metatag_defaults.node__inmueble.yml
+│   │   ├── simple_sitemap.custom_links.yml
+│   │   └── property_manager.settings.yml
+│   └── schema/
+│       └── property_manager.schema.yml
+└── src/
+    └── Form/
+        ├── PropertyManagerSetupForm.php
+        └── PropertyManagerSettingsForm.php</pre>
+    </div>
+
+    <div class="card">
+      <h3>✅ Criterio de finalización</h3>
+      <ul style="font-size:13.5px;line-height:2.2;padding-left:20px;">
+        <li>El módulo se instala con <code>drush en property_manager</code> sin errores.</li>
+        <li>El formulario de instalación guiada aparece y funciona (o se puede omitir con los defaults).</li>
+        <li>Los tres tipos de contenido aparecen en <em>Contenido → Agregar contenido</em>.</li>
+        <li>Todos los campos están presentes en el formulario, con el orden y agrupación definidos.</li>
+        <li>El campo Código <strong>no aparece</strong> en el formulario — se genera automáticamente al guardar.</li>
+        <li>Las taxonomías existen con sus términos precargados.</li>
+        <li>El listado de inmuebles funciona en <code>/inmuebles</code>.</li>
+        <li>La ficha de cada inmueble tiene URL amigable generada por Pathauto.</li>
+        <li>La vista de administración funciona en <code>/admin/inmuebles</code>.</li>
+        <li>Los metatags se generan correctamente en la ficha del inmueble.</li>
+        <li>El sitemap XML incluye los inmuebles publicados.</li>
+        <li>La página de estado del módulo muestra correctamente qué está activo.</li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,292 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inmueble — Drupal Property Manager</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <h1>Drupal Property Manager</h1>
+    <p>Documentación técnica</p>
+  </div>
+  <nav>
+    <div class="nav-section">General</div>
+    <a href="../index.html"><span class="icon">🏠</span> Inicio</a>
+
+    <div class="nav-section">Tipos de contenido</div>
+    <a href="tipo-contenido.html" class="active"><span class="icon">📋</span> Inmueble</a>
+    <a href="agente.html" class="sub">Agente</a>
+    <a href="documento.html" class="sub">Documentos</a>
+
+    <div class="nav-section">Análisis técnico</div>
+    <a href="taxonomias.html"><span class="icon">🏷️</span> Taxonomías</a>
+    <a href="ubicacion.html" class="sub">Ubicación jerárquica</a>
+    <a href="codigo-auto.html" class="sub">Campo Código</a>
+
+    <div class="nav-section">Features</div>
+    <a href="../features/index.html"><span class="icon">🔍</span> Investigación</a>
+    <a href="../features/mapas.html" class="sub">Mapas y geolocalización</a>
+    <a href="../features/busqueda.html" class="sub">Búsqueda y filtros</a>
+    <a href="../features/seo.html" class="sub">SEO avanzado</a>
+
+    <div class="nav-section">Fases</div>
+    <a href="../fases/roadmap.html"><span class="icon">🗺️</span> Roadmap general</a>
+    <a href="../fases/fase-1.html" class="sub">Fase 1 — MVP funcional</a>
+    <a href="../fases/fase-2.html" class="sub">Fase 2 — Visual y UX</a>
+    <a href="../fases/fase-3.html" class="sub">Fase 3 — Mapa</a>
+    <a href="../fases/fase-4.html" class="sub">Fase 4 — Búsqueda</a>
+    <a href="../fases/fase-5.html" class="sub">Fase 5 — Features extra</a>
+
+    <div class="nav-section">Módulos</div>
+    <a href="../modulos/property_manager.html"><span class="icon">🧩</span> property_manager</a>
+    <a href="../modulos/arquitectura.html" class="sub">Arquitectura y dependencias</a>
+  </nav>
+</aside>
+
+<div class="main">
+  <div class="topbar">
+    <div>
+      <div class="breadcrumb"><a href="../index.html">Inicio</a> <span>›</span> Tipos de contenido</div>
+      <h2>Tipo de contenido: Inmueble</h2>
+    </div>
+  </div>
+  <div class="content">
+
+    <h2 class="section-title">Inmueble</h2>
+    <p class="section-desc">Tipo de contenido principal. Representa una propiedad en venta, arriendo o alquiler. Todos los campos se instalan automáticamente con el módulo <code>property_manager</code>.</p>
+
+    <div class="card">
+      <h3>📝 Campos — Lista definitiva</h3>
+      <table>
+        <tr>
+          <th>Etiqueta</th>
+          <th>Machine name</th>
+          <th>Tipo</th>
+          <th>Notas</th>
+        </tr>
+
+        <tr style="background:#f8f9fa">
+          <td colspan="4" style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:#6c757d;padding:8px 12px;">Identificación</td>
+        </tr>
+        <tr>
+          <td><strong>Título</strong></td>
+          <td><code>title</code></td>
+          <td>Texto</td>
+          <td>Nativo Drupal. Obligatorio.</td>
+        </tr>
+        <tr>
+          <td><strong>Descripción</strong></td>
+          <td><code>body</code></td>
+          <td>Texto largo + resumen</td>
+          <td>Nativo Drupal. <strong>Resumen activado</strong> para uso con Metatag (SEO).</td>
+        </tr>
+        <tr>
+          <td><strong>Código</strong></td>
+          <td><code>field_codigo</code></td>
+          <td>Texto (solo lectura)</td>
+          <td>Auto-generado. No editable por el usuario. Ver <a href="codigo-auto.html">Campo Código →</a></td>
+        </tr>
+
+        <tr style="background:#f8f9fa">
+          <td colspan="4" style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:#6c757d;padding:8px 12px;">Clasificación</td>
+        </tr>
+        <tr>
+          <td><strong>Tipo de oferta</strong></td>
+          <td><code>field_tipo_oferta</code></td>
+          <td>Taxonomía</td>
+          <td>Vocabulario <code>tipo_oferta</code>: Venta, Arriendo, Alquiler por días, Proyecto</td>
+        </tr>
+        <tr>
+          <td><strong>Tipo de inmueble</strong></td>
+          <td><code>field_tipo_inmueble</code></td>
+          <td>Taxonomía</td>
+          <td>Vocabulario <code>tipo_inmueble</code>: Casa, Apartamento, Finca, Lote…</td>
+        </tr>
+        <tr>
+          <td><strong>Estado</strong></td>
+          <td><code>field_estado_inmueble</code></td>
+          <td>Taxonomía</td>
+          <td>Vocabulario <code>estado</code>: Nuevo, Usado, Remodelado, En obra gris, En planos</td>
+        </tr>
+        <tr>
+          <td><strong>Zona</strong></td>
+          <td><code>field_zona</code></td>
+          <td>Taxonomía</td>
+          <td>Vocabulario <code>zona</code>: Residencial, Comercial, Industrial…</td>
+        </tr>
+
+        <tr style="background:#f8f9fa">
+          <td colspan="4" style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:#6c757d;padding:8px 12px;">Precio</td>
+        </tr>
+        <tr>
+          <td><strong>Precio</strong></td>
+          <td><code>field_precio</code></td>
+          <td>Numérico (decimal)</td>
+          <td></td>
+        </tr>
+
+        <tr style="background:#f8f9fa">
+          <td colspan="4" style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:#6c757d;padding:8px 12px;">Ubicación</td>
+        </tr>
+        <tr>
+          <td><strong>Dirección</strong></td>
+          <td><code>field_direccion</code></td>
+          <td>Texto</td>
+          <td>Dirección exacta de la propiedad</td>
+        </tr>
+        <tr>
+          <td><strong>Barrio</strong></td>
+          <td><code>field_barrio</code></td>
+          <td>Texto</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td><strong>País</strong></td>
+          <td><code>field_pais</code></td>
+          <td>Taxonomía jerárquica</td>
+          <td>Nivel 1. Filtra las opciones de Departamento. Ver <a href="ubicacion.html">Ubicación jerárquica →</a></td>
+        </tr>
+        <tr>
+          <td><strong>Departamento</strong></td>
+          <td><code>field_departamento</code></td>
+          <td>Taxonomía jerárquica</td>
+          <td>Nivel 2. Se filtra por País (AJAX). Filtra las opciones de Ciudad.</td>
+        </tr>
+        <tr>
+          <td><strong>Ciudad</strong></td>
+          <td><code>field_ciudad</code></td>
+          <td>Taxonomía jerárquica</td>
+          <td>Nivel 3. Se filtra por Departamento (AJAX).</td>
+        </tr>
+
+        <tr style="background:#f8f9fa">
+          <td colspan="4" style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:#6c757d;padding:8px 12px;">Características — Con icono en frontend</td>
+        </tr>
+        <tr>
+          <td><strong>Habitaciones</strong></td>
+          <td><code>field_habitaciones</code></td>
+          <td>Numérico (entero)</td>
+          <td>🛏️ Icono en frontend</td>
+        </tr>
+        <tr>
+          <td><strong>Baños</strong></td>
+          <td><code>field_banos</code></td>
+          <td>Numérico (entero)</td>
+          <td>🚿 Icono en frontend</td>
+        </tr>
+        <tr>
+          <td><strong>Parqueadero</strong></td>
+          <td><code>field_parqueadero</code></td>
+          <td>Numérico (entero)</td>
+          <td>🚗 Icono en frontend</td>
+        </tr>
+        <tr>
+          <td><strong>Área (m²)</strong></td>
+          <td><code>field_area</code></td>
+          <td>Numérico (decimal)</td>
+          <td>📐 Icono en frontend</td>
+        </tr>
+        <tr>
+          <td><strong>Estrato</strong></td>
+          <td><code>field_estrato</code></td>
+          <td>Lista de enteros</td>
+          <td>Valores: <code>1</code> <code>2</code> <code>3</code> <code>4</code> <code>5</code> <code>6</code>. Sin etiqueta "Estrato X", solo el número.</td>
+        </tr>
+
+        <tr style="background:#f8f9fa">
+          <td colspan="4" style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:#6c757d;padding:8px 12px;">Características — Checklist con íconos en frontend</td>
+        </tr>
+        <tr>
+          <td><strong>Características interiores</strong></td>
+          <td><code>field_caract_int</code></td>
+          <td>Lista múltiple (checkboxes)</td>
+          <td>Se muestra con ✓ si el inmueble la tiene o ✗ si no. Sin íconos personalizados por característica.</td>
+        </tr>
+        <tr>
+          <td><strong>Características exteriores</strong></td>
+          <td><code>field_caract_ext</code></td>
+          <td>Lista múltiple (checkboxes)</td>
+          <td>Se muestra con ✓ si el inmueble la tiene o ✗ si no. Sin íconos personalizados por característica.</td>
+        </tr>
+
+        <tr style="background:#f8f9fa">
+          <td colspan="4" style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:#6c757d;padding:8px 12px;">Multimedia</td>
+        </tr>
+        <tr>
+          <td><strong>Fotos</strong></td>
+          <td><code>field_fotos</code></td>
+          <td>Media (múltiple)</td>
+          <td>Imágenes del inmueble</td>
+        </tr>
+        <tr>
+          <td><strong>Video</strong></td>
+          <td><code>field_video</code></td>
+          <td>Texto (URL)</td>
+          <td>Enlace a YouTube u otro servicio de video</td>
+        </tr>
+
+        <tr style="background:#f8f9fa">
+          <td colspan="4" style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:#6c757d;padding:8px 12px;">Relaciones</td>
+        </tr>
+        <tr>
+          <td><strong>Agente</strong></td>
+          <td><code>field_agente</code></td>
+          <td>Referencia a nodo</td>
+          <td>Tipo de contenido: <a href="agente.html">Agente</a>. El responsable de este inmueble.</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="card">
+      <h3>✅ Opciones de Características interiores <code style="font-size:11px">field_caract_int</code></h3>
+      <p style="font-size:13px;color:#6c757d;margin-bottom:12px;">Checkboxes en el formulario. En el frontend se muestra cada opción con un ícono indicando si el inmueble la tiene o no.</p>
+      <div style="columns:2;gap:24px;font-size:13.5px;line-height:2.2;">
+        <div>Cocina integral</div>
+        <div>Baño auxiliar</div>
+        <div>Closets</div>
+        <div>Calentador de agua</div>
+        <div>Chimenea</div>
+        <div>Alarma</div>
+        <div>Aire acondicionado</div>
+        <div>Calefacción</div>
+        <div>Ascensor</div>
+        <div>Cuarto de servicio</div>
+        <div>Depósito</div>
+        <div>Pisos en madera</div>
+        <div>Pisos en mármol</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>✅ Opciones de Características exteriores <code style="font-size:11px">field_caract_ext</code></h3>
+      <p style="font-size:13px;color:#6c757d;margin-bottom:12px;">Mismo comportamiento que características interiores.</p>
+      <div style="columns:2;gap:24px;font-size:13.5px;line-height:2.2;">
+        <div>Piscina</div>
+        <div>BBQ / Zona de asados</div>
+        <div>Gimnasio</div>
+        <div>Parque infantil</div>
+        <div>Portería 24h</div>
+        <div>Vigilancia / CCTV</div>
+        <div>Jardín</div>
+        <div>Terraza</div>
+        <div>Balcón</div>
+        <div>Parqueadero visitantes</div>
+        <div>Cancha deportiva</div>
+        <div>Salón comunal</div>
+        <div>Zonas verdes</div>
+      </div>
+    </div>
+
+    <div class="alert alert-info">
+      💡 Las listas de características son configurables en el código del módulo. En el frontend cada ítem se muestra con <strong>✓</strong> (tiene la característica) o <strong>✗</strong> (no la tiene), sin íconos individuales por característica.
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>

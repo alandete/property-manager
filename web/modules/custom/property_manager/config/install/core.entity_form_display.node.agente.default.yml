@@ -1,0 +1,67 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.agente.field_foto_agente
+    - field.field.node.agente.field_movil
+    - field.field.node.agente.field_telefono
+    - node.type.agente
+  module:
+    - image
+id: node.agente.default
+targetEntityType: node
+bundle: agente
+mode: default
+content:
+  title:
+    type: string_textfield
+    weight: -10
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {}
+  field_foto_agente:
+    type: image_image
+    weight: -9
+    region: content
+    settings:
+      progress_indicator: throbber
+      preview_image_style: thumbnail
+    third_party_settings: {}
+  field_telefono:
+    type: string_textfield
+    weight: -8
+    region: content
+    settings:
+      size: 20
+      placeholder: ''
+    third_party_settings: {}
+  field_movil:
+    type: string_textfield
+    weight: -7
+    region: content
+    settings:
+      size: 20
+      placeholder: ''
+    third_party_settings: {}
+  body:
+    type: text_textarea_with_summary
+    weight: -6
+    region: content
+    settings:
+      rows: 9
+      summary_rows: 3
+      placeholder: ''
+      show_summary: false
+    third_party_settings: {}
+hidden:
+  promote: true
+  sticky: true
+  uid: true
+  created: true
+  changed: true
+  langcode: true
+  status: true
+  path: true
+  comment: true

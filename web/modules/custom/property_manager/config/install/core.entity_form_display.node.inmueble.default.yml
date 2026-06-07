@@ -1,0 +1,201 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.inmueble.field_agente
+    - field.field.node.inmueble.field_area
+    - field.field.node.inmueble.field_banos
+    - field.field.node.inmueble.field_barrio
+    - field.field.node.inmueble.field_caract_ext
+    - field.field.node.inmueble.field_caract_int
+    - field.field.node.inmueble.field_ciudad
+    - field.field.node.inmueble.field_codigo
+    - field.field.node.inmueble.field_departamento
+    - field.field.node.inmueble.field_direccion
+    - field.field.node.inmueble.field_estado_inmueble
+    - field.field.node.inmueble.field_estrato
+    - field.field.node.inmueble.field_fotos
+    - field.field.node.inmueble.field_habitaciones
+    - field.field.node.inmueble.field_pais
+    - field.field.node.inmueble.field_parqueadero
+    - field.field.node.inmueble.field_precio
+    - field.field.node.inmueble.field_tipo_inmueble
+    - field.field.node.inmueble.field_tipo_oferta
+    - field.field.node.inmueble.field_video
+    - field.field.node.inmueble.field_zona
+    - node.type.inmueble
+  module:
+    - options
+    - taxonomy
+    - media_library
+    - node
+id: node.inmueble.default
+targetEntityType: node
+bundle: inmueble
+mode: default
+content:
+  title:
+    type: string_textfield
+    weight: -10
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {}
+  body:
+    type: text_textarea_with_summary
+    weight: -9
+    region: content
+    settings:
+      rows: 9
+      summary_rows: 3
+      placeholder: ''
+      show_summary: true
+    third_party_settings: {}
+  field_tipo_oferta:
+    type: options_select
+    weight: -8
+    region: content
+    settings: {}
+    third_party_settings: {}
+  field_tipo_inmueble:
+    type: options_select
+    weight: -7
+    region: content
+    settings: {}
+    third_party_settings: {}
+  field_estado_inmueble:
+    type: options_select
+    weight: -6
+    region: content
+    settings: {}
+    third_party_settings: {}
+  field_precio:
+    type: number
+    weight: -5
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {}
+  field_direccion:
+    type: string_textfield
+    weight: -4
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {}
+  field_barrio:
+    type: string_textfield
+    weight: -3
+    region: content
+    settings:
+      size: 40
+      placeholder: ''
+    third_party_settings: {}
+  field_zona:
+    type: options_select
+    weight: -2
+    region: content
+    settings: {}
+    third_party_settings: {}
+  field_pais:
+    type: options_select
+    weight: -1
+    region: content
+    settings: {}
+    third_party_settings: {}
+  field_departamento:
+    type: options_select
+    weight: 0
+    region: content
+    settings: {}
+    third_party_settings: {}
+  field_ciudad:
+    type: options_select
+    weight: 1
+    region: content
+    settings: {}
+    third_party_settings: {}
+  field_habitaciones:
+    type: number
+    weight: 2
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {}
+  field_banos:
+    type: number
+    weight: 3
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {}
+  field_parqueadero:
+    type: number
+    weight: 4
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {}
+  field_area:
+    type: number
+    weight: 5
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {}
+  field_estrato:
+    type: options_select
+    weight: 6
+    region: content
+    settings: {}
+    third_party_settings: {}
+  field_caract_int:
+    type: options_buttons
+    weight: 7
+    region: content
+    settings: {}
+    third_party_settings: {}
+  field_caract_ext:
+    type: options_buttons
+    weight: 8
+    region: content
+    settings: {}
+    third_party_settings: {}
+  field_fotos:
+    type: media_library_widget
+    weight: 9
+    region: content
+    settings:
+      media_types: []
+    third_party_settings: {}
+  field_video:
+    type: string_textfield
+    weight: 10
+    region: content
+    settings:
+      size: 60
+      placeholder: 'https://www.youtube.com/watch?v=...'
+    third_party_settings: {}
+  field_agente:
+    type: entity_reference_autocomplete
+    weight: 11
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 40
+      placeholder: ''
+    third_party_settings: {}
+hidden:
+  field_codigo: true
+  promote: true
+  sticky: true
+  uid: true
+  created: true
+  changed: true
+  langcode: true
+  status: true
+  path: true
+  comment: true

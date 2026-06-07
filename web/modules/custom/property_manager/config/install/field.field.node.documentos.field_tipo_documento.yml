@@ -1,0 +1,20 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_tipo_documento
+    - node.type.documentos
+  module:
+    - options
+id: node.documentos.field_tipo_documento
+field_name: field_tipo_documento
+entity_type: node
+bundle: documentos
+label: 'Tipo de documento'
+description: ''
+required: false
+translatable: false
+default_value: []
+default_value_callback: ''
+settings: {}
+field_type: list_string

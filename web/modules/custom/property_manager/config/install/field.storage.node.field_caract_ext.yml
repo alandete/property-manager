@@ -1,0 +1,58 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - options
+id: node.field_caract_ext
+field_name: field_caract_ext
+entity_type: node
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: piscina
+      label: 'Piscina'
+    -
+      value: bbq
+      label: 'BBQ / Zona de asados'
+    -
+      value: gimnasio
+      label: 'Gimnasio'
+    -
+      value: parque_infantil
+      label: 'Parque infantil'
+    -
+      value: porteria_24h
+      label: 'Portería 24h'
+    -
+      value: vigilancia
+      label: 'Vigilancia / CCTV'
+    -
+      value: jardin
+      label: 'Jardín'
+    -
+      value: terraza
+      label: 'Terraza'
+    -
+      value: balcon
+      label: 'Balcón'
+    -
+      value: parqueadero_visitantes
+      label: 'Parqueadero visitantes'
+    -
+      value: cancha_deportiva
+      label: 'Cancha deportiva'
+    -
+      value: salon_comunal
+      label: 'Salón comunal'
+    -
+      value: zonas_verdes
+      label: 'Zonas verdes'
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: -1
+translatable: true
+indexes: {}
+persist_with_no_fields: false
+custom_storage: false

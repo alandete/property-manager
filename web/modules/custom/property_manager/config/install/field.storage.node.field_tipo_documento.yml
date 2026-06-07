@@ -1,0 +1,37 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - options
+id: node.field_tipo_documento
+field_name: field_tipo_documento
+entity_type: node
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: formulario_aplicacion
+      label: 'Formulario de aplicación'
+    -
+      value: contrato
+      label: 'Contrato'
+    -
+      value: plano
+      label: 'Plano'
+    -
+      value: certificado
+      label: 'Certificado'
+    -
+      value: reglamento
+      label: 'Reglamento'
+    -
+      value: otro
+      label: 'Otro'
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {}
+persist_with_no_fields: false
+custom_storage: false

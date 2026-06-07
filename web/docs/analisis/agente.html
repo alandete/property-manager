@@ -1,0 +1,137 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agente — Drupal Property Manager</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <h1>Drupal Property Manager</h1>
+    <p>Documentación técnica</p>
+  </div>
+  <nav>
+    <div class="nav-section">General</div>
+    <a href="../index.html"><span class="icon">🏠</span> Inicio</a>
+
+    <div class="nav-section">Tipos de contenido</div>
+    <a href="tipo-contenido.html"><span class="icon">📋</span> Inmueble</a>
+    <a href="agente.html" class="active sub">Agente</a>
+    <a href="documento.html" class="sub">Documentos</a>
+
+    <div class="nav-section">Análisis técnico</div>
+    <a href="taxonomias.html"><span class="icon">🏷️</span> Taxonomías</a>
+    <a href="ubicacion.html" class="sub">Ubicación jerárquica</a>
+    <a href="codigo-auto.html" class="sub">Campo Código</a>
+
+    <div class="nav-section">Features</div>
+    <a href="../features/index.html"><span class="icon">🔍</span> Investigación</a>
+    <a href="../features/mapas.html" class="sub">Mapas y geolocalización</a>
+    <a href="../features/busqueda.html" class="sub">Búsqueda y filtros</a>
+    <a href="../features/seo.html" class="sub">SEO avanzado</a>
+
+    <div class="nav-section">Fases</div>
+    <a href="../fases/roadmap.html"><span class="icon">🗺️</span> Roadmap general</a>
+    <a href="../fases/fase-1.html" class="sub">Fase 1 — MVP funcional</a>
+    <a href="../fases/fase-2.html" class="sub">Fase 2 — Visual y UX</a>
+    <a href="../fases/fase-3.html" class="sub">Fase 3 — Mapa</a>
+    <a href="../fases/fase-4.html" class="sub">Fase 4 — Búsqueda</a>
+    <a href="../fases/fase-5.html" class="sub">Fase 5 — Features extra</a>
+
+    <div class="nav-section">Módulos</div>
+    <a href="../modulos/property_manager.html"><span class="icon">🧩</span> property_manager</a>
+    <a href="../modulos/arquitectura.html" class="sub">Arquitectura y dependencias</a>
+  </nav>
+</aside>
+
+<div class="main">
+  <div class="topbar">
+    <div>
+      <div class="breadcrumb"><a href="../index.html">Inicio</a> <span>›</span> Tipos de contenido</div>
+      <h2>Tipo de contenido: Agente</h2>
+    </div>
+  </div>
+  <div class="content">
+
+    <h2 class="section-title">Agente</h2>
+    <p class="section-desc">Representa a los responsables de los inmuebles. Cada inmueble referencia un agente. El agente tiene una vista pública con su información de contacto y un formulario para comunicarse con él.</p>
+
+    <div class="card">
+      <h3>📝 Campos</h3>
+      <table>
+        <tr>
+          <th>Etiqueta</th>
+          <th>Machine name</th>
+          <th>Tipo</th>
+          <th>Notas</th>
+        </tr>
+        <tr>
+          <td><strong>Nombre</strong></td>
+          <td><code>title</code></td>
+          <td>Texto</td>
+          <td>Nativo Drupal. Nombre completo del agente.</td>
+        </tr>
+        <tr>
+          <td><strong>Foto</strong></td>
+          <td><code>field_foto_agente</code></td>
+          <td>Media (imagen)</td>
+          <td>Foto de perfil del agente.</td>
+        </tr>
+        <tr>
+          <td><strong>Teléfono fijo</strong></td>
+          <td><code>field_telefono</code></td>
+          <td>Texto</td>
+          <td>Número fijo de oficina.</td>
+        </tr>
+        <tr>
+          <td><strong>Móvil</strong></td>
+          <td><code>field_movil</code></td>
+          <td>Texto</td>
+          <td>Número de celular / WhatsApp.</td>
+        </tr>
+        <tr>
+          <td><strong>Descripción / Bio</strong></td>
+          <td><code>body</code></td>
+          <td>Texto largo</td>
+          <td>Nativo Drupal. Presentación breve del agente. Opcional.</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="card">
+      <h3>📬 Formulario de contacto</h3>
+      <p style="font-size:13.5px;margin-bottom:12px;">Cada agente tiene un formulario de contacto incrustado en su página pública. El formulario envía un correo al agente con el mensaje del visitante.</p>
+      <table>
+        <tr><th>Estrategia</th><th>Descripción</th><th>Recomendada</th></tr>
+        <tr>
+          <td>Módulo <strong>Webform</strong> (contrib)</td>
+          <td>Formularios configurables desde la UI. El agente se asigna como destinatario del envío.</td>
+          <td><span class="badge badge-done">Sí</span></td>
+        </tr>
+        <tr>
+          <td>Formulario personalizado en el módulo</td>
+          <td>Más control, más código. Adecuado si los requisitos son muy específicos.</td>
+          <td><span class="badge badge-pending">Alternativa</span></td>
+        </tr>
+      </table>
+      <div class="alert alert-info" style="margin-top:16px;">
+        📌 Se recomienda usar <strong>Webform</strong>. El formulario se incrusta en la vista del agente mediante un bloque. El campo de destino del correo se asigna dinámicamente al email del agente.
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>🔗 Relaciones</h3>
+      <ul style="font-size:13.5px;line-height:2.2;padding-left:20px;">
+        <li>El tipo de contenido <strong>Inmueble</strong> tiene el campo <code>field_agente</code> que referencia a un nodo de tipo Agente.</li>
+        <li>Desde la vista del Agente se podrían listar todos los inmuebles que tiene a cargo (vista con filtro por agente).</li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>

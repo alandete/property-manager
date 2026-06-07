@@ -1,0 +1,8 @@
+langcode: en
+status: true
+dependencies: {}
+name: 'Tipo de oferta'
+vid: tipo_oferta
+description: 'Tipo de negocio del inmueble: Arriendo, Venta, Alquiler por días.'
+hierarchy: 0
+weight: 0

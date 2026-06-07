@@ -1,0 +1,28 @@
+GitHub
+
+https://github.com/alandete/property-manager
+
+git@github.com:alandete/property-manager.git
+
+25472104+alandete@users.noreply.github.com
+
+
+── Herramientas de desarrollo ──────────────────────────────
+
+Abrir el menu de dev (backup, restore, drush, git):
+
+    .\dev.ps1
+
+Requiere que scripts\env.ps1 exista con las credenciales locales.
+El archivo env.ps1 NO se sube al repo (gitignoreado).
+Al clonar en una maquina nueva, copiar scripts\env.ps1 manualmente y ajustar rutas.
+
+
+── Clonar el proyecto ──────────────────────────────────────
+
+    git clone git@github.com:alandete/property-manager.git
+    cd property-manager
+    composer install
+    copy scripts\env.ps1 (crear desde cero con las credenciales locales)
+    Crear la BD: inmoespana2 en MySQL/Laragon
+    Restaurar un checkpoint: .\dev.ps1 → opcion 2

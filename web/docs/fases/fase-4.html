@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fase 4 — Búsqueda — Drupal Property Manager</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <h1>Drupal Property Manager</h1>
+    <p>Documentación técnica</p>
+  </div>
+  <nav>
+    <div class="nav-section">General</div>
+    <a href="../index.html"><span class="icon">🏠</span> Inicio</a>
+
+    <div class="nav-section">Tipos de contenido</div>
+    <a href="../analisis/tipo-contenido.html"><span class="icon">📋</span> Inmueble</a>
+    <a href="../analisis/agente.html" class="sub">Agente</a>
+    <a href="../analisis/documento.html" class="sub">Documentos</a>
+
+    <div class="nav-section">Análisis técnico</div>
+    <a href="../analisis/taxonomias.html"><span class="icon">🏷️</span> Taxonomías</a>
+    <a href="../analisis/ubicacion.html" class="sub">Ubicación jerárquica</a>
+    <a href="../analisis/codigo-auto.html" class="sub">Campo Código</a>
+
+    <div class="nav-section">Features</div>
+    <a href="../features/index.html"><span class="icon">🔍</span> Investigación</a>
+    <a href="../features/mapas.html" class="sub">Mapas y geolocalización</a>
+    <a href="../features/busqueda.html" class="sub">Búsqueda y filtros</a>
+    <a href="../features/seo.html" class="sub">SEO avanzado</a>
+
+    <div class="nav-section">Fases</div>
+    <a href="roadmap.html"><span class="icon">🗺️</span> Roadmap general</a>
+    <a href="fase-1.html" class="sub">Fase 1 — MVP funcional</a>
+    <a href="fase-2.html" class="sub">Fase 2 — Visual y UX</a>
+    <a href="fase-3.html" class="sub">Fase 3 — Mapa</a>
+    <a href="fase-4.html" class="active sub">Fase 4 — Búsqueda</a>
+    <a href="fase-5.html" class="sub">Fase 5 — Features extra</a>
+
+    <div class="nav-section">Módulos</div>
+    <a href="../modulos/property_manager.html"><span class="icon">🧩</span> property_manager</a>
+    <a href="../modulos/arquitectura.html" class="sub">Arquitectura y dependencias</a>
+  </nav>
+</aside>
+
+<div class="main">
+  <div class="topbar">
+    <div>
+      <div class="breadcrumb"><a href="../index.html">Inicio</a> <span>›</span> <a href="roadmap.html">Fases</a> <span>›</span> Fase 4</div>
+      <h2>Fase 4 — Búsqueda con filtros facetados</h2>
+    </div>
+  </div>
+  <div class="content">
+
+    <h2 class="section-title">Fase 4: Búsqueda con filtros facetados</h2>
+    <p class="section-desc">Sub-módulo <code>property_manager_search</code>. El usuario filtra inmuebles por tipo de oferta, precio, ciudad, habitaciones, área, etc. Los filtros muestran cuántos resultados hay en cada opción.</p>
+
+    <div class="alert alert-warn">
+      ⏳ <strong>Estado:</strong> Pendiente. Requiere completar la Fase 1 primero (Fases 2 y 3 recomendables pero no bloqueantes).
+    </div>
+
+    <div class="card">
+      <h3>📦 Módulos contrib requeridos</h3>
+      <table>
+        <tr><th>Módulo</th><th>Propósito</th></tr>
+        <tr><td><code>search_api</code></td><td>Indexado de contenido para búsqueda avanzada</td></tr>
+        <tr><td><code>facets</code></td><td>Filtros facetados sobre el índice de búsqueda</td></tr>
+      </table>
+      <pre style="background:#1e2a3a;color:#a8d8a8;padding:12px 16px;border-radius:6px;font-size:12px;margin-top:12px;">composer require drupal/search_api drupal/facets</pre>
+    </div>
+
+    <div class="card">
+      <h3>📋 Filtros planificados</h3>
+      <table>
+        <tr><th>Filtro</th><th>Campo fuente</th><th>Widget</th></tr>
+        <tr><td>Tipo de oferta</td><td>field_tipo_oferta</td><td>Checkbox list con conteo</td></tr>
+        <tr><td>Tipo de inmueble</td><td>field_tipo_inmueble</td><td>Checkbox list con conteo</td></tr>
+        <tr><td>Ciudad</td><td>field_ciudad</td><td>Checkbox list o select</td></tr>
+        <tr><td>Habitaciones</td><td>field_habitaciones</td><td>Range o checkbox (1, 2, 3, 4+)</td></tr>
+        <tr><td>Precio mínimo / máximo</td><td>field_precio</td><td>Range slider o inputs de rango</td></tr>
+        <tr><td>Área mínima</td><td>field_area</td><td>Input numérico</td></tr>
+      </table>
+    </div>
+
+    <div class="alert alert-info">
+      💡 Ver <a href="../features/busqueda.html">investigación detallada sobre búsqueda →</a>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>

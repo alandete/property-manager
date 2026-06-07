@@ -1,0 +1,75 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.documentos.field_aplica_oferta
+    - field.field.node.documentos.field_archivo
+    - field.field.node.documentos.field_inmueble_ref
+    - field.field.node.documentos.field_tipo_documento
+    - node.type.documentos
+  module:
+    - file
+    - options
+    - node
+id: node.documentos.default
+targetEntityType: node
+bundle: documentos
+mode: default
+content:
+  title:
+    type: string_textfield
+    weight: -10
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {}
+  field_tipo_documento:
+    type: options_select
+    weight: -9
+    region: content
+    settings: {}
+    third_party_settings: {}
+  field_aplica_oferta:
+    type: options_buttons
+    weight: -8
+    region: content
+    settings: {}
+    third_party_settings: {}
+  field_inmueble_ref:
+    type: entity_reference_autocomplete
+    weight: -7
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 40
+      placeholder: ''
+    third_party_settings: {}
+  field_archivo:
+    type: file_generic
+    weight: -6
+    region: content
+    settings:
+      progress_indicator: throbber
+    third_party_settings: {}
+  body:
+    type: text_textarea_with_summary
+    weight: -5
+    region: content
+    settings:
+      rows: 5
+      summary_rows: 3
+      placeholder: 'Instrucciones o notas sobre este documento.'
+      show_summary: false
+    third_party_settings: {}
+hidden:
+  promote: true
+  sticky: true
+  uid: true
+  created: true
+  changed: true
+  langcode: true
+  status: true
+  path: true
+  comment: true
