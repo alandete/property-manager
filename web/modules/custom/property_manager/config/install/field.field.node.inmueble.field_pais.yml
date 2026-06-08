@@ -4,7 +4,7 @@ dependencies:
   config:
     - field.storage.node.field_pais
     - node.type.inmueble
-    - taxonomy.vocabulary.ubicacion
+    - taxonomy.vocabulary.pais
   module:
     - taxonomy
 id: node.inmueble.field_pais
@@ -21,7 +21,7 @@ settings:
   handler: 'default:taxonomy_term'
   handler_settings:
     target_bundles:
-      ubicacion: ubicacion
+      pais: pais
     sort:
       field: name
       direction: asc

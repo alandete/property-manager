@@ -1,0 +1,51 @@
+/* Property Manager — node view styles */
+
+/* Características interiores / exteriores */
+.field--name-field-caract-ext .field__items,
+.field--name-field-caract-int .field__items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.field--name-field-caract-ext .field__item,
+.field--name-field-caract-int .field__item {
+  border-radius: 4px;
+  padding: 3px 10px;
+  font-size: .9em;
+}
+
+/* Disponible: fondo verde con ✓ */
+.field--name-field-caract-ext .pm-caract--yes,
+.field--name-field-caract-int .pm-caract--yes {
+  background: #f0faf2;
+  border: 1px solid #c3e6cb;
+  color: #155724;
+}
+.field--name-field-caract-ext .pm-caract--yes::before,
+.field--name-field-caract-int .pm-caract--yes::before {
+  content: "\2713\00A0";
+  font-weight: 700;
+}
+
+/* No disponible: fondo gris con ✗ */
+.field--name-field-caract-ext .pm-caract--no,
+.field--name-field-caract-int .pm-caract--no {
+  background: #f8f9fa;
+  border: 1px solid #dee2e6;
+  color: #6c757d;
+}
+.field--name-field-caract-ext .pm-caract--no::before,
+.field--name-field-caract-int .pm-caract--no::before {
+  content: "\2717\00A0";
+}
+
+/* Precio: destacar el valor */
+.field--name-field-precio .field__item {
+  font-size: 1.4em;
+  font-weight: 700;
+  color: #1a237e;
+}

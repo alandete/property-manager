@@ -9,3 +9,9 @@ status:
   css:
     theme:
       css/property_manager.admin.css: {}
+
+node:
+  version: 1.0
+  css:
+    theme:
+      css/property_manager.node.css: {}

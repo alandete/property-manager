@@ -24,7 +24,8 @@
         "drupal/metatag": "^2.2",
         "drupal/module_filter": "^5.0",
         "drupal/pathauto": "^1.15",
-        "drupal/token": "^1.17"
+        "drupal/token": "^1.17",
+        "drush/drush": "^13.7"
     },
     "conflict": {
         "drupal/drupal": "*"

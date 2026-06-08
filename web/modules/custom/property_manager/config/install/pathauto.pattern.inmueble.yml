@@ -14,14 +14,15 @@ dependencies:
 id: inmueble
 label: 'Inmueble'
 type: 'canonical_entities:node'
-pattern: 'inmuebles/[node:field_tipo_inmueble]-en-[node:field_tipo_oferta]-[node:title]-[node:field_codigo]'
+pattern: 'inmuebles/[node:field_tipo_inmueble:entity:name]-en-[node:field_tipo_oferta:entity:name]-[node:title]-[node:field_codigo]'
 selection_criteria:
-  -
-    id: entity_bundle:node
-    bundles:
-      inmueble: inmueble
+  b86a4517-d6a7-4b33-a5b2-93741cf10b6c:
+    id: 'entity_bundle:node'
     negate: false
     context_mapping:
-      entity: entity
+      node: node
+    bundles:
+      inmueble: inmueble
 selection_logic: and
 weight: 0
+relationships: {  }

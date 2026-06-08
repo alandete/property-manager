@@ -1,0 +1,21 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.body
+    - node.type.inmueble
+  module:
+    - text
+id: node.inmueble.body
+field_name: body
+entity_type: node
+bundle: inmueble
+label: 'Descripción'
+description: ''
+required: false
+translatable: true
+default_value: []
+default_value_callback: ''
+settings:
+  display_summary: true
+field_type: text_with_summary

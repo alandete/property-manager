@@ -5,6 +5,7 @@
  * Property Manager — plataforma de gestión de propiedades inmobiliarias.
  */
 
+use Drupal\Component\Utility\Html;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\node\NodeInterface;
 
@@ -37,14 +38,61 @@ function property_manager_node_presave(NodeInterface $node) {
  *
  * On create: hides field_codigo — it's auto-generated on save.
  * On edit: shows it read-only so the editor can see the assigned code.
+ * Cascading location fields: Departamento visible only after País,
+ * Ciudad visible only after Departamento.
  */
 function property_manager_form_alter(array &$form, FormStateInterface $form_state, string $form_id) {
-  if ($form_id === 'node_inmueble_form' && isset($form['field_codigo'])) {
-    $form['field_codigo']['#access'] = FALSE;
+  if (!in_array($form_id, ['node_inmueble_form', 'node_inmueble_edit_form'], TRUE)) {
+    return;
   }
-  elseif ($form_id === 'node_inmueble_edit_form' && isset($form['field_codigo'])) {
-    $form['field_codigo']['#disabled'] = TRUE;
-    $form['field_codigo']['widget'][0]['value']['#description'] = t('El código es asignado automáticamente y no puede modificarse.');
+
+  // --- Código auto-generado ---
+  if ($form_id === 'node_inmueble_form') {
+    // CREATE: campo no está en el form display, solo mostrar aviso y advertencia.
+    $needs_setup = \Drupal::state()->get('property_manager.needs_setup', FALSE);
+    $config = \Drupal::config('property_manager.settings');
+    $prefix = $config->get('codigo_prefijo') ?? 'PROP';
+    if ($needs_setup || $prefix === 'PROP') {
+      \Drupal::messenger()->addWarning(t(
+        'El módulo no ha sido configurado. <a href=":url">Define el prefijo del código</a> antes de crear inmuebles.',
+        [':url' => \Drupal\Core\Url::fromRoute('property_manager.settings')->toString()]
+      ));
+    }
+    $form['codigo_notice'] = [
+      '#type'   => 'item',
+      '#markup' => '<p class="description">' . t('El código único se asignará automáticamente al guardar.') . '</p>',
+      '#weight' => -5,
+    ];
+  }
+  else {
+    // EDIT: campo tampoco está en el form display — lo inyectamos como solo lectura.
+    $codigo = $form_state->getFormObject()->getEntity()->get('field_codigo')->value ?? '';
+    $form['codigo_display'] = [
+      '#type'        => 'item',
+      '#title'       => t('Código'),
+      '#markup'      => '<strong>' . Html::escape($codigo) . '</strong>',
+      '#description' => t('El código es asignado automáticamente y no puede modificarse.'),
+      '#weight'      => -5,
+    ];
+  }
+
+  // --- Campos de ubicación en cascada ---
+  // Departamento: visible solo cuando hay un País seleccionado.
+  if (isset($form['field_departamento'])) {
+    $form['field_departamento']['#states'] = [
+      'visible' => [
+        'select[name="field_pais"]' => ['!value' => '_none'],
+      ],
+    ];
+  }
+
+  // Ciudad: visible solo cuando hay un Departamento seleccionado.
+  if (isset($form['field_ciudad'])) {
+    $form['field_ciudad']['#states'] = [
+      'visible' => [
+        'select[name="field_departamento"]' => ['!value' => '_none'],
+      ],
+    ];
   }
 }
 
@@ -77,4 +125,55 @@ function property_manager_requirements(string $phase): array {
   }
 
   return $requirements;
+}
+
+/**
+ * Implements hook_node_view().
+ *
+ * Attaches node styles only when viewing an Inmueble.
+ */
+function property_manager_node_view(array &$build, NodeInterface $node, $display, $view_mode) {
+  if ($node->bundle() === 'inmueble') {
+    $build['#attached']['library'][] = 'property_manager/node';
+  }
+}
+
+/**
+ * Implements hook_preprocess_field().
+ *
+ * For field_caract_int and field_caract_ext, renders ALL allowed values
+ * with ✓ (selected) or ✗ (not selected) so the visitor sees the full list.
+ */
+function property_manager_preprocess_field(array &$variables) {
+  $field_name = $variables['field_name'] ?? '';
+  if (!in_array($field_name, ['field_caract_int', 'field_caract_ext'], TRUE)) {
+    return;
+  }
+  if (($variables['element']['#view_mode'] ?? '') === 'form') {
+    return;
+  }
+
+  /** @var \Drupal\Core\Field\FieldItemListInterface $items */
+  $items = $variables['element']['#items'];
+  $field_def = $items->getFieldDefinition();
+  $allowed_values = $field_def->getSetting('allowed_values');
+
+  // Collect selected keys.
+  $selected = [];
+  foreach ($items as $item) {
+    $selected[$item->value] = TRUE;
+  }
+
+  // Rebuild items array showing all options.
+  $variables['items'] = [];
+  foreach ($allowed_values as $key => $label) {
+    $is_selected = isset($selected[$key]);
+    $variables['items'][] = [
+      'attributes' => new \Drupal\Core\Template\Attribute([
+        'class' => ['pm-caract-item', $is_selected ? 'pm-caract--yes' : 'pm-caract--no'],
+      ]),
+      'content' => ['#markup' => Html::escape($label)],
+      '_selected' => $is_selected,
+    ];
+  }
 }

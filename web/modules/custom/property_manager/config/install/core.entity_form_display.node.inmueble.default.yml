@@ -2,6 +2,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.node.inmueble.body
     - field.field.node.inmueble.field_agente
     - field.field.node.inmueble.field_area
     - field.field.node.inmueble.field_banos
@@ -27,6 +28,7 @@ dependencies:
   module:
     - options
     - taxonomy
+    - text
     - media_library
     - node
 id: node.inmueble.default

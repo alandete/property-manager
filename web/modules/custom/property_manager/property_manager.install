@@ -10,9 +10,6 @@ use Drupal\Core\Url;
 
 /**
  * Implements hook_install().
- *
- * Loads taxonomy terms and sets the needs-setup flag so the admin
- * is prompted to review settings after first install.
  */
 function property_manager_install() {
   _property_manager_install_taxonomy_terms();
@@ -35,104 +32,118 @@ function property_manager_uninstall() {
 }
 
 /**
- * Loads all default taxonomy terms for the module vocabularies.
+ * Loads all default taxonomy terms.
  */
 function _property_manager_install_taxonomy_terms() {
   // --- tipo_oferta ---
-  $tipo_oferta = ['Arriendo', 'Venta', 'Alquiler por días'];
-  foreach ($tipo_oferta as $name) {
+  foreach (['Arriendo', 'Venta', 'Alquiler por días', 'Proyecto'] as $name) {
     Term::create(['vid' => 'tipo_oferta', 'name' => $name])->save();
   }
 
   // --- tipo_inmueble ---
-  $tipo_inmueble = [
+  foreach ([
     'Apartamento', 'Casa', 'Casa campestre', 'Finca', 'Local comercial',
     'Oficina', 'Bodega', 'Lote', 'Parqueadero', 'Consultorio',
-  ];
-  foreach ($tipo_inmueble as $name) {
+  ] as $name) {
     Term::create(['vid' => 'tipo_inmueble', 'name' => $name])->save();
   }
 
   // --- estado ---
-  $estado = ['Disponible', 'Arrendado', 'Vendido', 'En negociación', 'Archivado'];
-  foreach ($estado as $name) {
+  foreach (['Disponible', 'Arrendado', 'Vendido'] as $name) {
     Term::create(['vid' => 'estado', 'name' => $name])->save();
   }
 
-  // --- zona ---
-  $zona = ['Norte', 'Sur', 'Oriente', 'Occidente', 'Centro'];
-  foreach ($zona as $name) {
+  // --- zona (clasificación de uso del suelo) ---
+  foreach (['Residencial', 'Comercial', 'Industrial', 'Rural', 'Mixta', 'Zona franca'] as $name) {
     Term::create(['vid' => 'zona', 'name' => $name])->save();
   }
 
-  // --- ubicacion: País → Departamento → Ciudad ---
-  _property_manager_install_ubicacion_terms();
-}
+  // --- pais ---
+  Term::create(['vid' => 'pais', 'name' => 'Colombia'])->save();
 
-/**
- * Loads the hierarchical location taxonomy (País → Departamento → Ciudad).
- *
- * Structure: one parent country (Colombia), departments as children,
- * and the main municipalities as children of each department.
- */
-function _property_manager_install_ubicacion_terms() {
-  // Colombia as the country (depth 0).
-  $colombia = Term::create(['vid' => 'ubicacion', 'name' => 'Colombia']);
-  $colombia->save();
-  $colombia_id = $colombia->id();
-
-  // Departments with their main municipalities.
-  $data = [
-    'Antioquia'       => ['Medellín', 'Bello', 'Itagüí', 'Envigado', 'Rionegro', 'Apartadó', 'Turbo', 'Caucasia'],
-    'Bogotá D.C.'    => ['Bogotá'],
-    'Valle del Cauca' => ['Cali', 'Buenaventura', 'Palmira', 'Tuluá', 'Buga', 'Cartago'],
-    'Atlántico'       => ['Barranquilla', 'Soledad', 'Malambo', 'Sabanalarga'],
-    'Bolívar'         => ['Cartagena', 'Magangué', 'Mompox'],
-    'Santander'       => ['Bucaramanga', 'Floridablanca', 'Girón', 'Piedecuesta', 'Barrancabermeja'],
-    'Nariño'          => ['Pasto', 'Tumaco', 'Ipiales'],
-    'Córdoba'         => ['Montería', 'Cereté', 'Lorica'],
-    'Cundinamarca'    => ['Soacha', 'Facatativá', 'Zipaquirá', 'Fusagasugá', 'Girardot', 'Chía'],
-    'Boyacá'          => ['Tunja', 'Duitama', 'Sogamoso', 'Chiquinquirá'],
-    'Cauca'           => ['Popayán', 'Santander de Quilichao'],
-    'Magdalena'       => ['Santa Marta', 'Ciénaga', 'El Banco'],
-    'Risaralda'       => ['Pereira', 'Dosquebradas', 'Santa Rosa de Cabal'],
-    'Huila'           => ['Neiva', 'Pitalito', 'Garzón'],
-    'Meta'            => ['Villavicencio', 'Acacías', 'Granada'],
-    'Tolima'          => ['Ibagué', 'Espinal', 'Melgar', 'Girardot'],
-    'Caldas'          => ['Manizales', 'La Dorada', 'Villamaría'],
-    'Quindío'         => ['Armenia', 'Calarcá', 'Montenegro'],
-    'Norte de Santander' => ['Cúcuta', 'Ocaña', 'Pamplona'],
-    'Sucre'           => ['Sincelejo', 'Corozal'],
-    'César'           => ['Valledupar', 'Aguachica'],
-    'La Guajira'      => ['Riohacha', 'Maicao', 'Uribia'],
-    'Chocó'           => ['Quibdó'],
-    'Putumayo'        => ['Mocoa', 'Puerto Asís'],
-    'Caquetá'         => ['Florencia'],
-    'Casanare'        => ['Yopal', 'Aguazul'],
-    'Arauca'          => ['Arauca', 'Saravena'],
-    'Amazonas'        => ['Leticia'],
-    'Vaupés'          => ['Mitú'],
-    'Guainía'         => ['Inírida'],
-    'Vichada'         => ['Puerto Carreño'],
-    'Guaviare'        => ['San José del Guaviare'],
-    'San Andrés'      => ['San Andrés', 'Providencia'],
+  // --- departamentos ---
+  $departamentos = [
+    'Amazonas', 'Antioquia', 'Arauca', 'Atlántico', 'Bolívar', 'Boyacá',
+    'Caldas', 'Caquetá', 'Casanare', 'Cauca', 'César', 'Chocó',
+    'Córdoba', 'Cundinamarca', 'Guainía', 'Guaviare', 'Huila', 'La Guajira',
+    'Magdalena', 'Meta', 'Nariño', 'Norte de Santander', 'Putumayo', 'Quindío',
+    'Risaralda', 'San Andrés y Providencia', 'Santander', 'Sucre', 'Tolima',
+    'Valle del Cauca', 'Vaupés', 'Vichada', 'Bogotá D.C.',
   ];
+  foreach ($departamentos as $name) {
+    Term::create(['vid' => 'departamento', 'name' => $name])->save();
+  }
 
-  foreach ($data as $dpto => $municipios) {
-    $dpto_term = Term::create([
-      'vid'    => 'ubicacion',
-      'name'   => $dpto,
-      'parent' => [$colombia_id],
-    ]);
-    $dpto_term->save();
-    $dpto_id = $dpto_term->id();
-
-    foreach ($municipios as $municipio) {
-      Term::create([
-        'vid'    => 'ubicacion',
-        'name'   => $municipio,
-        'parent' => [$dpto_id],
-      ])->save();
-    }
+  // --- ciudades (principales por departamento) ---
+  $ciudades = [
+    // Antioquia
+    'Medellín', 'Bello', 'Itagüí', 'Envigado', 'Rionegro', 'Apartadó', 'Turbo', 'Caucasia',
+    // Bogotá
+    'Bogotá',
+    // Valle del Cauca
+    'Cali', 'Buenaventura', 'Palmira', 'Tuluá', 'Buga', 'Cartago',
+    // Atlántico
+    'Barranquilla', 'Soledad', 'Malambo', 'Sabanalarga',
+    // Bolívar
+    'Cartagena', 'Magangué', 'Mompox',
+    // Santander
+    'Bucaramanga', 'Floridablanca', 'Girón', 'Piedecuesta', 'Barrancabermeja',
+    // Nariño
+    'Pasto', 'Tumaco', 'Ipiales',
+    // Córdoba
+    'Montería', 'Cereté', 'Lorica',
+    // Cundinamarca
+    'Soacha', 'Facatativá', 'Zipaquirá', 'Fusagasugá', 'Chía',
+    // Boyacá
+    'Tunja', 'Duitama', 'Sogamoso', 'Chiquinquirá',
+    // Cauca
+    'Popayán', 'Santander de Quilichao',
+    // Magdalena
+    'Santa Marta', 'Ciénaga', 'El Banco',
+    // Risaralda
+    'Pereira', 'Dosquebradas', 'Santa Rosa de Cabal',
+    // Huila
+    'Neiva', 'Pitalito', 'Garzón',
+    // Meta
+    'Villavicencio', 'Acacías', 'Granada',
+    // Tolima
+    'Ibagué', 'Espinal', 'Melgar',
+    // Caldas
+    'Manizales', 'La Dorada', 'Villamaría',
+    // Quindío
+    'Armenia', 'Calarcá', 'Montenegro',
+    // Norte de Santander
+    'Cúcuta', 'Ocaña', 'Pamplona',
+    // Sucre
+    'Sincelejo', 'Corozal',
+    // César
+    'Valledupar', 'Aguachica',
+    // La Guajira
+    'Riohacha', 'Maicao', 'Uribia',
+    // Chocó
+    'Quibdó',
+    // Putumayo
+    'Mocoa', 'Puerto Asís',
+    // Caquetá
+    'Florencia',
+    // Casanare
+    'Yopal', 'Aguazul',
+    // Arauca
+    'Arauca', 'Saravena',
+    // Amazonas
+    'Leticia',
+    // Vaupés
+    'Mitú',
+    // Guainía
+    'Inírida',
+    // Vichada
+    'Puerto Carreño',
+    // Guaviare
+    'San José del Guaviare',
+    // San Andrés
+    'San Andrés', 'Providencia',
+  ];
+  foreach ($ciudades as $name) {
+    Term::create(['vid' => 'ciudad', 'name' => $name])->save();
   }
 }

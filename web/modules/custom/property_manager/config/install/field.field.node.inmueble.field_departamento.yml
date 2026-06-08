@@ -4,7 +4,7 @@ dependencies:
   config:
     - field.storage.node.field_departamento
     - node.type.inmueble
-    - taxonomy.vocabulary.ubicacion
+    - taxonomy.vocabulary.departamento
   module:
     - taxonomy
 id: node.inmueble.field_departamento
@@ -21,7 +21,7 @@ settings:
   handler: 'default:taxonomy_term'
   handler_settings:
     target_bundles:
-      ubicacion: ubicacion
+      departamento: departamento
     sort:
       field: name
       direction: asc
