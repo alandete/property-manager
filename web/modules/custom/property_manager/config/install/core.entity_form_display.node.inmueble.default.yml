@@ -52,7 +52,7 @@ content:
       rows: 9
       summary_rows: 3
       placeholder: ''
-      show_summary: true
+      show_summary: false
     third_party_settings: {}
   field_tipo_oferta:
     type: options_select

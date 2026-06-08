@@ -102,11 +102,29 @@ function property_manager_form_alter(array &$form, FormStateInterface $form_stat
     ];
   }
 
+  // Bloquear guardado si el módulo no ha sido configurado.
+  $form['#validate'][] = '_property_manager_validate_configuracion';
+
   // CSS del formulario.
   $form['#attached']['library'][] = 'property_manager/form';
 
   // Registrar after_build para organizar secciones DESPUÉS de todo el procesamiento del form display.
   $form['#after_build'][] = '_property_manager_form_after_build';
+}
+
+/**
+ * Validate: impide guardar inmuebles si el módulo no ha sido configurado.
+ */
+function _property_manager_validate_configuracion(array &$form, FormStateInterface $form_state): void {
+  $config = \Drupal::config('property_manager.settings');
+  $prefix = $config->get('codigo_prefijo') ?? 'PROP';
+  if ($prefix === 'PROP') {
+    $url = \Drupal\Core\Url::fromRoute('property_manager.settings')->toString();
+    $form_state->setError(
+      $form,
+      t('No es posible guardar inmuebles hasta que el módulo esté configurado. <a href=":url">Define el prefijo del código</a> antes de continuar.', [':url' => $url])
+    );
+  }
 }
 
 /**
@@ -131,10 +149,6 @@ function _property_manager_build_form_sections(array &$form, string $form_id): v
   }
   if (isset($form['body'])) {
     $form['body']['#weight'] = -900;
-    // Restaurar acceso al resumen (el widget ya lo colapsa por defecto con "Editar resumen").
-    if (isset($form['body']['widget'][0]['summary'])) {
-      unset($form['body']['widget'][0]['summary']['#access']);
-    }
   }
 
   // Siempre ocultar el campo real field_codigo del form display:
