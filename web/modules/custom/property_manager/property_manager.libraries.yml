@@ -3,6 +3,16 @@ settings:
   css:
     theme:
       css/property_manager.admin.css: {}
+  js:
+    js/property_manager.settings.js: {}
+  dependencies:
+    - core/drupal
+
+form:
+  version: 1.0
+  css:
+    theme:
+      css/property_manager.form.css: {}
 
 status:
   version: 1.0

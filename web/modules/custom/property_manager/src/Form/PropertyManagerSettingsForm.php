@@ -57,21 +57,31 @@ class PropertyManagerSettingsForm extends ConfigFormBase {
     ];
 
     $form['codigo']['codigo_separador'] = [
-      '#type'          => 'textfield',
+      '#type'          => 'select',
       '#title'         => $this->t('Separador'),
-      '#description'   => $this->t('Carácter entre el prefijo y el número. Puede quedar vacío. Ej: <code>-</code> → PROP-00001 · vacío → PROP00001 · <code>_</code> → PROP_00001.'),
+      '#description'   => $this->t('Carácter entre el prefijo y el número.'),
+      '#options'       => [
+        ''  => $this->t('(ninguno) — PROP0001'),
+        '-' => '- (guion) — PROP-0001',
+        '_' => '_ (guion bajo) — PROP_0001',
+        '.' => '. (punto) — PROP.0001',
+      ],
       '#default_value' => $config->get('codigo_separador') ?? '-',
-      '#size'          => 3,
-      '#maxlength'     => 3,
     ];
 
     $form['codigo']['codigo_digitos'] = [
-      '#type'          => 'number',
+      '#type'          => 'select',
       '#title'         => $this->t('Número de dígitos'),
-      '#description'   => $this->t('Cantidad de dígitos del contador (se rellena con ceros). Ej: 5 → 00001.'),
+      '#description'   => $this->t('Dígitos del contador, rellenos con ceros a la izquierda.'),
+      '#options'       => [
+        3 => '3 — 001',
+        4 => '4 — 0001',
+        5 => '5 — 00001',
+        6 => '6 — 000001',
+        7 => '7 — 0000001',
+        8 => '8 — 00000001',
+      ],
       '#default_value' => $config->get('codigo_digitos') ?? 5,
-      '#min'           => 1,
-      '#max'           => 10,
       '#required'      => TRUE,
     ];
 
@@ -86,6 +96,22 @@ class PropertyManagerSettingsForm extends ConfigFormBase {
     $form['#attached']['library'][] = 'property_manager/settings';
 
     return parent::buildForm($form, $form_state);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function validateForm(array &$form, FormStateInterface $form_state): void {
+    $prefix = trim($form_state->getValue('codigo_prefijo'));
+    if (!preg_match('/^[A-Z0-9]{1,10}$/', $prefix)) {
+      $form_state->setErrorByName('codigo_prefijo', $this->t(
+        'El prefijo solo puede contener letras mayúsculas y números (sin espacios ni caracteres especiales).'
+      ));
+    }
+    else {
+      $form_state->setValue('codigo_prefijo', $prefix);
+    }
+    parent::validateForm($form, $form_state);
   }
 
   /**

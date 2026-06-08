@@ -48,51 +48,178 @@ function property_manager_form_alter(array &$form, FormStateInterface $form_stat
 
   // --- Código auto-generado ---
   if ($form_id === 'node_inmueble_form') {
-    // CREATE: campo no está en el form display, solo mostrar aviso y advertencia.
-    $needs_setup = \Drupal::state()->get('property_manager.needs_setup', FALSE);
+    // CREATE: aviso de que el código se genera al guardar, con preview del formato.
     $config = \Drupal::config('property_manager.settings');
     $prefix = $config->get('codigo_prefijo') ?? 'PROP';
+    $separator = $config->get('codigo_separador') ?? '-';
+    $digits = (int) ($config->get('codigo_digitos') ?? 5);
+    $needs_setup = \Drupal::state()->get('property_manager.needs_setup', FALSE);
     if ($needs_setup || $prefix === 'PROP') {
       \Drupal::messenger()->addWarning(t(
         'El módulo no ha sido configurado. <a href=":url">Define el prefijo del código</a> antes de crear inmuebles.',
         [':url' => \Drupal\Core\Url::fromRoute('property_manager.settings')->toString()]
       ));
     }
+    $next = \Drupal::state()->get('property_manager.ultimo_codigo', 0) + 1;
+    $preview = Html::escape($prefix . $separator . str_pad($next, $digits, '0', STR_PAD_LEFT));
     $form['codigo_notice'] = [
-      '#type'   => 'item',
-      '#markup' => '<p class="description">' . t('El código único se asignará automáticamente al guardar.') . '</p>',
+      '#type'   => 'markup',
+      '#markup' => '<div class="pm-codigo pm-codigo--pending" role="note">'
+        . '<span class="pm-codigo__icon" aria-hidden="true">🔖</span>'
+        . '<div class="pm-codigo__body">'
+        . '<strong class="pm-codigo__label">' . t('Código del inmueble') . '</strong>'
+        . '<span class="pm-codigo__value">' . $preview . '</span>'
+        . '<span class="pm-codigo__hint">' . t('Se asignará automáticamente al guardar.') . '</span>'
+        . '</div></div>',
       '#weight' => -5,
     ];
   }
   else {
-    // EDIT: campo tampoco está en el form display — lo inyectamos como solo lectura.
+    // EDIT: mostrar el código asignado como referencia no editable.
     $codigo = $form_state->getFormObject()->getEntity()->get('field_codigo')->value ?? '';
     $form['codigo_display'] = [
-      '#type'        => 'item',
-      '#title'       => t('Código'),
-      '#markup'      => '<strong>' . Html::escape($codigo) . '</strong>',
-      '#description' => t('El código es asignado automáticamente y no puede modificarse.'),
-      '#weight'      => -5,
+      '#type'   => 'markup',
+      '#markup' => '<div class="pm-codigo pm-codigo--assigned" role="note">'
+        . '<span class="pm-codigo__icon" aria-hidden="true">🔖</span>'
+        . '<div class="pm-codigo__body">'
+        . '<strong class="pm-codigo__label">' . t('Código') . '</strong>'
+        . '<span class="pm-codigo__value">' . Html::escape($codigo) . '</span>'
+        . '<span class="pm-codigo__hint">' . t('Asignado automáticamente · no editable') . '</span>'
+        . '</div></div>',
+      '#weight' => -5,
     ];
   }
 
-  // --- Campos de ubicación en cascada ---
-  // Departamento: visible solo cuando hay un País seleccionado.
+  // --- Cascada de ubicación ---
   if (isset($form['field_departamento'])) {
     $form['field_departamento']['#states'] = [
-      'visible' => [
-        'select[name="field_pais"]' => ['!value' => '_none'],
-      ],
+      'visible' => ['select[name="field_pais"]' => ['!value' => '_none']],
+    ];
+  }
+  if (isset($form['field_ciudad'])) {
+    $form['field_ciudad']['#states'] = [
+      'visible' => ['select[name="field_departamento"]' => ['!value' => '_none']],
     ];
   }
 
-  // Ciudad: visible solo cuando hay un Departamento seleccionado.
-  if (isset($form['field_ciudad'])) {
-    $form['field_ciudad']['#states'] = [
-      'visible' => [
-        'select[name="field_departamento"]' => ['!value' => '_none'],
-      ],
-    ];
+  // CSS del formulario.
+  $form['#attached']['library'][] = 'property_manager/form';
+
+  // Registrar after_build para organizar secciones DESPUÉS de todo el procesamiento del form display.
+  $form['#after_build'][] = '_property_manager_form_after_build';
+}
+
+/**
+ * #after_build callback: reorganizes the Inmueble form AFTER all form display
+ * processing is complete, so our weights are truly final.
+ */
+function _property_manager_form_after_build(array $form, FormStateInterface $form_state): array {
+  $form_id = $form_state->getFormObject()->getFormId();
+  _property_manager_build_form_sections($form, $form_id);
+  return $form;
+}
+
+/**
+ * Reorganizes the Inmueble form into collapsible <details> sections.
+ * Called from #after_build so weights cannot be overridden by form display.
+ */
+function _property_manager_build_form_sections(array &$form, string $form_id): void {
+  // Título y descripción fuera de cualquier sección, con pesos muy bajos
+  // para garantizar que aparezcan primero independientemente del form display.
+  if (isset($form['title'])) {
+    $form['title']['#weight'] = -1000;
+  }
+  if (isset($form['body'])) {
+    $form['body']['#weight'] = -900;
+    // Restaurar acceso al resumen (el widget ya lo colapsa por defecto con "Editar resumen").
+    if (isset($form['body']['widget'][0]['summary'])) {
+      unset($form['body']['widget'][0]['summary']['#access']);
+    }
+  }
+
+  // Siempre ocultar el campo real field_codigo del form display:
+  // lo controlamos nosotros con codigo_notice / codigo_display.
+  if (isset($form['field_codigo'])) {
+    $form['field_codigo']['#access'] = FALSE;
+  }
+
+  // Área: aceptar coma como separador decimal (estándar colombiano).
+  if (isset($form['field_area']['widget'][0]['value'])) {
+    $form['field_area']['widget'][0]['value']['#description'] = t('Puede usar punto o coma como separador decimal. Ej: 96.38 o 96,38');
+    $form['field_area']['widget'][0]['value']['#element_validate'][] = '_property_manager_validate_decimal';
+  }
+
+  $codigo_key = $form_id === 'node_inmueble_form' ? 'codigo_notice' : 'codigo_display';
+
+  // Helper: extrae claves del formulario raíz y las retorna como hijos.
+  $move = function (array $keys) use (&$form): array {
+    $group = [];
+    foreach ($keys as $key) {
+      if (isset($form[$key])) {
+        $group[$key] = $form[$key];
+        unset($form[$key]);
+      }
+    }
+    return $group;
+  };
+
+  // 1. Información básica (abierto) — peso positivo → aparece después de título/body
+  $form['grupo_basica'] = [
+    '#type'   => 'details',
+    '#title'  => t('Información básica'),
+    '#open'   => TRUE,
+    '#weight' => 10,
+  ] + $move([$codigo_key, 'field_tipo_oferta', 'field_tipo_inmueble', 'field_estado_inmueble', 'field_precio']);
+
+  // 2. Ubicación (abierto)
+  $form['grupo_ubicacion'] = [
+    '#type'   => 'details',
+    '#title'  => t('Ubicación'),
+    '#open'   => TRUE,
+    '#weight' => 20,
+  ] + $move(['field_pais', 'field_departamento', 'field_ciudad', 'field_direccion', 'field_barrio', 'field_zona']);
+
+  // 3. Características (abierto)
+  $form['grupo_caracteristicas'] = [
+    '#type'   => 'details',
+    '#title'  => t('Características'),
+    '#open'   => TRUE,
+    '#weight' => 30,
+  ] + $move(['field_habitaciones', 'field_banos', 'field_parqueadero', 'field_area', 'field_estrato']);
+
+  // 4. Amenidades (abierto)
+  $form['grupo_amenidades'] = [
+    '#type'   => 'details',
+    '#title'  => t('Amenidades'),
+    '#open'   => TRUE,
+    '#weight' => 40,
+  ] + $move(['field_caract_int', 'field_caract_ext']);
+
+  // 5. Multimedia (cerrado)
+  $form['grupo_multimedia'] = [
+    '#type'   => 'details',
+    '#title'  => t('Multimedia'),
+    '#open'   => FALSE,
+    '#weight' => 50,
+  ] + $move(['field_fotos', 'field_video']);
+
+  // 6. Información asociada (cerrado)
+  $form['grupo_admin'] = [
+    '#type'   => 'details',
+    '#title'  => t('Información asociada'),
+    '#open'   => FALSE,
+    '#weight' => 60,
+  ] + $move(['field_agente']);
+}
+
+/**
+ * Element validate: converts comma to period so Drupal accepts Colombian decimals.
+ */
+function _property_manager_validate_decimal(array &$element, FormStateInterface $form_state, array &$complete_form): void {
+  $value = $element['#value'];
+  if (is_string($value) && str_contains($value, ',')) {
+    $value = str_replace(',', '.', $value);
+    $form_state->setValueForElement($element, $value);
   }
 }
 
