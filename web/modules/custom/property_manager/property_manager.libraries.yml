@@ -3,6 +3,7 @@ settings:
   css:
     theme:
       css/property_manager.admin.css: {}
+      css/property_manager.htabs.css: {}
   js:
     js/property_manager.settings.js: {}
   dependencies:
@@ -13,6 +14,7 @@ form:
   css:
     theme:
       css/property_manager.form.css: {}
+      css/property_manager.htabs.css: {}
 
 status:
   version: 1.0

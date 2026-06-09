@@ -25,11 +25,41 @@
   color: #856404;
 }
 
-/* Settings form preview */
-#pm-code-preview {
+/* Settings form — 3-column código row */
+.pm-settings-3col {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0 2rem;
+  align-items: start;
+}
+
+/* Settings form — preview a todo el ancho */
+.pm-settings-preview {
+  margin-top: 1.25rem;
+  padding: .75rem 1.25rem;
   background: #f8f9fa;
   border: 1px solid #dee2e6;
   border-radius: 4px;
-  padding: 8px 14px;
-  font-size: 1.1em;
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.pm-settings-preview strong {
+  font-size: .8rem;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  color: #5f6368;
+  white-space: nowrap;
+}
+
+.pm-settings-preview #pm-code-preview {
+  margin: 0;
+}
+
+/* Settings form — separación visual del selector de pestaña activa */
+.pm-seccion-default-wrap {
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid #e8eaed;
 }

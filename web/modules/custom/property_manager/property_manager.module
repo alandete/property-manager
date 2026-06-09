@@ -8,6 +8,7 @@
 use Drupal\Component\Utility\Html;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\node\NodeInterface;
+use Drupal\property_manager\Form\PropertyManagerSettingsForm;
 
 /**
  * Implements hook_node_presave().
@@ -102,14 +103,14 @@ function property_manager_form_alter(array &$form, FormStateInterface $form_stat
     ];
   }
 
+  // Organizar en pestañas verticales desde hook_form_alter, antes de #process.
+  _property_manager_build_form_sections($form, $form_id);
+
   // Bloquear guardado si el módulo no ha sido configurado.
   $form['#validate'][] = '_property_manager_validate_configuracion';
 
   // CSS del formulario.
   $form['#attached']['library'][] = 'property_manager/form';
-
-  // Registrar after_build para organizar secciones DESPUÉS de todo el procesamiento del form display.
-  $form['#after_build'][] = '_property_manager_form_after_build';
 }
 
 /**
@@ -128,22 +129,15 @@ function _property_manager_validate_configuracion(array &$form, FormStateInterfa
 }
 
 /**
- * #after_build callback: reorganizes the Inmueble form AFTER all form display
- * processing is complete, so our weights are truly final.
- */
-function _property_manager_form_after_build(array $form, FormStateInterface $form_state): array {
-  $form_id = $form_state->getFormObject()->getFormId();
-  _property_manager_build_form_sections($form, $form_id);
-  return $form;
-}
-
-/**
- * Reorganizes the Inmueble form into collapsible <details> sections.
- * Called from #after_build so weights cannot be overridden by form display.
+ * Reorganizes the Inmueble form into vertical tabs driven by config.
+ * Called from #after_build so weights are final.
  */
 function _property_manager_build_form_sections(array &$form, string $form_id): void {
-  // Título y descripción fuera de cualquier sección, con pesos muy bajos
-  // para garantizar que aparezcan primero independientemente del form display.
+  $config = \Drupal::config('property_manager.settings');
+  $secciones = $config->get('form_secciones') ?: PropertyManagerSettingsForm::defaultSecciones();
+  $campos_config = $config->get('form_campos') ?: PropertyManagerSettingsForm::defaultCampos();
+
+  // Título y descripción siempre primero, fuera de las pestañas.
   if (isset($form['title'])) {
     $form['title']['#weight'] = -1000;
   }
@@ -151,13 +145,12 @@ function _property_manager_build_form_sections(array &$form, string $form_id): v
     $form['body']['#weight'] = -900;
   }
 
-  // Siempre ocultar el campo real field_codigo del form display:
-  // lo controlamos nosotros con codigo_notice / codigo_display.
+  // field_codigo siempre oculto — lo controlamos con codigo_notice/codigo_display.
   if (isset($form['field_codigo'])) {
     $form['field_codigo']['#access'] = FALSE;
   }
 
-  // Área: aceptar coma como separador decimal (estándar colombiano).
+  // Área: aceptar coma colombiana como separador decimal.
   if (isset($form['field_area']['widget'][0]['value'])) {
     $form['field_area']['widget'][0]['value']['#description'] = t('Puede usar punto o coma como separador decimal. Ej: 96.38 o 96,38');
     $form['field_area']['widget'][0]['value']['#element_validate'][] = '_property_manager_validate_decimal';
@@ -165,65 +158,76 @@ function _property_manager_build_form_sections(array &$form, string $form_id): v
 
   $codigo_key = $form_id === 'node_inmueble_form' ? 'codigo_notice' : 'codigo_display';
 
-  // Helper: extrae claves del formulario raíz y las retorna como hijos.
-  $move = function (array $keys) use (&$form): array {
-    $group = [];
-    foreach ($keys as $key) {
-      if (isset($form[$key])) {
-        $group[$key] = $form[$key];
-        unset($form[$key]);
-      }
+  // Construir mapa: campo → [seccion, peso].
+  $campo_map = [];
+  foreach ($campos_config as $item) {
+    $campo_map[$item['campo']] = ['seccion' => $item['seccion'], 'peso' => (int) $item['peso']];
+  }
+
+  // Ordenar secciones por peso.
+  usort($secciones, fn($a, $b) => ($a['peso'] ?? 0) <=> ($b['peso'] ?? 0));
+
+  // La pestaña que se muestra al cargar el formulario.
+  $default_id = $config->get('form_seccion_default') ?? ($secciones[0]['id'] ?? 'basica');
+
+  // Contenedor de pestañas verticales (pesos positivos → después de título/body).
+  $form['pm_secciones'] = [
+    '#type'        => 'vertical_tabs',
+    '#weight'      => 5,
+    '#default_tab' => 'edit-pm-grupo-' . str_replace('_', '-', $default_id),
+  ];
+
+  // Crear los detalles de cada sección.
+  foreach ($secciones as $seccion) {
+    $form['pm_grupo_' . $seccion['id']] = [
+      '#type'  => 'details',
+      '#title' => $seccion['label'],
+      '#group' => 'pm_secciones',
+    ];
+  }
+
+  // Distribuir campos en sus secciones según la config.
+  foreach ($campo_map as $campo => $info) {
+    $group_id = 'pm_grupo_' . $info['seccion'];
+    if (!isset($form[$group_id])) {
+      continue;
     }
-    return $group;
-  };
+    $actual_key = ($campo === '_codigo') ? $codigo_key : $campo;
+    if (isset($form[$actual_key])) {
+      $form[$group_id][$actual_key] = $form[$actual_key];
+      $form[$group_id][$actual_key]['#weight'] = $info['peso'];
+      unset($form[$actual_key]);
+    }
+  }
 
-  // 1. Información básica (abierto) — peso positivo → aparece después de título/body
-  $form['grupo_basica'] = [
-    '#type'   => 'details',
-    '#title'  => t('Información básica'),
-    '#open'   => TRUE,
-    '#weight' => 10,
-  ] + $move([$codigo_key, 'field_tipo_oferta', 'field_tipo_inmueble', 'field_estado_inmueble', 'field_precio']);
+  // Ocultar secciones vacías.
+  foreach ($secciones as $seccion) {
+    $gid = 'pm_grupo_' . $seccion['id'];
+    if (!isset($form[$gid])) {
+      continue;
+    }
+    $children = array_filter(
+      array_keys($form[$gid]),
+      fn($k) => $k[0] !== '#'
+    );
+    if (empty($children)) {
+      unset($form[$gid]);
+    }
+  }
+}
 
-  // 2. Ubicación (abierto)
-  $form['grupo_ubicacion'] = [
-    '#type'   => 'details',
-    '#title'  => t('Ubicación'),
-    '#open'   => TRUE,
-    '#weight' => 20,
-  ] + $move(['field_pais', 'field_departamento', 'field_ciudad', 'field_direccion', 'field_barrio', 'field_zona']);
+/**
+ * @deprecated Use PropertyManagerSettingsForm::defaultSecciones().
+ */
+function _property_manager_default_secciones(): array {
+  return PropertyManagerSettingsForm::defaultSecciones();
+}
 
-  // 3. Características (abierto)
-  $form['grupo_caracteristicas'] = [
-    '#type'   => 'details',
-    '#title'  => t('Características'),
-    '#open'   => TRUE,
-    '#weight' => 30,
-  ] + $move(['field_habitaciones', 'field_banos', 'field_parqueadero', 'field_area', 'field_estrato']);
-
-  // 4. Amenidades (abierto)
-  $form['grupo_amenidades'] = [
-    '#type'   => 'details',
-    '#title'  => t('Amenidades'),
-    '#open'   => TRUE,
-    '#weight' => 40,
-  ] + $move(['field_caract_int', 'field_caract_ext']);
-
-  // 5. Multimedia (cerrado)
-  $form['grupo_multimedia'] = [
-    '#type'   => 'details',
-    '#title'  => t('Multimedia'),
-    '#open'   => FALSE,
-    '#weight' => 50,
-  ] + $move(['field_fotos', 'field_video']);
-
-  // 6. Información asociada (cerrado)
-  $form['grupo_admin'] = [
-    '#type'   => 'details',
-    '#title'  => t('Información asociada'),
-    '#open'   => FALSE,
-    '#weight' => 60,
-  ] + $move(['field_agente']);
+/**
+ * @deprecated Use PropertyManagerSettingsForm::defaultCampos().
+ */
+function _property_manager_default_campos(): array {
+  return PropertyManagerSettingsForm::defaultCampos();
 }
 
 /**

@@ -11,3 +11,36 @@ property_manager.settings:
     codigo_digitos:
       type: integer
       label: 'Número de dígitos del contador'
+    form_seccion_default:
+      type: string
+      label: 'ID de la pestaña activa al cargar el formulario'
+    form_secciones:
+      type: sequence
+      label: 'Secciones del formulario de inmueble'
+      sequence:
+        type: mapping
+        mapping:
+          id:
+            type: string
+            label: 'Identificador de la sección'
+          label:
+            type: label
+            label: 'Nombre visible de la sección'
+          peso:
+            type: integer
+            label: 'Orden de la sección'
+    form_campos:
+      type: sequence
+      label: 'Asignación de campos a secciones'
+      sequence:
+        type: mapping
+        mapping:
+          campo:
+            type: string
+            label: 'Machine name del campo'
+          seccion:
+            type: string
+            label: 'ID de la sección a la que pertenece'
+          peso:
+            type: integer
+            label: 'Orden dentro de la sección'

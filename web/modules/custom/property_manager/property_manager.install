@@ -22,6 +22,50 @@ function property_manager_install() {
 }
 
 /**
+ * Add configurable form sections (vertical tabs) to existing installations.
+ */
+function property_manager_update_8001(): void {
+  $config = \Drupal::service('config.factory')->getEditable('property_manager.settings');
+  if ($config->get('form_secciones') !== NULL) {
+    return;
+  }
+  $config
+    ->set('form_seccion_default', 'basica')
+    ->set('form_secciones', [
+      ['id' => 'basica',          'label' => 'Información básica',   'peso' => 0],
+      ['id' => 'ubicacion',       'label' => 'Ubicación',            'peso' => 1],
+      ['id' => 'caracteristicas', 'label' => 'Características',      'peso' => 2],
+      ['id' => 'amenidades',      'label' => 'Amenidades',           'peso' => 3],
+      ['id' => 'multimedia',      'label' => 'Multimedia',           'peso' => 4],
+      ['id' => 'admin',           'label' => 'Información asociada', 'peso' => 5],
+    ])
+    ->set('form_campos', [
+      ['campo' => '_codigo',               'seccion' => 'basica',          'peso' => 0],
+      ['campo' => 'field_tipo_oferta',     'seccion' => 'basica',          'peso' => 1],
+      ['campo' => 'field_tipo_inmueble',   'seccion' => 'basica',          'peso' => 2],
+      ['campo' => 'field_estado_inmueble', 'seccion' => 'basica',          'peso' => 3],
+      ['campo' => 'field_precio',          'seccion' => 'basica',          'peso' => 4],
+      ['campo' => 'field_pais',            'seccion' => 'ubicacion',       'peso' => 0],
+      ['campo' => 'field_departamento',    'seccion' => 'ubicacion',       'peso' => 1],
+      ['campo' => 'field_ciudad',          'seccion' => 'ubicacion',       'peso' => 2],
+      ['campo' => 'field_direccion',       'seccion' => 'ubicacion',       'peso' => 3],
+      ['campo' => 'field_barrio',          'seccion' => 'ubicacion',       'peso' => 4],
+      ['campo' => 'field_zona',            'seccion' => 'ubicacion',       'peso' => 5],
+      ['campo' => 'field_habitaciones',    'seccion' => 'caracteristicas', 'peso' => 0],
+      ['campo' => 'field_banos',           'seccion' => 'caracteristicas', 'peso' => 1],
+      ['campo' => 'field_parqueadero',     'seccion' => 'caracteristicas', 'peso' => 2],
+      ['campo' => 'field_area',            'seccion' => 'caracteristicas', 'peso' => 3],
+      ['campo' => 'field_estrato',         'seccion' => 'caracteristicas', 'peso' => 4],
+      ['campo' => 'field_caract_int',      'seccion' => 'amenidades',      'peso' => 0],
+      ['campo' => 'field_caract_ext',      'seccion' => 'amenidades',      'peso' => 1],
+      ['campo' => 'field_fotos',           'seccion' => 'multimedia',      'peso' => 0],
+      ['campo' => 'field_video',           'seccion' => 'multimedia',      'peso' => 1],
+      ['campo' => 'field_agente',          'seccion' => 'admin',           'peso' => 0],
+    ])
+    ->save();
+}
+
+/**
  * Implements hook_uninstall().
  */
 function property_manager_uninstall() {

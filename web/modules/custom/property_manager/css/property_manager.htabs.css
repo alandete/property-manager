@@ -1,0 +1,185 @@
+/**
+ * Horizontal pill tabs — Property Manager
+ *
+ * Transforma el layout float-left vertical de Claro en una barra horizontal
+ * con estilo "pill": la pestaña activa tiene fondo relleno azul (botón),
+ * sin borde inferior como indicador. Esto elimina el conflicto visual entre
+ * el borde activo y el focus ring de Claro.
+ *
+ * Scoped por form ID para no afectar otros formularios de Drupal.
+ */
+
+/* ── Wrapper ──────────────────────────────────────────────────────────────── */
+
+#property-manager-settings-form .vertical-tabs,
+#node-inmueble-form .vertical-tabs,
+#node-inmueble-edit-form .vertical-tabs {
+  border-block-start: none;
+}
+
+/* ── Barra de pestañas: fila flex sin contenedor propio ─────────────────── */
+/*
+   Sin background ni border lateral: evita que la barra aparezca más ancha
+   que el panel de contenido (que tiene sus propios márgenes en Claro).
+   Solo una línea inferior como separador.
+*/
+
+#property-manager-settings-form .vertical-tabs__menu,
+#node-inmueble-form .vertical-tabs__menu,
+#node-inmueble-edit-form .vertical-tabs__menu {
+  float: none;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 0 6px;
+  padding-block-start: 4px; /* anula var(--vertical-tabs-menu-item-shadow-extraspace) */
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid var(--color-gray-200, #dde2e8);
+}
+
+/* ── Items: inline, sin separadores del layout vertical ─────────────────── */
+
+#property-manager-settings-form .vertical-tabs__menu-item,
+#node-inmueble-form .vertical-tabs__menu-item,
+#node-inmueble-edit-form .vertical-tabs__menu-item {
+  margin: 0;
+  padding: 0;
+  overflow: visible;
+}
+
+#property-manager-settings-form .vertical-tabs__menu-item::before,
+#property-manager-settings-form .vertical-tabs__menu-item::after,
+#node-inmueble-form .vertical-tabs__menu-item::before,
+#node-inmueble-form .vertical-tabs__menu-item::after,
+#node-inmueble-edit-form .vertical-tabs__menu-item::before,
+#node-inmueble-edit-form .vertical-tabs__menu-item::after {
+  display: none;
+  content: none;
+}
+
+/* ── Enlace / botón de la pestaña ────────────────────────────────────────── */
+
+#property-manager-settings-form .vertical-tabs__menu-link,
+#node-inmueble-form .vertical-tabs__menu-link,
+#node-inmueble-edit-form .vertical-tabs__menu-link {
+  margin-block-start: 0;
+  padding: 5px 14px;
+  border: 2px solid transparent;
+  /* Pill: radio muy alto para los extremos redondeados */
+  border-radius: 100px;
+  white-space: nowrap;
+  color: var(--color-text, #1a1a1a);
+}
+
+/* Pseudo-elemento de hover (fondo absoluto en layout vertical): desactivar */
+#property-manager-settings-form .vertical-tabs__menu-link::before,
+#node-inmueble-form .vertical-tabs__menu-link::before,
+#node-inmueble-edit-form .vertical-tabs__menu-link::before {
+  display: none;
+}
+
+/* Hover en pestaña inactiva */
+#property-manager-settings-form .vertical-tabs__menu-link:hover,
+#node-inmueble-form .vertical-tabs__menu-link:hover,
+#node-inmueble-edit-form .vertical-tabs__menu-link:hover {
+  background-color: var(--color-bgblue-hover, #e8f0fe);
+  color: var(--color-absolutezero, #0036b1);
+}
+
+/* ── Focus: outline en lugar del ::after de Claro ───────────────────────── */
+/*
+   Claro usa un ::after con border en los 4 lados como focus ring. En layout
+   horizontal ese borde inferior se superponía al indicador activo. Con pills
+   usamos outline estándar: rodea el pill limpiamente sin interferir.
+*/
+
+#property-manager-settings-form .vertical-tabs__menu-link:focus,
+#node-inmueble-form .vertical-tabs__menu-link:focus,
+#node-inmueble-edit-form .vertical-tabs__menu-link:focus {
+  outline: 2px solid var(--color-focus, #26a769);
+  outline-offset: 2px;
+  box-shadow: none;
+}
+
+/* Ocultar el ::after de Claro (su focus ring rectangular) */
+#property-manager-settings-form .vertical-tabs__menu-link:focus::after,
+#node-inmueble-form .vertical-tabs__menu-link:focus::after,
+#node-inmueble-edit-form .vertical-tabs__menu-link:focus::after {
+  display: none;
+}
+
+/* ── Pestaña activa: pill relleno azul ───────────────────────────────────── */
+
+#property-manager-settings-form .vertical-tabs__menu-item.is-selected .vertical-tabs__menu-link,
+#node-inmueble-form .vertical-tabs__menu-item.is-selected .vertical-tabs__menu-link,
+#node-inmueble-edit-form .vertical-tabs__menu-item.is-selected .vertical-tabs__menu-link {
+  background-color: var(--color-absolutezero, #0036b1);
+  color: #fff;
+  border-color: transparent;
+  box-shadow: none;
+}
+
+#property-manager-settings-form .vertical-tabs__menu-item.is-selected .vertical-tabs__menu-link:hover,
+#node-inmueble-form .vertical-tabs__menu-item.is-selected .vertical-tabs__menu-link:hover,
+#node-inmueble-edit-form .vertical-tabs__menu-item.is-selected .vertical-tabs__menu-link:hover {
+  background-color: var(--color-absolutezero-hover, #002f97);
+  color: #fff;
+}
+
+/* Borde izquierdo del indicador vertical: no aplica en pills */
+#property-manager-settings-form .vertical-tabs__menu-item.is-selected .vertical-tabs__menu-link::before,
+#node-inmueble-form .vertical-tabs__menu-item.is-selected .vertical-tabs__menu-link::before,
+#node-inmueble-edit-form .vertical-tabs__menu-item.is-selected .vertical-tabs__menu-link::before {
+  display: none;
+}
+
+/* Subtítulo de estado (ej. "2 errores"): ocupa ancho innecesario */
+#property-manager-settings-form .vertical-tabs__menu-link-summary,
+#node-inmueble-form .vertical-tabs__menu-link-summary,
+#node-inmueble-edit-form .vertical-tabs__menu-link-summary {
+  display: none;
+}
+
+/* ── Panel de contenido: ancho completo ─────────────────────────────────── */
+/*
+   .vertical-tabs__panes tenía margin-inline-start = menu-width para colocarse
+   a la derecha del menú flotante. En horizontal va debajo: sin margen.
+*/
+
+#property-manager-settings-form .vertical-tabs .vertical-tabs__panes,
+#node-inmueble-form .vertical-tabs .vertical-tabs__panes,
+#node-inmueble-edit-form .vertical-tabs .vertical-tabs__panes {
+  margin-inline-start: 0;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  inset-block-start: 0;
+}
+
+/* ── Compact: formulario de inmueble — desktop ───────────────────────────── */
+
+#node-inmueble-form .vertical-tabs__menu-link,
+#node-inmueble-edit-form .vertical-tabs__menu-link {
+  padding: 4px 10px;
+  font-size: 0.82rem;
+}
+
+/* ── Very compact: formulario de inmueble — tablet (≤960px) ─────────────── */
+
+@media screen and (max-width: 960px) {
+  #node-inmueble-form .vertical-tabs__menu,
+  #node-inmueble-edit-form .vertical-tabs__menu {
+    gap: 2px;
+    padding: 3px 0 5px;
+  }
+
+  #node-inmueble-form .vertical-tabs__menu-link,
+  #node-inmueble-edit-form .vertical-tabs__menu-link {
+    padding: 3px 7px;
+    font-size: 0.77rem;
+    letter-spacing: -0.01em;
+  }
+}
