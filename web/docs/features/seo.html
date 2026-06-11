@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SEO avanzado — Drupal Property Manager</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<aside class="sidebar" id="sidebar"></aside>
+
+<div class="main">
+  <div class="topbar">
+    <div>
+      <div class="breadcrumb"><a href="../index.html">Inicio</a> <span>›</span> <a href="index.html">Features</a> <span>›</span> SEO avanzado</div>
+      <h2>SEO avanzado</h2>
+    </div>
+  </div>
+  <div class="content">
+
+    <h2 class="section-title">SEO avanzado</h2>
+    <p class="section-desc">Datos estructurados Schema.org tipo <code>RealEstateListing</code>, sitemap XML con imágenes y metatags configurables por inmueble.</p>
+
+    <div class="alert alert-warn">
+      📋 <strong>Pendiente de documentación.</strong> Esta feature corresponde a la Fase 5. Ver <a href="../fases/fase-5.html">Fase 5 — Features extra →</a>
+    </div>
+
+    <div class="card">
+      <h3>📦 Módulos requeridos</h3>
+      <table>
+        <tr><th>Módulo</th><th>Propósito</th></tr>
+        <tr><td><code>metatag</code></td><td>Metatags configurables por tipo de contenido</td></tr>
+        <tr><td><code>schemadotorg</code></td><td>Datos estructurados JSON-LD para Google</td></tr>
+        <tr><td><code>simple_sitemap</code></td><td>Sitemap XML con imágenes de inmuebles</td></tr>
+      </table>
+      <pre style="background:#1e2a3a;color:#a8d8a8;padding:12px 16px;border-radius:6px;font-size:12px;margin-top:16px;">composer require drupal/metatag drupal/schemadotorg drupal/simple_sitemap</pre>
+    </div>
+
+  </div>
+</div>
+
+  <script src="../assets/nav.js"></script>
+</body>
+</html>

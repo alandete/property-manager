@@ -4,6 +4,7 @@ dependencies:
   config:
     - field.field.node.inmueble.body
     - field.field.node.inmueble.field_agente
+    - field.field.node.inmueble.field_documentos
     - field.field.node.inmueble.field_area
     - field.field.node.inmueble.field_banos
     - field.field.node.inmueble.field_barrio
@@ -183,6 +184,16 @@ content:
   field_agente:
     type: entity_reference_autocomplete
     weight: 11
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 40
+      placeholder: ''
+    third_party_settings: {}
+  field_documentos:
+    type: entity_reference_autocomplete
+    weight: 12
     region: content
     settings:
       match_operator: CONTAINS

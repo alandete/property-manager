@@ -8,44 +8,7 @@
 </head>
 <body>
 
-<aside class="sidebar">
-  <div class="sidebar-logo">
-    <h1>Drupal Property Manager</h1>
-    <p>Documentación técnica</p>
-  </div>
-  <nav>
-    <div class="nav-section">General</div>
-    <a href="../index.html"><span class="icon">🏠</span> Inicio</a>
-
-    <div class="nav-section">Tipos de contenido</div>
-    <a href="../analisis/tipo-contenido.html"><span class="icon">📋</span> Inmueble</a>
-    <a href="../analisis/agente.html" class="sub">Agente</a>
-    <a href="../analisis/documento.html" class="sub">Documentos</a>
-
-    <div class="nav-section">Análisis técnico</div>
-    <a href="../analisis/taxonomias.html"><span class="icon">🏷️</span> Taxonomías</a>
-    <a href="../analisis/ubicacion.html" class="sub">Ubicación jerárquica</a>
-    <a href="../analisis/codigo-auto.html" class="sub">Campo Código</a>
-
-    <div class="nav-section">Features</div>
-    <a href="../features/index.html"><span class="icon">🔍</span> Investigación</a>
-    <a href="../features/mapas.html" class="sub">Mapas y geolocalización</a>
-    <a href="../features/busqueda.html" class="sub">Búsqueda y filtros</a>
-    <a href="../features/seo.html" class="sub">SEO avanzado</a>
-
-    <div class="nav-section">Fases</div>
-    <a href="../fases/roadmap.html"><span class="icon">🗺️</span> Roadmap general</a>
-    <a href="../fases/fase-1.html" class="sub">Fase 1 — MVP funcional</a>
-    <a href="../fases/fase-2.html" class="sub">Fase 2 — Visual y UX</a>
-    <a href="../fases/fase-3.html" class="sub">Fase 3 — Mapa</a>
-    <a href="../fases/fase-4.html" class="sub">Fase 4 — Búsqueda</a>
-    <a href="../fases/fase-5.html" class="sub">Fase 5 — Features extra</a>
-
-    <div class="nav-section">Módulos</div>
-    <a href="../modulos/property_manager.html"><span class="icon">🧩</span> property_manager</a>
-    <a href="../modulos/arquitectura.html" class="sub">Arquitectura y dependencias</a>
-  </nav>
-</aside>
+<aside class="sidebar" id="sidebar"></aside>
 
 <div class="main">
   <div class="topbar">
@@ -57,12 +20,13 @@
   <div class="content">
 
     <h2 class="section-title">property_manager</h2>
-    <p class="section-desc">Módulo personalizado que define el tipo de contenido Inmueble, sus campos, vocabularios y la lógica de generación automática del código.</p>
+    <p class="section-desc">Módulo personalizado que instala el tipo de contenido Inmueble, sus campos, vocabularios de taxonomía, generación automática de código y la UI de administración del formulario por pestañas configurables.</p>
 
-    <div class="alert alert-warn">
-      ⏳ <strong>Estado:</strong> Pendiente de creación.
+    <div class="alert alert-ok">
+      ✅ <strong>Estado:</strong> Implementado y funcional. Fase 1 completada. Ver <a href="../fases/fase-1.html">Fase 1 →</a>
     </div>
 
+    <!-- INFORMACIÓN GENERAL -->
     <div class="card">
       <h3>📋 Información del módulo</h3>
       <table>
@@ -70,99 +34,184 @@
         <tr><td>Machine name</td><td><code>property_manager</code></td></tr>
         <tr><td>Ubicación</td><td><code>web/modules/custom/property_manager/</code></td></tr>
         <tr><td>Tipo</td><td>Módulo personalizado (custom)</td></tr>
-        <tr><td>Dependencias</td><td>Drupal core (<code>node</code>, <code>taxonomy</code>, <code>media</code>, <code>text</code>, <code>options</code>)</td></tr>
         <tr><td>Versión Drupal</td><td>^11.0</td></tr>
+        <tr><td>Dependencias core</td><td><code>node</code>, <code>taxonomy</code>, <code>media</code>, <code>media_library</code>, <code>file</code>, <code>image</code>, <code>text</code>, <code>options</code>, <code>filter</code>, <code>views</code>, <code>path</code>, <code>datetime</code></td></tr>
+        <tr><td>Dependencias contrib</td><td><code>pathauto</code>, <code>metatag</code>, <code>token</code></td></tr>
+        <tr><td>Ruta de configuración</td><td><code>/admin/config/property-manager/settings</code></td></tr>
       </table>
     </div>
 
+    <!-- ÁRBOL DE ARCHIVOS REAL -->
     <div class="card">
-      <h3>📁 Árbol de archivos planificado</h3>
-      <pre style="background:#f8f9fa;border:1px solid #dee2e6;padding:16px;border-radius:6px;font-size:12.5px;line-height:1.8;overflow-x:auto;">web/modules/custom/property_manager/
-├── property_manager.info.yml
-├── property_manager.module
-├── property_manager.install
-├── property_manager.routing.yml
-├── property_manager.links.menu.yml
-├── config/
-│   ├── install/
-│   │   ├── node.type.inmueble.yml
-│   │   ├── taxonomy.vocabulary.tipo_oferta.yml
-│   │   ├── taxonomy.vocabulary.tipo_inmueble.yml
-│   │   ├── taxonomy.vocabulary.estado.yml
-│   │   ├── taxonomy.vocabulary.zona.yml
-│   │   ├── taxonomy.vocabulary.ciudad.yml
-│   │   ├── field.storage.node.field_codigo.yml
-│   │   ├── field.storage.node.field_tipo_oferta.yml
-│   │   ├── field.storage.node.field_tipo_inmueble.yml
-│   │   ├── field.storage.node.field_precio.yml
-│   │   ├── field.storage.node.field_direccion.yml
-│   │   ├── field.storage.node.field_barrio.yml
-│   │   ├── field.storage.node.field_ciudad.yml
-│   │   ├── field.storage.node.field_zona.yml
-│   │   ├── field.storage.node.field_estrato.yml
-│   │   ├── field.storage.node.field_habitaciones.yml
-│   │   ├── field.storage.node.field_banos.yml
-│   │   ├── field.storage.node.field_garajes.yml
-│   │   ├── field.storage.node.field_area.yml
-│   │   ├── field.storage.node.field_estado_inmueble.yml
-│   │   ├── field.storage.node.field_detalles_int.yml
-│   │   ├── field.storage.node.field_detalles_ext.yml
-│   │   ├── field.storage.node.field_fotos.yml
-│   │   ├── field.storage.node.field_video.yml
-│   │   ├── field.field.node.inmueble.field_*.yml  (19 archivos)
-│   │   ├── core.entity_form_display.node.inmueble.default.yml
-│   │   ├── core.entity_view_display.node.inmueble.default.yml
-│   │   └── property_manager.settings.yml
-│   └── schema/
-│       └── property_manager.schema.yml
-└── src/
-    └── Form/
-        ├── PropertyManagerSetupForm.php
-        └── PropertyManagerSettingsForm.php</pre>
+      <h3>📁 Árbol de archivos</h3>
+      <pre style="background:#1e2a3a;color:#c8d6e5;border:none;padding:20px;border-radius:6px;font-size:12px;line-height:1.9;overflow-x:auto;">web/modules/custom/property_manager/
+├── property_manager.info.yml          <span style="color:#7ecbff;">← dependencias y metadatos del módulo</span>
+├── property_manager.module            <span style="color:#7ecbff;">← hooks: form_alter, node_view, preprocess_field, node_presave</span>
+├── property_manager.install           <span style="color:#7ecbff;">← hook_install, update hooks (8001, 8002)</span>
+├── property_manager.routing.yml       <span style="color:#7ecbff;">← ruta /admin/config/property-manager/settings</span>
+├── property_manager.links.menu.yml    <span style="color:#7ecbff;">← enlace en menú de administración</span>
+├── property_manager.libraries.yml     <span style="color:#7ecbff;">← librerías CSS/JS: form, settings, node, status</span>
+│
+├── css/
+│   ├── property_manager.form.css      <span style="color:#f9c74f;">← formulario edición: etiquetas, íconos, checkboxes</span>
+│   ├── property_manager.htabs.css     <span style="color:#f9c74f;">← pestañas horizontales (formulario + settings)</span>
+│   ├── property_manager.node.css      <span style="color:#f9c74f;">← vista pública: amenidades tags, precio</span>
+│   └── property_manager.admin.css     <span style="color:#f9c74f;">← página de ajustes del módulo</span>
+│
+├── js/
+│   └── property_manager.settings.js  <span style="color:#7ecbff;">← preview del código automático en Settings</span>
+│
+├── src/
+│   └── Form/
+│       └── PropertyManagerSettingsForm.php  <span style="color:#7ecbff;">← formulario de ajustes con 3 pestañas</span>
+│
+└── config/
+    ├── install/                       <span style="color:#7ecbff;">← configuración que se instala con el módulo</span>
+    │   ├── node.type.inmueble.yml
+    │   ├── node.type.agente.yml
+    │   ├── node.type.documentos.yml
+    │   ├── taxonomy.vocabulary.*.yml  (6 vocabularios)
+    │   ├── field.storage.node.*.yml   (21 almacenamientos de campo)
+    │   ├── field.field.node.*.yml     (25 instancias de campo)
+    │   ├── core.entity_form_display.node.inmueble.default.yml
+    │   ├── core.entity_view_display.node.inmueble.default.yml
+    │   └── property_manager.settings.yml
+    └── schema/
+        └── property_manager.schema.yml</pre>
     </div>
 
+    <!-- HOOKS PRINCIPALES -->
     <div class="card">
-      <h3>🧙 Instalación guiada</h3>
-      <p style="font-size:13.5px;margin-bottom:16px;">
-        Al instalar el módulo, en lugar de aplicar valores fijos, se presenta un <strong>formulario de configuración inicial</strong> que el administrador completa antes de que el sitio empiece a funcionar. Esto permite reutilizar el módulo en cualquier proyecto sin estar atado a nombres específicos.
-      </p>
+      <h3>🪝 Hooks principales en property_manager.module</h3>
       <table>
-        <tr><th>Ajuste configurable en la instalación</th><th>Valor por defecto</th></tr>
+        <tr><th>Hook</th><th>Qué hace</th></tr>
         <tr>
-          <td>Nombre del tipo de contenido principal</td>
-          <td><code>Inmueble</code></td>
+          <td><code>hook_form_alter()</code></td>
+          <td>Actúa en <code>node_inmueble_form</code> y <code>node_inmueble_edit_form</code>. Muestra el bloque de código (nuevo/asignado), añade íconos FA a los campos, organiza los campos en pestañas configurables y adjunta la librería <code>property_manager/form</code>.</td>
         </tr>
         <tr>
-          <td>Nombre del tipo de contenido de agentes</td>
-          <td><code>Agente</code></td>
+          <td><code>hook_node_presave()</code></td>
+          <td>Genera automáticamente <code>field_codigo</code> en nodos Inmueble nuevos. Formato: <code>{PREFIJO}{SEP}{NNNNN}</code> configurable desde Ajustes.</td>
         </tr>
         <tr>
-          <td>Nombre del tipo de contenido de documentos</td>
-          <td><code>Documentos</code></td>
+          <td><code>hook_node_view()</code></td>
+          <td>Adjunta la librería <code>property_manager/node</code> solo al visualizar nodos de tipo Inmueble.</td>
         </tr>
         <tr>
-          <td>Prefijo del código automático</td>
-          <td><code>PROP</code></td>
+          <td><code>hook_preprocess_field()</code></td>
+          <td>Para <code>field_caract_int</code> y <code>field_caract_ext</code>: reconstruye los items mostrando todos los valores posibles con clase <code>.pm-caract--yes</code> o <code>.pm-caract--no</code> según estén seleccionados.</td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- FUNCIONES INTERNAS -->
+    <div class="card">
+      <h3>🔧 Funciones internas clave</h3>
+      <table>
+        <tr><th>Función</th><th>Descripción</th></tr>
+        <tr>
+          <td><code>_property_manager_build_form_sections()</code></td>
+          <td>Lee la configuración de secciones y campos desde <code>property_manager.settings</code> y reorganiza el array del formulario en <code>vertical_tabs</code>. Añade clase <code>pm-tab-block</code> a las secciones configuradas en <code>$block_tabs</code>.</td>
         </tr>
         <tr>
-          <td>Separador del código</td>
-          <td><code>-</code></td>
+          <td><code>_property_manager_add_field_icons()</code></td>
+          <td>Asigna <code>#field_prefix</code> con el HTML del ícono FA al sub-elemento correcto de cada campo. Auto-detecta si es widget directo (select), valor simple (number/text) o autocomplete de entidad.</td>
         </tr>
         <tr>
-          <td>Número de dígitos del código</td>
-          <td><code>5</code></td>
+          <td><code>PropertyManagerSettingsForm::defaultSecciones()</code></td>
+          <td>Devuelve el array de secciones por defecto. Método estático público — se puede llamar desde cualquier parte del módulo.</td>
+        </tr>
+        <tr>
+          <td><code>PropertyManagerSettingsForm::defaultCampos()</code></td>
+          <td>Devuelve el array de campos por defecto con su sección y peso asignados.</td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- UPDATE HOOKS -->
+    <div class="card">
+      <h3>🔄 Update hooks (property_manager.install)</h3>
+      <table>
+        <tr><th>Hook</th><th>Qué hace</th><th>Estado</th></tr>
+        <tr>
+          <td><code>property_manager_update_8001()</code></td>
+          <td>Añade la configuración de secciones (<code>form_secciones</code>, <code>form_campos</code>, <code>form_seccion_default</code>) a instalaciones existentes que no la tenían.</td>
+          <td><span class="badge badge-done">ejecutado</span></td>
+        </tr>
+        <tr>
+          <td><code>property_manager_update_8002()</code></td>
+          <td>Crea el campo <code>field_documentos</code> en el tipo Inmueble (entity reference → documentos, cardinalidad ilimitada), lo añade al form display con widget autocomplete y lo registra en la sección Anexos de la config del módulo.</td>
+          <td><span class="badge badge-done">ejecutado</span></td>
         </tr>
       </table>
       <div class="alert alert-info" style="margin-top:16px;">
-        💡 <strong>Implementación:</strong> <code>hook_install_tasks()</code> en <code>property_manager.install</code> define una tarea de configuración inicial que Drupal ejecuta automáticamente al terminar la instalación del módulo. El formulario redirige al administrador antes de que pueda usar el sitio.
+        💡 Para futuros cambios de schema o datos, añade un nuevo <code>property_manager_update_8003()</code> en <code>property_manager.install</code> y ejecuta con <code>drush updatedb</code>.
       </div>
-      <div class="alert alert-ok" style="margin-top:8px;">
-        ✅ <strong>Decisión:</strong> Instalación guiada. Los valores por defecto permiten instalar y usar sin necesidad de configurar, pero el formulario está disponible si se quiere personalizar. Ver <a href="../analisis/codigo-auto.html">Campo Código →</a>
-      </div>
+    </div>
+
+    <!-- LIBRERÍAS -->
+    <div class="card">
+      <h3>📚 Librerías CSS/JS</h3>
+      <table>
+        <tr><th>Nombre</th><th>Archivos</th><th>Cuándo se adjunta</th></tr>
+        <tr>
+          <td><code>property_manager/form</code></td>
+          <td>Font Awesome CDN + <code>form.css</code> + <code>htabs.css</code></td>
+          <td><code>hook_form_alter</code> en formularios del Inmueble</td>
+        </tr>
+        <tr>
+          <td><code>property_manager/settings</code></td>
+          <td><code>admin.css</code> + <code>htabs.css</code> + <code>settings.js</code></td>
+          <td><code>PropertyManagerSettingsForm::buildForm()</code></td>
+        </tr>
+        <tr>
+          <td><code>property_manager/node</code></td>
+          <td><code>node.css</code></td>
+          <td><code>hook_node_view</code> al visualizar un Inmueble</td>
+        </tr>
+        <tr>
+          <td><code>property_manager/status</code></td>
+          <td><code>admin.css</code></td>
+          <td>Página de estado del módulo</td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- CONFIGURACIÓN -->
+    <div class="card">
+      <h3>⚙️ Página de Ajustes</h3>
+      <p style="font-size:13.5px;color:#6c757d;margin-bottom:16px;">Disponible en <code>/admin/config/property-manager/settings</code>. Organizada en tres pestañas:</p>
+      <table>
+        <tr><th>Pestaña</th><th>Contenido</th></tr>
+        <tr>
+          <td><strong>Código automático</strong></td>
+          <td>Prefijo, separador y número de dígitos del campo <code>field_codigo</code>. Preview en tiempo real del formato resultante (vía JS).</td>
+        </tr>
+        <tr>
+          <td><strong>Secciones del formulario</strong></td>
+          <td>Tabla CRUD de pestañas (id, etiqueta, peso). Selector de la pestaña activa por defecto.</td>
+        </tr>
+        <tr>
+          <td><strong>Ubicación de campos</strong></td>
+          <td>Tabla que asigna cada campo a una sección y le da un peso de orden.</td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- ENLACE A ESTILOS -->
+    <div class="card">
+      <h3>🎨 Personalización visual</h3>
+      <p style="font-size:13.5px;color:#6c757d;margin-bottom:12px;">
+        Para una guía completa de cómo personalizar los estilos del módulo — tanto en el formulario de edición como en la vista pública — consulta la documentación de Estilos CSS.
+      </p>
+      <a href="estilos.html" style="display:inline-block;background:#3a6ea5;color:#fff;padding:9px 18px;border-radius:6px;text-decoration:none;font-size:13.5px;font-weight:600;">
+        Ver documentación de Estilos CSS →
+      </a>
     </div>
 
   </div>
 </div>
 
+  <script src="../assets/nav.js"></script>
 </body>
 </html>

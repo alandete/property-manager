@@ -1,0 +1,367 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Estilos CSS — Drupal Property Manager</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <style>
+    .file-tag {
+      display: inline-block;
+      background: #1e2a3a;
+      color: #7ecbff;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: 11.5px;
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+    .scope-badge {
+      display: inline-block;
+      padding: 2px 9px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+    .scope-edit     { background: #cce5ff; color: #004085; }
+    .scope-frontend { background: #d4edda; color: #155724; }
+    .scope-admin    { background: #fff3cd; color: #856404; }
+    .css-block {
+      background: #1e2a3a;
+      color: #e2e8f0;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: 12px;
+      line-height: 1.75;
+      padding: 16px 20px;
+      border-radius: 6px;
+      overflow-x: auto;
+      margin: 12px 0;
+    }
+    .css-block .comment { color: #7ecbff; }
+    .css-block .selector { color: #f9c74f; }
+    .css-block .prop { color: #98c379; }
+    .css-block .val { color: #e5c07b; }
+    .icon-table td:first-child { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 12px; }
+    .icon-table td:nth-child(2) { color: #6c757d; font-size: 13px; }
+    .tip {
+      background: #e8f4fd;
+      border-left: 4px solid #17a2b8;
+      padding: 10px 14px;
+      border-radius: 4px;
+      font-size: 13px;
+      margin: 12px 0;
+    }
+  </style>
+</head>
+<body>
+
+<aside class="sidebar" id="sidebar"></aside>
+
+<div class="main">
+  <div class="topbar">
+    <div>
+      <div class="breadcrumb"><a href="../index.html">Inicio</a> <span>›</span> <a href="property_manager.html">property_manager</a> <span>›</span> Estilos CSS</div>
+      <h2>Estilos CSS del módulo</h2>
+    </div>
+  </div>
+  <div class="content">
+
+    <h2 class="section-title">Hojas de estilo</h2>
+    <p class="section-desc">El módulo tiene cuatro archivos CSS, cada uno asociado a una librería Drupal distinta. Dependiendo de dónde quieras hacer cambios visuales, sabrás exactamente qué archivo editar.</p>
+
+    <!-- MAPA GENERAL -->
+    <div class="card">
+      <h3>🗺️ Mapa general de estilos</h3>
+      <table>
+        <tr>
+          <th>Archivo</th>
+          <th>Librería</th>
+          <th>Dónde se carga</th>
+          <th>Propósito</th>
+        </tr>
+        <tr>
+          <td><span class="file-tag">css/property_manager.form.css</span></td>
+          <td><code>property_manager/form</code></td>
+          <td><span class="scope-badge scope-edit">Vista edición</span></td>
+          <td>Layout de campos en el formulario del Inmueble: etiquetas inline, íconos input-group, checkboxes horizontales, sección bloque.</td>
+        </tr>
+        <tr>
+          <td><span class="file-tag">css/property_manager.htabs.css</span></td>
+          <td><code>property_manager/form</code> + <code>settings</code></td>
+          <td><span class="scope-badge scope-edit">Vista edición</span> <span class="scope-badge scope-admin">Admin</span></td>
+          <td>Transforma las pestañas verticales de Claro en pestañas horizontales estilo pill. Aplica en el formulario del Inmueble y en la página de Ajustes.</td>
+        </tr>
+        <tr>
+          <td><span class="file-tag">css/property_manager.node.css</span></td>
+          <td><code>property_manager/node</code></td>
+          <td><span class="scope-badge scope-frontend">Vista pública</span></td>
+          <td>Estilos de la vista pública del Inmueble: amenidades como tags con ✓/✗, precio destacado. Solo se carga al visualizar un nodo inmueble.</td>
+        </tr>
+        <tr>
+          <td><span class="file-tag">css/property_manager.admin.css</span></td>
+          <td><code>property_manager/settings</code> + <code>status</code></td>
+          <td><span class="scope-badge scope-admin">Admin</span></td>
+          <td>Estilos de la página de Ajustes: grid de 3 columnas para el código automático, preview del formato, separadores.</td>
+        </tr>
+      </table>
+
+      <div class="tip" style="margin-top:16px;">
+        💡 La librería <code>form</code> se adjunta en <code>property_manager_form_alter()</code> en <code>property_manager.module</code>. La librería <code>node</code> se adjunta en <code>property_manager_node_view()</code>. Las librerías están declaradas en <code>property_manager.libraries.yml</code>.
+      </div>
+    </div>
+
+    <!-- VISTA DE EDICIÓN -->
+    <div class="card">
+      <h3>✏️ Vista de edición — <span class="file-tag">property_manager.form.css</span></h3>
+      <p style="font-size:13.5px;color:#6c757d;margin-bottom:16px;">Todos los estilos del formulario de crear/editar Inmueble. Los selectores usan la clase <code>.pm-tab-pane</code> como scope para no afectar otros formularios de Drupal.</p>
+
+      <table style="margin-bottom:16px;">
+        <tr><th>Sección en el archivo</th><th>Qué hace</th><th>Clave CSS</th></tr>
+        <tr>
+          <td><strong>Bloque de código</strong></td>
+          <td>El aviso azul/gris con el código del inmueble en la parte superior del formulario.</td>
+          <td><code>.pm-codigo</code>, <code>.pm-codigo--pending</code>, <code>.pm-codigo--assigned</code></td>
+        </tr>
+        <tr>
+          <td><strong>Etiquetas inline</strong></td>
+          <td>Pone la etiqueta de cada campo a la izquierda (ancho fijo <code>10rem</code>) y el input a la derecha en la misma fila. Aplica a <code>select</code>, <code>text</code>, <code>url</code>, <code>number</code> y <code>entity-autocomplete</code>.</td>
+          <td><code>.pm-tab-pane :is(.form-type--select, ...)</code></td>
+        </tr>
+        <tr>
+          <td><strong>Íconos input-group</strong></td>
+          <td>El addon izquierdo con ícono Font Awesome pegado al input, simulando el input-group de Bootstrap. Usa las variables de borde de Claro para que el ícono sea idéntico al borde del input.</td>
+          <td><code>.pm-tab-pane .field-prefix:has(.pm-ficon)</code></td>
+        </tr>
+        <tr>
+          <td><strong>Tab bloque</strong></td>
+          <td>En la pestaña Multimedia la etiqueta va en su propia fila (arriba del input) en lugar de a la izquierda. Aplica cuando el details tiene la clase <code>pm-tab-block</code>.</td>
+          <td><code>.pm-tab-block :is(...) > .form-item__label</code></td>
+        </tr>
+        <tr>
+          <td><strong>Checkboxes horizontales</strong></td>
+          <td>Las casillas de Características interiores y exteriores fluyen de izquierda a derecha. Resetea el posicionamiento float de Claro que causa problemas en flex.</td>
+          <td><code>.pm-tab-pane .form-checkboxes</code>, <code>.form-checkboxes > .form-type--checkbox .form-boolean</code></td>
+        </tr>
+      </table>
+
+      <h4 style="font-size:13.5px;font-weight:600;margin-bottom:8px;">Cómo cambiar el ancho de las etiquetas</h4>
+      <p style="font-size:13px;color:#6c757d;margin-bottom:6px;">Las etiquetas usan <code>flex: 0 0 10rem</code>. Para hacerlas más anchas o estrechas, cambia el valor en dos lugares:</p>
+      <div class="css-block"><span class="comment">/* property_manager.form.css — busca estas dos reglas */</span>
+<span class="selector">.pm-tab-pane :is(...) > .form-item__label</span> {
+  <span class="prop">flex</span>: <span class="val">0 0 10rem</span>;  <span class="comment">/* ← cambiar aquí */</span>
+}
+<span class="selector">.pm-tab-pane :is(...) > .form-item__description</span> {
+  <span class="prop">padding-left</span>: <span class="val">calc(10rem + 0.5rem)</span>;  <span class="comment">/* ← y aquí */</span>
+}</div>
+
+      <h4 style="font-size:13.5px;font-weight:600;margin:16px 0 8px;">Cómo cambiar el spacing entre checkboxes</h4>
+      <div class="css-block"><span class="selector">.pm-tab-pane .form-checkboxes</span> {
+  <span class="prop">gap</span>: <span class="val">0.35rem 1.75rem</span>;  <span class="comment">/* vertical horizontal */</span>
+}</div>
+    </div>
+
+    <!-- ÍCONOS FONT AWESOME -->
+    <div class="card">
+      <h3>🎨 Íconos Font Awesome — Cómo añadir o cambiar</h3>
+      <p style="font-size:13.5px;color:#6c757d;margin-bottom:16px;">Los íconos se asignan en la función <code>_property_manager_add_field_icons()</code> dentro de <code>property_manager.module</code>. El array <code>$icons</code> mapea cada campo a su clase de Font Awesome 6.</p>
+
+      <h4 style="font-size:13.5px;font-weight:600;margin-bottom:8px;">Íconos actuales por campo</h4>
+      <table class="icon-table">
+        <tr><th>Campo</th><th>Ícono FA</th><th>Significado visual</th></tr>
+        <tr><td>field_tipo_oferta</td><td>fa-tag</td><td>Etiqueta de oferta</td></tr>
+        <tr><td>field_tipo_inmueble</td><td>fa-building</td><td>Edificio</td></tr>
+        <tr><td>field_estado_inmueble</td><td>fa-circle-dot</td><td>Estado/disponibilidad</td></tr>
+        <tr><td>field_precio</td><td>fa-dollar-sign</td><td>Precio</td></tr>
+        <tr><td>field_pais</td><td>fa-globe</td><td>País/globalidad</td></tr>
+        <tr><td>field_departamento</td><td>fa-map</td><td>Mapa regional</td></tr>
+        <tr><td>field_ciudad</td><td>fa-city</td><td>Ciudad</td></tr>
+        <tr><td>field_direccion</td><td>fa-location-dot</td><td>Marcador de ubicación</td></tr>
+        <tr><td>field_barrio</td><td>fa-map-pin</td><td>Pin de barrio</td></tr>
+        <tr><td>field_zona</td><td>fa-layer-group</td><td>Capas/zona</td></tr>
+        <tr><td>field_habitaciones</td><td>fa-bed</td><td>Habitación</td></tr>
+        <tr><td>field_banos</td><td>fa-shower</td><td>Baño</td></tr>
+        <tr><td>field_parqueadero</td><td>fa-car</td><td>Automóvil</td></tr>
+        <tr><td>field_area</td><td>fa-ruler-combined</td><td>Medida de área</td></tr>
+        <tr><td>field_estrato</td><td>fa-signal</td><td>Nivel/estrato</td></tr>
+        <tr><td>field_video</td><td>fa-video</td><td>Video</td></tr>
+        <tr><td>field_agente</td><td>fa-user</td><td>Persona/agente</td></tr>
+      </table>
+
+      <h4 style="font-size:13.5px;font-weight:600;margin:16px 0 8px;">Para cambiar un ícono</h4>
+      <p style="font-size:13px;color:#6c757d;margin-bottom:6px;">Edita el array en <code>property_manager.module</code> y cambia el nombre de la clase FA. Puedes buscar el nombre en <a href="https://fontawesome.com/icons" style="color:#3a6ea5;">fontawesome.com/icons</a> (usa solo íconos de <em>Free / Solid</em>).</p>
+      <div class="css-block"><span class="comment">// property_manager.module — función _property_manager_add_field_icons()</span>
+$icons = [
+  <span class="val">'field_precio'</span>     => <span class="val">'fa-dollar-sign'</span>,  <span class="comment">// ← cambia 'fa-dollar-sign' por cualquier ícono FA Free Solid</span>
+  <span class="val">'field_habitaciones'</span> => <span class="val">'fa-bed'</span>,
+  <span class="comment">// ...</span>
+];</div>
+
+      <h4 style="font-size:13.5px;font-weight:600;margin:16px 0 8px;">Para añadir un ícono a un campo nuevo</h4>
+      <p style="font-size:13px;color:#6c757d;margin-bottom:6px;">Agrega una línea al array. La función detecta automáticamente el tipo de widget:</p>
+      <div class="css-block">$icons = [
+  <span class="comment">// campos existentes...</span>
+  <span class="val">'field_mi_nuevo_campo'</span> => <span class="val">'fa-home'</span>,  <span class="comment">// ← añadir aquí</span>
+];</div>
+      <div class="tip">La función auto-detecta si el campo usa widget directo (select), valor simple (number/text) o autocomplete de entidad (entity_reference_autocomplete). No necesitas especificarlo.</div>
+
+      <h4 style="font-size:13.5px;font-weight:600;margin:16px 0 8px;">Versión de Font Awesome</h4>
+      <p style="font-size:13px;color:#6c757d;margin-bottom:6px;">Se carga desde CDN. Para cambiar la versión, edita <code>property_manager.libraries.yml</code>:</p>
+      <div class="css-block"><span class="comment"># property_manager.libraries.yml</span>
+form:
+  css:
+    theme:
+      <span class="val">https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css</span>: { type: external, minified: true }
+      <span class="comment"># ↑ Cambia 6.5.2 por la versión deseada. Consulta: cdnjs.com/libraries/font-awesome</span></div>
+    </div>
+
+    <!-- PESTAÑAS HORIZONTALES -->
+    <div class="card">
+      <h3>🗂️ Pestañas horizontales — <span class="file-tag">property_manager.htabs.css</span></h3>
+      <p style="font-size:13.5px;color:#6c757d;margin-bottom:16px;">Transforma el layout vertical de Claro en pestañas pill horizontales. Aplica en dos formularios (scoped por ID):</p>
+      <ul style="font-size:13px;margin-left:20px;margin-bottom:16px;line-height:2;">
+        <li><code>#property-manager-settings-form</code> — Página de Ajustes del módulo</li>
+        <li><code>#node-inmueble-form</code> y <code>#node-inmueble-edit-form</code> — Formulario de Inmueble</li>
+      </ul>
+
+      <table>
+        <tr><th>Qué cambiar</th><th>Selector CSS</th><th>Propiedad</th></tr>
+        <tr>
+          <td>Color de la pestaña activa</td>
+          <td><code>.is-selected .vertical-tabs__menu-link</code></td>
+          <td><code>background-color: var(--color-absolutezero)</code> → cambia el color</td>
+        </tr>
+        <tr>
+          <td>Forma de los extremos (pill)</td>
+          <td><code>.vertical-tabs__menu-link</code></td>
+          <td><code>border-radius: 100px</code> → reduce para esquinas más rectas</td>
+        </tr>
+        <tr>
+          <td>Tamaño de texto en formulario Inmueble</td>
+          <td><code>#node-inmueble-form .vertical-tabs__menu-link</code></td>
+          <td><code>font-size: 0.82rem</code></td>
+        </tr>
+        <tr>
+          <td>Pestaña activa por defecto</td>
+          <td colspan="2">Se configura en <strong>Administración → Property Manager → Ajustes</strong> (no en CSS). Ver sección Secciones del formulario.</td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- VISTA PÚBLICA -->
+    <div class="card">
+      <h3>🌐 Vista pública — <span class="file-tag">property_manager.node.css</span></h3>
+      <p style="font-size:13.5px;color:#6c757d;margin-bottom:16px;">Solo se carga cuando se visualiza un nodo de tipo Inmueble (vía <code>hook_node_view</code>). No afecta al formulario de edición.</p>
+
+      <table style="margin-bottom:16px;">
+        <tr><th>Elemento</th><th>Selector</th><th>Descripción</th></tr>
+        <tr>
+          <td><strong>Amenidades activas (✓)</strong></td>
+          <td><code>.pm-caract--yes</code></td>
+          <td>Tag verde con check. Fondo <code>#f0faf2</code>, borde <code>#c3e6cb</code>, texto <code>#155724</code>.</td>
+        </tr>
+        <tr>
+          <td><strong>Amenidades inactivas (✗)</strong></td>
+          <td><code>.pm-caract--no</code></td>
+          <td>Tag gris neutro. Fondo <code>#f8f9fa</code>, borde <code>#dee2e6</code>, texto <code>#6c757d</code>.</td>
+        </tr>
+        <tr>
+          <td><strong>Precio</strong></td>
+          <td><code>.field--name-field-precio .field__item</code></td>
+          <td>Tamaño <code>1.4em</code>, negrita, color azul oscuro <code>#1a237e</code>.</td>
+        </tr>
+        <tr>
+          <td><strong>Lista de amenidades</strong></td>
+          <td><code>.field--name-field-caract-int .field__items</code></td>
+          <td>Flex wrap con <code>gap: 6px</code>. Los tags se adaptan al ancho disponible.</td>
+        </tr>
+      </table>
+
+      <h4 style="font-size:13.5px;font-weight:600;margin-bottom:8px;">Ejemplo: cambiar colores de las amenidades</h4>
+      <div class="css-block"><span class="comment">/* property_manager.node.css */</span>
+
+<span class="comment">/* Disponible — actualmente verde */</span>
+<span class="selector">.field--name-field-caract-int .pm-caract--yes</span> {
+  <span class="prop">background</span>: <span class="val">#e8f4fd</span>;     <span class="comment">/* azul claro */</span>
+  <span class="prop">border</span>: <span class="val">1px solid #b8daff</span>;
+  <span class="prop">color</span>: <span class="val">#004085</span>;
+}
+
+<span class="comment">/* No disponible — puedes ocultarlos completamente */</span>
+<span class="selector">.field--name-field-caract-int .pm-caract--no</span> {
+  <span class="prop">display</span>: <span class="val">none</span>;  <span class="comment">/* ← ocultar los que no aplican */</span>
+}</div>
+
+      <h4 style="font-size:13.5px;font-weight:600;margin:16px 0 8px;">Ejemplo: cambiar estilo del precio</h4>
+      <div class="css-block"><span class="comment">/* property_manager.node.css */</span>
+<span class="selector">.field--name-field-precio .field__item</span> {
+  <span class="prop">font-size</span>: <span class="val">1.6em</span>;       <span class="comment">/* más grande */</span>
+  <span class="prop">color</span>: <span class="val">#2e7d32</span>;         <span class="comment">/* verde en lugar de azul */</span>
+  <span class="prop">font-weight</span>: <span class="val">700</span>;
+}</div>
+
+      <div class="tip">
+        💡 La clase <code>.pm-caract--yes</code> / <code>.pm-caract--no</code> se asigna dinámicamente en <code>property_manager_preprocess_field()</code> en <code>property_manager.module</code>. El módulo muestra <em>todos</em> los valores posibles (no solo los seleccionados), marcando cada uno como presente o ausente.
+      </div>
+    </div>
+
+    <!-- SECCIONES DEL FORMULARIO -->
+    <div class="card">
+      <h3>⚙️ Secciones del formulario — Configuración desde la UI</h3>
+      <p style="font-size:13.5px;color:#6c757d;margin-bottom:16px;">Las pestañas del formulario de Inmueble (Básica, Ubicación, Características…) son totalmente configurables desde la interfaz, sin tocar código.</p>
+
+      <table>
+        <tr><th>Ajuste</th><th>Dónde</th><th>Notas</th></tr>
+        <tr>
+          <td>Renombrar una pestaña</td>
+          <td rowspan="4"><strong>Administración → Property Manager → Ajustes</strong><br><code>/admin/config/property-manager/settings</code></td>
+          <td>En la tabla de secciones, edita directamente el campo de etiqueta.</td>
+        </tr>
+        <tr>
+          <td>Cambiar la pestaña activa al abrir el formulario</td>
+          <td>Selector «Pestaña activa por defecto» al final de la sección <em>Secciones del formulario</em>.</td>
+        </tr>
+        <tr>
+          <td>Mover un campo a otra pestaña</td>
+          <td>En la tabla de la sección <em>Ubicación de campos</em>, cambia la columna «Sección» del campo deseado.</td>
+        </tr>
+        <tr>
+          <td>Reordenar los campos dentro de una pestaña</td>
+          <td>Usa la columna «Peso» en la tabla de campos (menor peso = aparece antes).</td>
+        </tr>
+      </table>
+
+      <h4 style="font-size:13.5px;font-weight:600;margin:16px 0 8px;">Pestaña Multimedia — tab de bloque</h4>
+      <p style="font-size:13px;color:#6c757d;margin-bottom:6px;">
+        La pestaña Multimedia tiene la clase CSS <code>pm-tab-block</code> además de <code>pm-tab-pane</code>. Esto hace que las etiquetas se muestren encima del input (en lugar de inline) para que sean consistentes con el widget de media que no tiene etiqueta lateral. Si mueves el campo <code>field_video</code> a otra pestaña, el comportamiento inline se restaura automáticamente en esa pestaña.
+      </p>
+      <p style="font-size:13px;color:#6c757d;">
+        Para aplicar este comportamiento a otra pestaña, edita el array <code>$block_tabs</code> en <code>_property_manager_build_form_sections()</code> dentro de <code>property_manager.module</code>:
+      </p>
+      <div class="css-block"><span class="comment">// property_manager.module — _property_manager_build_form_sections()</span>
+$block_tabs = [<span class="val">'multimedia'</span>, <span class="val">'anexos'</span>];  <span class="comment">// añade el id de la sección aquí</span></div>
+    </div>
+
+    <!-- REFERENCIA RÁPIDA -->
+    <div class="card">
+      <h3>📌 Referencia rápida — Qué archivo editar según el objetivo</h3>
+      <table>
+        <tr><th>Objetivo</th><th>Archivo</th></tr>
+        <tr><td>Cambiar colores/fuentes del formulario de edición</td><td><span class="file-tag">css/property_manager.form.css</span></td></tr>
+        <tr><td>Cambiar íconos de los campos del formulario</td><td><code>property_manager.module</code> → <code>_property_manager_add_field_icons()</code></td></tr>
+        <tr><td>Cambiar estilo de las pestañas (pill, colores, tamaño)</td><td><span class="file-tag">css/property_manager.htabs.css</span></td></tr>
+        <tr><td>Cambiar colores de amenidades en la vista pública</td><td><span class="file-tag">css/property_manager.node.css</span></td></tr>
+        <tr><td>Cambiar estilo del precio en la vista pública</td><td><span class="file-tag">css/property_manager.node.css</span></td></tr>
+        <tr><td>Cambiar la pestaña activa por defecto</td><td>UI: <code>/admin/config/property-manager/settings</code></td></tr>
+        <tr><td>Renombrar o reorganizar pestañas</td><td>UI: <code>/admin/config/property-manager/settings</code></td></tr>
+        <tr><td>Mover campos entre pestañas</td><td>UI: <code>/admin/config/property-manager/settings</code></td></tr>
+        <tr><td>Estilos del panel de Ajustes del módulo</td><td><span class="file-tag">css/property_manager.admin.css</span></td></tr>
+        <tr><td>Añadir un campo nuevo al formulario con ícono</td><td><code>property_manager.module</code> + UI Settings</td></tr>
+        <tr><td>Cambiar versión de Font Awesome</td><td><code>property_manager.libraries.yml</code></td></tr>
+      </table>
+    </div>
+
+  </div>
+</div>
+
+  <script src="../assets/nav.js"></script>
+</body>
+</html>

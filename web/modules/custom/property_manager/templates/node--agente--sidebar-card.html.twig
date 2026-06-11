@@ -1,0 +1,32 @@
+{#
+/**
+ * @file
+ * Agente — tarjeta compacta para la barra lateral del inmueble.
+ * Muestra foto circular, nombre, teléfono fijo y móvil con íconos FA.
+ */
+#}
+<div class="pm-agente-card">
+  {% if content.field_foto_agente %}
+    <div class="pm-agente-card__photo">
+      {{ content.field_foto_agente }}
+    </div>
+  {% endif %}
+
+  <div class="pm-agente-card__info">
+    <h4 class="pm-agente-card__name">{{ label }}</h4>
+
+    {% if node.field_telefono.value %}
+      <p class="pm-agente-card__contact">
+        <i class="fa-solid fa-phone" aria-hidden="true"></i>
+        <span>{{ node.field_telefono.value }}</span>
+      </p>
+    {% endif %}
+
+    {% if node.field_movil.value %}
+      <p class="pm-agente-card__contact">
+        <i class="fa-solid fa-mobile-screen-button" aria-hidden="true"></i>
+        <span>{{ node.field_movil.value }}</span>
+      </p>
+    {% endif %}
+  </div>
+</div>

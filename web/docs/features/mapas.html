@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mapas y geolocalización — Drupal Property Manager</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<aside class="sidebar" id="sidebar"></aside>
+
+<div class="main">
+  <div class="topbar">
+    <div>
+      <div class="breadcrumb"><a href="../index.html">Inicio</a> <span>›</span> <a href="index.html">Features</a> <span>›</span> Mapas y geolocalización</div>
+      <h2>Mapas y geolocalización</h2>
+    </div>
+  </div>
+  <div class="content">
+
+    <h2 class="section-title">Mapas y geolocalización</h2>
+    <p class="section-desc">Integración de mapas interactivos con OpenStreetMap y geocodificación automática de la dirección del inmueble.</p>
+
+    <div class="alert alert-warn">
+      📋 <strong>Pendiente de documentación.</strong> Esta feature corresponde a la Fase 3. Ver <a href="../fases/fase-3.html">Fase 3 — Mapa →</a>
+    </div>
+
+    <div class="card">
+      <h3>📦 Módulos requeridos</h3>
+      <table>
+        <tr><th>Módulo</th><th>Propósito</th></tr>
+        <tr><td><code>geofield</code></td><td>Campo de coordenadas geográficas en el inmueble</td></tr>
+        <tr><td><code>leaflet</code></td><td>Mapa interactivo con OpenStreetMap en la vista pública</td></tr>
+        <tr><td><code>geocoder</code></td><td>Geocodificación automática a partir de la dirección</td></tr>
+      </table>
+      <pre style="background:#1e2a3a;color:#a8d8a8;padding:12px 16px;border-radius:6px;font-size:12px;margin-top:16px;">composer require drupal/geofield drupal/leaflet drupal/geocoder</pre>
+    </div>
+
+  </div>
+</div>
+
+  <script src="../assets/nav.js"></script>
+</body>
+</html>

@@ -70,3 +70,207 @@
 .pm-codigo--assigned .pm-codigo__label { color: #5f6368; }
 .pm-codigo--assigned .pm-codigo__value { color: #202124; }
 .pm-codigo--assigned .pm-codigo__hint  { color: #80868b; }
+
+/* ── Inline labels ─────────────────────────────────────────────────────────
+   Scope: .pm-tab-pane (clase añadida a cada details de nuestras secciones).
+   Flex approach: el label ocupa ancho fijo; prefix + input + suffix fluyen
+   inline en el espacio restante sin necesitar wrappers extra.
+   Excluye implícitamente: checkboxes, radios, textarea, managed-file.
+   ───────────────────────────────────────────────────────────────────────── */
+
+.pm-tab-pane :is(.form-type--select,
+                  .form-type--textfield,
+                  .form-type--url,
+                  .form-type--number,
+                  .form-type--entity-autocomplete) {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0 0.5rem;
+  margin-block: 0.4rem;
+}
+
+/* Etiqueta: ancho fijo, alineada a la izquierda */
+.pm-tab-pane :is(.form-type--select,
+                  .form-type--textfield,
+                  .form-type--url,
+                  .form-type--number,
+                  .form-type--entity-autocomplete) > .form-item__label {
+  flex: 0 0 10rem;
+  text-align: left;
+  margin-bottom: 0;
+  font-weight: 600;
+}
+
+/* Prefijo (ej. "$"): no crece, se queda pegado al input */
+.pm-tab-pane :is(.form-type--select,
+                  .form-type--textfield,
+                  .form-type--url,
+                  .form-type--number,
+                  .form-type--entity-autocomplete) > .field-prefix {
+  flex: 0 0 auto;
+}
+
+/* Input / select: crece para llenar el espacio disponible */
+.pm-tab-pane :is(.form-type--select,
+                  .form-type--textfield,
+                  .form-type--url,
+                  .form-type--number,
+                  .form-type--entity-autocomplete) > .form-element {
+  flex: 1 1 auto;
+  min-width: 6rem;
+}
+
+/* Sufijo (ej. "m²"): no crece, queda pegado al input */
+.pm-tab-pane :is(.form-type--select,
+                  .form-type--textfield,
+                  .form-type--url,
+                  .form-type--number,
+                  .form-type--entity-autocomplete) > .field-suffix {
+  flex: 0 0 auto;
+}
+
+/* Descripción: nueva línea completa, indentada para alinearse con el input */
+.pm-tab-pane :is(.form-type--select,
+                  .form-type--textfield,
+                  .form-type--url,
+                  .form-type--number,
+                  .form-type--entity-autocomplete) > .form-item__description {
+  flex: 0 0 100%;
+  padding-left: calc(10rem + 0.5rem);
+  font-size: var(--font-size-s, 0.8rem);
+  color: var(--color-gray-800, #555);
+  margin-top: 0.1rem;
+}
+
+/* ── Field icon addons — input-group style ──────────────────────────────────
+   El addon (ícono) y el input comparten el mismo borde exterior, simulando
+   el input-group de Bootstrap. Se usan las variables de Claro para que el
+   borde case exactamente con el estilo del tema.
+   ───────────────────────────────────────────────────────────────────────── */
+
+/* Tamaño del icono */
+.pm-ficon {
+  font-size: 0.8rem;
+  width: 0.85rem;
+  text-align: center;
+}
+
+/* Addon izquierdo: altura idéntica al input usando la misma fórmula de Claro.
+   display:flex + align-items:center centra el ícono dentro del addon. */
+.pm-tab-pane .field-prefix:has(.pm-ficon) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* min-height = 2*(padding-vertical + border) + line-height, igual que .form-element */
+  min-height: calc(((var(--input-padding-vertical, calc(0.75rem - 1px)) + var(--input-border-size, 1px)) * 2) + var(--input-line-height, 1.5rem));
+  padding-inline: 0.6rem;
+  background-color: var(--color-gray-050, #f5f6f7);
+  border: var(--input-border-size, 1px) solid var(--input-border-color, #919297);
+  border-right: none;
+  border-radius: var(--base-border-radius, 2px) 0 0 var(--base-border-radius, 2px);
+  color: var(--color-gray-500, #777);
+}
+
+/* Input / select que sigue al addon: sin borde ni radio izquierdos */
+.pm-tab-pane .field-prefix:has(.pm-ficon) + .form-element {
+  border-color: var(--input-border-color, #919297);
+  border-left: none;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+/* Input que va seguido de sufijo (ej. m²): sin borde ni radio derechos */
+.pm-tab-pane .field-prefix:has(.pm-ficon) ~ .form-element:has(+ .field-suffix) {
+  border-right: none;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+/* Addon derecho (sufijo, ej. "m²"): mirror del addon izquierdo */
+.pm-tab-pane .field-prefix:has(.pm-ficon) ~ .field-suffix {
+  display: flex;
+  align-items: center;
+  min-height: calc(((var(--input-padding-vertical, calc(0.75rem - 1px)) + var(--input-border-size, 1px)) * 2) + var(--input-line-height, 1.5rem));
+  padding: 0 0.55rem;
+  background-color: var(--color-gray-050, #f5f6f7);
+  border: var(--input-border-size, 1px) solid var(--input-border-color, #919297);
+  border-left: none;
+  border-radius: 0 var(--base-border-radius, 2px) var(--base-border-radius, 2px) 0;
+  color: var(--color-gray-600, #5f6368);
+  font-size: var(--font-size-s, 0.8rem);
+}
+
+/* ── Tab bloque: etiqueta en fila propia ────────────────────────────────────
+   Usado en pestañas que mezclan widgets de bloque (media upload) con campos
+   estándar. La etiqueta ocupa el 100% de la fila; prefix + input quedan
+   en la fila siguiente gracias al flex-wrap heredado de pm-tab-pane.
+   El input-group de íconos sigue funcionando porque prefix e input siguen
+   siendo flex siblings en la misma fila.
+   ───────────────────────────────────────────────────────────────────────── */
+
+.pm-tab-block :is(.form-type--select,
+                   .form-type--textfield,
+                   .form-type--url,
+                   .form-type--entity-autocomplete,
+                   .form-type--number) > .form-item__label {
+  flex: 0 0 100%;
+  margin-bottom: 0.2rem;
+}
+
+.pm-tab-block :is(.form-type--select,
+                   .form-type--textfield,
+                   .form-type--url,
+                   .form-type--entity-autocomplete,
+                   .form-type--number) > .form-element {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.pm-tab-block :is(.form-type--select,
+                   .form-type--textfield,
+                   .form-type--url,
+                   .form-type--entity-autocomplete,
+                   .form-type--number) > .form-item__description {
+  padding-left: 0;
+}
+
+/* ── Checkboxes horizontales (Amenidades) ───────────────────────────────────
+   Los widgets options_buttons (field_caract_int, field_caract_ext) renderizan
+   como fieldset > fieldset-wrapper > div.form-type--checkbox.
+   Convertimos fieldset-wrapper en flex-wrap para que las casillas fluyan
+   de izquierda a derecha en lugar de apilarse verticalmente.
+   ───────────────────────────────────────────────────────────────────────── */
+
+/* Contenedor: wrap horizontal */
+.pm-tab-pane .form-checkboxes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 1.75rem;
+  align-items: flex-start;
+}
+
+/* Cada item: flex item + mini flex container interno para checkbox + label.
+   Claro usa float:left + margin negativo para posicionar la casilla;
+   en un flex context el float se ignora pero el margen negativo persiste y
+   hace que la casilla se salga. Se resetean esos valores aquí. */
+.pm-tab-pane .form-checkboxes > .form-type--checkbox {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-inline-start: 0;
+  margin-block: 0;
+  white-space: nowrap;
+  line-height: normal;
+}
+
+/* Casilla: cancelar el float, posición y margen negativo de Claro */
+.pm-tab-pane .form-checkboxes > .form-type--checkbox .form-boolean {
+  float: none;
+  flex-shrink: 0;
+  position: static;
+  inset-block-start: auto;
+  margin-inline-start: 0;
+  transform: none;
+}

@@ -13,6 +13,7 @@ form:
   version: 1.0
   css:
     theme:
+      https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css: { type: external, minified: true }
       css/property_manager.form.css: {}
       css/property_manager.htabs.css: {}
 
@@ -26,4 +27,5 @@ node:
   version: 1.0
   css:
     theme:
+      https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css: { type: external, minified: true }
       css/property_manager.node.css: {}

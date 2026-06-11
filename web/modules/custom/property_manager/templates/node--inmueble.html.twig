@@ -1,0 +1,124 @@
+{#
+/**
+ * @file
+ * Template: nodo Inmueble.
+ *
+ * Variables PHP preparadas por property_manager_preprocess_node():
+ *   pm_hero_url     — URL de la primera foto.
+ *   pm_estado       — Etiqueta del estado.
+ *   pm_precio       — Precio formateado ($1.200.000).
+ *   pm_highlights   — Array [{icon, value, unit}] para la barra de datos.
+ *   pm_tipo_oferta  — Etiqueta del tipo de oferta.
+ *   pm_tipo_inmueble — Etiqueta del tipo de inmueble.
+ *   pm_codigo       — Código del inmueble.
+ */
+#}
+<article{{ attributes.addClass('pm-ficha') }}>
+  {{ title_prefix }}
+  {{ title_suffix }}
+
+  {# ── Hero: primera foto con estado y precio sobreimpuestos ── #}
+  {% if pm_hero_url %}
+    <div class="pm-hero">
+      <img src="{{ pm_hero_url }}" alt="{{ label }}" loading="eager">
+      <div class="pm-hero__overlay">
+        {% if pm_precio %}
+          <span class="pm-precio">{{ pm_precio }}</span>
+        {% endif %}
+      </div>
+    </div>
+  {% endif %}
+
+  {# ── Franja de datos clave: área, habitaciones, baños, parqueadero + estado ── #}
+  {% if pm_highlights or pm_estado %}
+    <div class="pm-highlights">
+      {% for item in pm_highlights %}
+        <div class="pm-highlight">
+          <i class="fa-solid {{ item.icon }}" aria-hidden="true"></i>
+          <strong class="pm-highlight__value">{{ item.value }}</strong>
+          <span class="pm-highlight__unit">{{ item.unit }}</span>
+        </div>
+      {% endfor %}
+      {% if pm_estado %}
+        <span class="pm-estado">{{ pm_estado }}</span>
+      {% endif %}
+    </div>
+  {% endif %}
+
+  {# ── Descripción: ancho completo ── #}
+  {% if node.body.value %}
+    <div class="pm-body">{{ content.body }}</div>
+  {% endif %}
+
+  {# ── Layout: columna principal + barra lateral ── #}
+  <div class="pm-layout">
+
+    <div class="pm-main">
+      {% if not page %}
+        <h2 class="pm-title"><a href="{{ url }}" rel="bookmark">{{ label }}</a></h2>
+      {% endif %}
+      {{
+        content|without(
+          'field_fotos',
+          'field_estado_inmueble',
+          'field_precio',
+          'field_habitaciones',
+          'field_banos',
+          'field_parqueadero',
+          'field_area',
+          'field_tipo_oferta',
+          'field_tipo_inmueble',
+          'field_codigo',
+          'body',
+          'field_agente',
+          'field_documentos'
+        )
+      }}
+    </div>
+
+    <aside class="pm-sidebar">
+
+      {# Bloque: tipo de inmueble, oferta, código #}
+      {% if pm_tipo_inmueble or pm_tipo_oferta or pm_codigo %}
+        <div class="pm-sidebar__block pm-sidebar__info">
+          {% if pm_tipo_oferta %}
+            <div class="pm-info-row">
+              <span class="pm-info-label">Oferta</span>
+              <span class="pm-info-value">{{ pm_tipo_oferta }}</span>
+            </div>
+          {% endif %}
+          {% if pm_tipo_inmueble %}
+            <div class="pm-info-row">
+              <span class="pm-info-label">Inmueble</span>
+              <span class="pm-info-value">{{ pm_tipo_inmueble }}</span>
+            </div>
+          {% endif %}
+          {% if pm_codigo %}
+            <div class="pm-info-row">
+              <span class="pm-info-label">Código</span>
+              <span class="pm-info-value pm-info-code">{{ pm_codigo }}</span>
+            </div>
+          {% endif %}
+        </div>
+      {% endif %}
+
+      {# Bloque: agente #}
+      {% if content.field_agente %}
+        <div class="pm-sidebar__block pm-sidebar__agente">
+          {{ content.field_agente }}
+        </div>
+      {% endif %}
+
+      {# Bloque: documentos #}
+      {% if content.field_documentos %}
+        <div class="pm-sidebar__block pm-sidebar__docs">
+          <p class="pm-sidebar__block-title">Documentos adjuntos</p>
+          {{ content.field_documentos }}
+        </div>
+      {% endif %}
+
+    </aside>
+
+  </div>
+
+</article>

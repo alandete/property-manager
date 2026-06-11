@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Búsqueda y filtros — Drupal Property Manager</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<aside class="sidebar" id="sidebar"></aside>
+
+<div class="main">
+  <div class="topbar">
+    <div>
+      <div class="breadcrumb"><a href="../index.html">Inicio</a> <span>›</span> <a href="index.html">Features</a> <span>›</span> Búsqueda y filtros</div>
+      <h2>Búsqueda y filtros</h2>
+    </div>
+  </div>
+  <div class="content">
+
+    <h2 class="section-title">Búsqueda y filtros facetados</h2>
+    <p class="section-desc">Filtrado de inmuebles por tipo, precio, ciudad, habitaciones, etc. con conteo de resultados por opción.</p>
+
+    <div class="alert alert-warn">
+      📋 <strong>Pendiente de documentación.</strong> Esta feature corresponde a la Fase 4. Ver <a href="../fases/fase-4.html">Fase 4 — Búsqueda →</a>
+    </div>
+
+    <div class="card">
+      <h3>📦 Módulos requeridos</h3>
+      <table>
+        <tr><th>Módulo</th><th>Propósito</th></tr>
+        <tr><td><code>search_api</code></td><td>Indexado y búsqueda de contenido</td></tr>
+        <tr><td><code>facets</code></td><td>Filtros facetados con conteo de resultados</td></tr>
+      </table>
+      <pre style="background:#1e2a3a;color:#a8d8a8;padding:12px 16px;border-radius:6px;font-size:12px;margin-top:16px;">composer require drupal/search_api drupal/facets</pre>
+    </div>
+
+  </div>
+</div>
+
+  <script src="../assets/nav.js"></script>
+</body>
+</html>

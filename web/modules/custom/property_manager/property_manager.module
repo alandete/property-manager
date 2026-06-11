@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 /**
  * @file
@@ -9,6 +9,23 @@ use Drupal\Component\Utility\Html;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\node\NodeInterface;
 use Drupal\property_manager\Form\PropertyManagerSettingsForm;
+
+/**
+ * Implements hook_theme().
+ */
+function property_manager_theme(): array {
+  return [
+    'node__inmueble' => [
+      'base hook' => 'node',
+    ],
+    'node__agente__sidebar_card' => [
+      'base hook' => 'node',
+    ],
+    'node__documentos__card' => [
+      'base hook' => 'node',
+    ],
+  ];
+}
 
 /**
  * Implements hook_node_presave().
@@ -103,6 +120,9 @@ function property_manager_form_alter(array &$form, FormStateInterface $form_stat
     ];
   }
 
+  // Iconos de campo (antes de mover campos a secciones).
+  _property_manager_add_field_icons($form);
+
   // Organizar en pestañas verticales desde hook_form_alter, antes de #process.
   _property_manager_build_form_sections($form, $form_id);
 
@@ -178,11 +198,18 @@ function _property_manager_build_form_sections(array &$form, string $form_id): v
   ];
 
   // Crear los detalles de cada sección.
+  // pm-tab-block: etiqueta en fila propia (secciones con widgets de bloque como media upload).
+  $block_tabs = ['multimedia'];
   foreach ($secciones as $seccion) {
+    $classes = ['pm-tab-pane'];
+    if (in_array($seccion['id'], $block_tabs, TRUE)) {
+      $classes[] = 'pm-tab-block';
+    }
     $form['pm_grupo_' . $seccion['id']] = [
-      '#type'  => 'details',
-      '#title' => $seccion['label'],
-      '#group' => 'pm_secciones',
+      '#type'       => 'details',
+      '#title'      => $seccion['label'],
+      '#group'      => 'pm_secciones',
+      '#attributes' => ['class' => $classes],
     ];
   }
 
@@ -228,6 +255,55 @@ function _property_manager_default_secciones(): array {
  */
 function _property_manager_default_campos(): array {
   return PropertyManagerSettingsForm::defaultCampos();
+}
+
+/**
+ * Adds Font Awesome input-group icons to Inmueble form fields.
+ *
+ * Uses #field_prefix on the widget element so the icon appears as an inline
+ * addon between the label and the input, compatible with the flex layout.
+ */
+function _property_manager_add_field_icons(array &$form): void {
+  $icons = [
+    'field_tipo_oferta'     => 'fa-tag',
+    'field_tipo_inmueble'   => 'fa-building',
+    'field_estado_inmueble' => 'fa-circle-dot',
+    'field_precio'          => 'fa-dollar-sign',
+    'field_pais'            => 'fa-globe',
+    'field_departamento'    => 'fa-map',
+    'field_ciudad'          => 'fa-city',
+    'field_direccion'       => 'fa-location-dot',
+    'field_barrio'          => 'fa-map-pin',
+    'field_zona'            => 'fa-layer-group',
+    'field_habitaciones'    => 'fa-bed',
+    'field_banos'           => 'fa-shower',
+    'field_parqueadero'     => 'fa-car',
+    'field_area'            => 'fa-ruler-combined',
+    'field_estrato'         => 'fa-signal',
+    'field_video'           => 'fa-video',
+    'field_agente'          => 'fa-user',
+  ];
+
+  foreach ($icons as $field => $icon) {
+    if (!isset($form[$field])) {
+      continue;
+    }
+    $html = '<i class="fa-solid ' . $icon . ' pm-ficon" aria-hidden="true"></i>';
+
+    // Auto-detect where to place the prefix based on widget structure.
+    if (isset($form[$field]['widget']['#type'])) {
+      // Direct widget element: select, radios, checkboxes, etc.
+      $form[$field]['widget']['#field_prefix'] = $html;
+    }
+    elseif (isset($form[$field]['widget'][0]['value'])) {
+      // Number / text / decimal: single value wrapper.
+      $form[$field]['widget'][0]['value']['#field_prefix'] = $html;
+    }
+    elseif (isset($form[$field]['widget'][0]['target_id'])) {
+      // Entity reference autocomplete: target_id is the actual textfield.
+      $form[$field]['widget'][0]['target_id']['#field_prefix'] = $html;
+    }
+  }
 }
 
 /**
@@ -281,6 +357,81 @@ function property_manager_node_view(array &$build, NodeInterface $node, $display
   if ($node->bundle() === 'inmueble') {
     $build['#attached']['library'][] = 'property_manager/node';
   }
+}
+
+/**
+ * Implements hook_preprocess_node().
+ *
+ * Prepares template variables for the Inmueble node:
+ *   pm_hero_url — absolute URL of the first photo.
+ *   pm_estado   — Estado inmueble term label.
+ *   pm_precio   — Price formatted as $1.200.000.
+ */
+function property_manager_preprocess_node(array &$variables): void {
+  /** @var \Drupal\node\NodeInterface $node */
+  $node = $variables['node'];
+  if ($node->bundle() !== 'inmueble') {
+    return;
+  }
+
+  // Hero image: first media item → image file URI.
+  $variables['pm_hero_url'] = NULL;
+  if (!$node->get('field_fotos')->isEmpty()) {
+    $media = $node->get('field_fotos')->first()->entity;
+    if ($media && $media->hasField('field_media_image') && !$media->get('field_media_image')->isEmpty()) {
+      $file = $media->get('field_media_image')->first()->entity;
+      if ($file) {
+        $variables['pm_hero_url'] = \Drupal::service('file_url_generator')
+          ->generateString($file->getFileUri());
+      }
+    }
+  }
+
+  // Estado inmueble: taxonomy term label.
+  $variables['pm_estado'] = NULL;
+  if (!$node->get('field_estado_inmueble')->isEmpty()) {
+    $term = $node->get('field_estado_inmueble')->first()->entity;
+    if ($term) {
+      $variables['pm_estado'] = $term->label();
+    }
+  }
+
+  // Precio: formatted with Colombian thousands separator (dot).
+  $variables['pm_precio'] = NULL;
+  if (!$node->get('field_precio')->isEmpty()) {
+    $value = (float) $node->get('field_precio')->value;
+    if ($value > 0) {
+      $variables['pm_precio'] = '$ ' . number_format($value, 0, ',', '.');
+    }
+  }
+  // Highlights bar: habitaciones, banos, parqueadero, area.
+  $highlights = [];
+  $highlight_map = [
+    'field_habitaciones' => ['icon' => 'fa-bed',            'unit' => 'hab.',  'decimal' => FALSE],
+    'field_banos'        => ['icon' => 'fa-shower',         'unit' => 'baños', 'decimal' => FALSE],
+    'field_parqueadero'  => ['icon' => 'fa-car',            'unit' => 'parq.', 'decimal' => FALSE],
+    'field_area'         => ['icon' => 'fa-ruler-combined', 'unit' => 'm²',    'decimal' => TRUE],
+  ];
+  foreach ($highlight_map as $field_name => $cfg) {
+    if (!$node->get($field_name)->isEmpty()) {
+      $raw = (float) $node->get($field_name)->value;
+      if ($raw > 0) {
+        $formatted = $cfg['decimal']
+          ? number_format($raw, 0, ',', '.')
+          : (string) (int) $raw;
+        $highlights[] = ['icon' => $cfg['icon'], 'value' => $formatted, 'unit' => $cfg['unit']];
+      }
+    }
+  }
+  $variables['pm_highlights'] = $highlights;
+
+  // Sidebar info: tipo oferta, tipo inmueble, codigo.
+  $variables['pm_tipo_oferta']   = !$node->get('field_tipo_oferta')->isEmpty()
+    ? $node->get('field_tipo_oferta')->first()->entity?->label() : NULL;
+  $variables['pm_tipo_inmueble'] = !$node->get('field_tipo_inmueble')->isEmpty()
+    ? $node->get('field_tipo_inmueble')->first()->entity?->label() : NULL;
+  $variables['pm_codigo']        = !$node->get('field_codigo')->isEmpty()
+    ? Html::escape($node->get('field_codigo')->value) : NULL;
 }
 
 /**

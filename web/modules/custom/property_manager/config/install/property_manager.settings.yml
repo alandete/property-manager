@@ -19,7 +19,7 @@ form_secciones:
     label: 'Multimedia'
     peso: 4
   - id: admin
-    label: 'Información asociada'
+    label: 'Anexos'
     peso: 5
 form_campos:
   - { campo: _codigo,              seccion: basica,         peso: 0 }
@@ -43,3 +43,4 @@ form_campos:
   - { campo: field_fotos,          seccion: multimedia,     peso: 0 }
   - { campo: field_video,          seccion: multimedia,     peso: 1 }
   - { campo: field_agente,         seccion: admin,          peso: 0 }
+  - { campo: field_documentos,     seccion: admin,          peso: 1 }

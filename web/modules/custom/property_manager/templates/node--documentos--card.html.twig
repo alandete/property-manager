@@ -1,0 +1,18 @@
+{#
+/**
+ * @file
+ * Documento — tarjeta compacta para la barra lateral del inmueble.
+ * Muestra título, descripción (si existe) y enlaces a archivos.
+ */
+#}
+<div class="pm-doc-card">
+  <h4 class="pm-doc-card__title">{{ label }}</h4>
+
+  {% if node.body.value %}
+    <div class="pm-doc-card__desc">{{ content.body }}</div>
+  {% endif %}
+
+  {% if content.field_archivo %}
+    <div class="pm-doc-card__files">{{ content.field_archivo }}</div>
+  {% endif %}
+</div>

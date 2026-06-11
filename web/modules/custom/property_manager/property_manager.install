@@ -7,6 +7,8 @@
 
 use Drupal\taxonomy\Entity\Term;
 use Drupal\Core\Url;
+use Drupal\field\Entity\FieldStorageConfig;
+use Drupal\field\Entity\FieldConfig;
 
 /**
  * Implements hook_install().
@@ -63,6 +65,68 @@ function property_manager_update_8001(): void {
       ['campo' => 'field_agente',          'seccion' => 'admin',           'peso' => 0],
     ])
     ->save();
+}
+
+/**
+ * Add field_documentos to inmueble and map it to the Anexos section.
+ */
+function property_manager_update_8002(): void {
+  // 1. Field storage (cardinality = unlimited).
+  if (!FieldStorageConfig::loadByName('node', 'field_documentos')) {
+    FieldStorageConfig::create([
+      'field_name'  => 'field_documentos',
+      'entity_type' => 'node',
+      'type'        => 'entity_reference',
+      'settings'    => ['target_type' => 'node'],
+      'cardinality' => -1,
+    ])->save();
+  }
+
+  // 2. Field instance on inmueble.
+  if (!FieldConfig::loadByName('node', 'inmueble', 'field_documentos')) {
+    FieldConfig::create([
+      'field_name'  => 'field_documentos',
+      'entity_type' => 'node',
+      'bundle'      => 'inmueble',
+      'label'       => 'Documentos',
+      'description' => 'Documentos adjuntos asociados a este inmueble.',
+      'required'    => FALSE,
+      'settings'    => [
+        'handler' => 'default:node',
+        'handler_settings' => [
+          'target_bundles' => ['documentos' => 'documentos'],
+          'sort'           => ['field' => 'title', 'direction' => 'asc'],
+          'auto_create'    => FALSE,
+        ],
+      ],
+    ])->save();
+  }
+
+  // 3. Add to the default form display.
+  $form_display = \Drupal::entityTypeManager()
+    ->getStorage('entity_form_display')
+    ->load('node.inmueble.default');
+  if ($form_display && !$form_display->getComponent('field_documentos')) {
+    $form_display->setComponent('field_documentos', [
+      'type'   => 'entity_reference_autocomplete',
+      'weight' => 12,
+      'settings' => [
+        'match_operator' => 'CONTAINS',
+        'match_limit'    => 10,
+        'size'           => 40,
+        'placeholder'    => '',
+      ],
+    ])->save();
+  }
+
+  // 4. Add to property_manager campo mapping for the 'admin' (Anexos) section.
+  $config = \Drupal::service('config.factory')->getEditable('property_manager.settings');
+  $campos = $config->get('form_campos') ?? [];
+  $existing = array_column($campos, 'campo');
+  if (!in_array('field_documentos', $existing, TRUE)) {
+    $campos[] = ['campo' => 'field_documentos', 'seccion' => 'admin', 'peso' => 1];
+    $config->set('form_campos', $campos)->save();
+  }
 }
 
 /**
@@ -189,5 +253,112 @@ function _property_manager_install_taxonomy_terms() {
   ];
   foreach ($ciudades as $name) {
     Term::create(['vid' => 'ciudad', 'name' => $name])->save();
+  }
+}
+
+/**
+ * Crea view modes sidebar_card (agente) y card (documentos).
+ * Actualiza los displays de inmueble para usarlos sin etiqueta de campo.
+ */
+function property_manager_update_8003(): void {
+  $etm = \Drupal::entityTypeManager();
+  $vm_storage = $etm->getStorage('entity_view_mode');
+  $vd_storage = $etm->getStorage('entity_view_display');
+
+  // ── VIEW MODE node.sidebar_card ──────────────────────────────────────────
+  if (!$vm_storage->load('node.sidebar_card')) {
+    $vm_storage->create([
+      'id'               => 'node.sidebar_card',
+      'label'            => 'Sidebar Card',
+      'targetEntityType' => 'node',
+      'status'           => TRUE,
+    ])->save();
+  }
+
+  // ── VIEW DISPLAY node.agente.sidebar_card ────────────────────────────────
+  if (!$vd_storage->load('node.agente.sidebar_card')) {
+    $vd_storage->create([
+      'targetEntityType' => 'node',
+      'bundle'           => 'agente',
+      'mode'             => 'sidebar_card',
+      'status'           => TRUE,
+    ])
+    ->setComponent('field_foto_agente', [
+      'type'     => 'image',
+      'weight'   => 0,
+      'label'    => 'hidden',
+      'settings' => [
+        'image_style'    => 'thumbnail',
+        'image_link'     => '',
+        'image_loading'  => ['attribute' => 'lazy'],
+      ],
+    ])
+    ->setComponent('field_telefono', [
+      'type'     => 'string',
+      'weight'   => 2,
+      'label'    => 'hidden',
+      'settings' => [],
+    ])
+    ->setComponent('field_movil', [
+      'type'     => 'string',
+      'weight'   => 3,
+      'label'    => 'hidden',
+      'settings' => [],
+    ])
+    ->save();
+  }
+
+  // ── VIEW MODE node.card ──────────────────────────────────────────────────
+  if (!$vm_storage->load('node.card')) {
+    $vm_storage->create([
+      'id'               => 'node.card',
+      'label'            => 'Card',
+      'targetEntityType' => 'node',
+      'status'           => TRUE,
+    ])->save();
+  }
+
+  // ── VIEW DISPLAY node.documentos.card ────────────────────────────────────
+  if (!$vd_storage->load('node.documentos.card')) {
+    $vd_storage->create([
+      'targetEntityType' => 'node',
+      'bundle'           => 'documentos',
+      'mode'             => 'card',
+      'status'           => TRUE,
+    ])
+    ->setComponent('body', [
+      'type'     => 'text_summary_or_trimmed',
+      'weight'   => 1,
+      'label'    => 'hidden',
+      'settings' => ['trim_length' => 120],
+    ])
+    ->setComponent('field_archivo', [
+      'type'     => 'file_link',
+      'weight'   => 2,
+      'label'    => 'hidden',
+      'settings' => [],
+    ])
+    // field_tipo_documento, field_aplica_oferta, field_inmueble_ref → ocultos (no setComponent)
+    ->save();
+  }
+
+  // ── Actualizar display node.inmueble.default ─────────────────────────────
+  $display = $vd_storage->load('node.inmueble.default');
+  if ($display) {
+    $display->setComponent('field_agente', [
+      'type'     => 'entity_reference_entity_view',
+      'weight'   => 11,
+      'label'    => 'hidden',
+      'settings' => ['view_mode' => 'sidebar_card', 'link' => FALSE],
+    ]);
+    if ($display->getComponent('field_documentos')) {
+      $display->setComponent('field_documentos', [
+        'type'     => 'entity_reference_entity_view',
+        'weight'   => 12,
+        'label'    => 'hidden',
+        'settings' => ['view_mode' => 'card', 'link' => FALSE],
+      ]);
+    }
+    $display->save();
   }
 }
